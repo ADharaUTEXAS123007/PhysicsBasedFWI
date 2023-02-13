@@ -8594,6 +8594,10 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         self.decoder_input = nn.Linear(8, filters[3]*52*23) #for marmousi 101x101
         #############self.decoder_input2 = nn.Linear(latent_dim, 4*92*208)
         #self.decoder_inputRho = nn.Linear(latent_dim, 1*300*100)
+
+
+        #self.up41    = autoUp5(filters[4], filters[3], self.is_deconv)
+        ##self.up42    = autoUp5(filters[4], filters[3], self.is_deconv)
         
         
         #self.up4     = autoUp(filters[4], filters[3], self.is_deconv)
@@ -8791,9 +8795,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         f12     = self.f12(up12)
         ##########f13     = self.f13(up13)
         #f1    = self.f1(up1)
-        
-        
-        
+
         vp1f     = self.vp(f11)
         vs1f     = self.vs(f12)
         #########rho1f    = self.rho(f13)
@@ -8848,7 +8850,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
 
         
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
-        vs1    = torch.clip(vs1, min=8.810, max=maxvs)
+        vs1    = torch.clip(vs1, min=88.10, max=maxvs)
         #rho1   = torch.clip(rho1, min=171.9, max=maxrho)
         #rho1   = torch.max(torch.min(rho1, maxrho1), minrho1)
         #######vp1 = minvp + vp1*(maxvp-minvp)
@@ -8945,9 +8947,9 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         vs = np.squeeze(vs)
         rho = np.squeeze(rho)
         
-        vp = np.flipud(vp)*100.0
-        vs = np.flipud(vs)*100.0
-        rho = np.flipud(rho)*100.0
+        vp = np.flipud(vp)*10.0
+        vs = np.flipud(vs)*10.0
+        rho = np.flipud(rho)*10.0
         
         #vs = (2752 - 0) * (vs - 1500)/(4766 - 1500) + 0
         #rho = (2627 - 1009) * (rho - 1500)/(4766 - 1500) + 1009
@@ -8975,9 +8977,9 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         vsst = np.flipud(vsst)
         rhost = np.flipud(rhost)
         
-        vpst = vpst*100.0
-        vsst = vsst*100.0
-        rhost = rhost*100.0
+        vpst = vpst*10.0
+        vsst = vsst*10.0
+        rhost = rhost*10.0
         
                
         print("max of vp passed :", np.max(vp), np.max(vs), np.max(rho))
@@ -9267,11 +9269,11 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         self.n_classes     = 1
         
         #filters = [16, 32, 64, 128, 256]
-        filters = [32, 64, 128, 256, 512]
+        ###filters = [32, 64, 128, 256, 512]
         #filters = [16, 32, 64, 128, 512]
         #######filters = [2, 4, 8, 16, 32] #this works best result so far for marmousi model
         #filters = [1, 1, 2, 4, 16]
-        #filters = [8, 16, 32, 64, 128] 
+        filters = [8, 16, 32, 64, 128] 
         ##filters = [4,8,16,32,64]
         #filters = [4, 8, 16, 32, 64]
         #filters = [16, 32, 64, 128, 256]
@@ -9297,11 +9299,13 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         self.decoder_input1 = nn.Linear(filters[3]*63*24, 8) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(8, filters[3]*52*23) #for marmousi 101x101
+        self.decoder_input = nn.Linear(8, filters[3]*26*12) #for marmousi 101x101
         #############self.decoder_input2 = nn.Linear(latent_dim, 4*92*208)
         #self.decoder_inputRho = nn.Linear(latent_dim, 1*300*100)
         
-        
+        self.up41    = autoUp5(filters[4],filters[3], self.is_deconv)
+        self.up42    = autoUp5(filters[4],filters[3], self.is_deconv)
+
         #self.up4     = autoUp(filters[4], filters[3], self.is_deconv)
         self.up31     = autoUp5(filters[3], filters[2], self.is_deconv)
         #self.drop31   = nn.Dropout2d(0.1)
@@ -9359,9 +9363,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
     def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf, inputs3, freq, idx, it):
         #filters = [16, 32, 64, 128, 256]
         #filters = [2, 4, 8, 16, 32]
-        filters = [32, 64, 128, 256, 512]
+        #filters = [32, 64, 128, 256, 512]
         #filters = [4,8,16,32,64]
-        ###filters = [8, 16, 32, 64, 128]  ###this works very well
+        filters = [8, 16, 32, 64, 128]  ###this works very well
         #filters = [1, 1, 2, 4, 16]
         #filters = [16, 32, 64, 128, 256]
         #filters = [4, 8, 16, 32, 64]
@@ -9445,15 +9449,18 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[3], 23, 52)
+        z = z.view(-1, filters[3], 12, 26)
         ############z1 = z1.view(-1,filters[3],23,52)
         #z2 = z2.view(-1, 4, 92, 208)
         #zrho = zrho.view(-1, 1, 100, 300)
         #down4 = torch.swapaxes(down4,2,3)
+        up41   = self.up41(z)
+        up42   = self.up42(z)
+
     
-        up31    = self.up31(z)
+        up31    = self.up31(up41)
         #up31    = self.drop31(up31)
-        up32    = self.up32(z)
+        up32    = self.up32(up42)
         #up32    = self.drop32(up32)
         ###########up33    = self.Rhoup33(z)
         ######up33    = self.up33(z1)
@@ -9497,7 +9504,6 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         f12     = self.f12(up12)
         ##########f13     = self.f13(up13)
         #f1    = self.f1(up1)
-        
         
         
         vp1f     = self.vp(f11)
@@ -9651,9 +9657,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         vs = np.squeeze(vs)
         rho = np.squeeze(rho)
         
-        vp = np.flipud(vp)*100.0
-        vs = np.flipud(vs)*100.0
-        rho = np.flipud(rho)*100.0
+        vp = np.flipud(vp)*10.0
+        vs = np.flipud(vs)*10.0
+        rho = np.flipud(rho)*10.0
         
         #vs = (2752 - 0) * (vs - 1500)/(4766 - 1500) + 0
         #rho = (2627 - 1009) * (rho - 1500)/(4766 - 1500) + 1009
@@ -9681,9 +9687,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         vsst = np.flipud(vsst)
         rhost = np.flipud(rhost)
         
-        vpst = vpst*100.0
-        vsst = vsst*100.0
-        rhost = rhost*100.0
+        vpst = vpst*10.0
+        vsst = vsst*10.0
+        rhost = rhost*10.0
         
                
         print("max of vp passed :", np.max(vp), np.max(vs), np.max(rho))
