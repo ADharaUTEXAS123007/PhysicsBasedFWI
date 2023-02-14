@@ -9569,8 +9569,8 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         ##########vs1 = 8.810*torch.ones((vs10.size())).cuda(vs10.get_device())
         
         
-        vp1[:,:,0:24,:] = inputs1[:,0,0:24,:]
-        vs1[:,:,0:24,:] = inputs1[:,1,0:24,:]
+        vp1[:,:,0:22,:] = inputs1[:,0,0:22,:]
+        vs1[:,:,0:22,:] = inputs1[:,1,0:22,:]
         #rho1[:,:,0:24,:] = inputs1[:,2,0:24,:]
         
         
@@ -9922,9 +9922,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #ss = g1.tile((np.shape(rho_grad)[1],1))
         #print("shape of ss :", np.shape(ss))
         
-        vp_grad[0:24,:] = 0.0
-        vs_grad[0:24,:] = 0.0
-        rho_grad[0:24,:] = 0.0
+        vp_grad[0:22,:] = 0.0
+        vs_grad[0:22,:] = 0.0
+        rho_grad[0:22,:] = 0.0
         
         print("shape of vp_grad1 :", np.shape(vp_grad))
         print("shape of vs_grad1 :", np.shape(vs_grad))
