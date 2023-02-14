@@ -9263,7 +9263,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
     def __init__(self,outer_nc, inner_nc, input_nc=None,
                  submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False):
         super(AutoElFullRhoScaleMarmousiMar22_Net, self).__init__()
-        self.is_deconv     = True
+        self.is_deconv     = False
         self.in_channels   = outer_nc
         self.is_batchnorm  = True
         self.n_classes     = 1
@@ -9532,7 +9532,8 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #vp1f     = self.final1(vp1f)
         #vs1f     = self.final2(vs1f)
         
-
+        vp1f = 76.15*vp1f-1.525
+        vs1f = 43.9*vs1f-16.12
         #####vp1    = minvp + vp1f*(maxvp-minvp)
         ####vs1    = 88.1 + vs1f*(maxvs-88.1)
         ####rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
@@ -9560,7 +9561,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
 
         
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
-        vs1    = torch.clip(vs1, min=8.810, max=maxvs)
+        vs1    = torch.clip(vs1, min=88.10, max=maxvs)
         #rho1   = torch.clip(rho1, min=171.9, max=maxrho)
         #rho1   = torch.max(torch.min(rho1, maxrho1), minrho1)
         #######vp1 = minvp + vp1*(maxvp-minvp)
@@ -9568,8 +9569,8 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         ##########vs1 = 8.810*torch.ones((vs10.size())).cuda(vs10.get_device())
         
         
-        vp1[:,:,0:26,:] = inputs1[:,0,0:26,:]
-        vs1[:,:,0:26,:] = inputs1[:,1,0:26,:]
+        vp1[:,:,0:24,:] = inputs1[:,0,0:24,:]
+        vs1[:,:,0:24,:] = inputs1[:,1,0:24,:]
         #rho1[:,:,0:24,:] = inputs1[:,2,0:24,:]
         
         
@@ -9858,7 +9859,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_low=0.0,fc_high=10.0, inv_rho_iter=10000)
+        d.add_fwi_stage(fc_high=10.0, inv_rho_iter=10000)
         # if ((epoch1 >= 0) and (epoch1 <=100 )):
         #     d.add_fwi_stage(fc_low=0.0, fc_high=2.0)
         # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
