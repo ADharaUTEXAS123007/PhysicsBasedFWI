@@ -9449,7 +9449,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[4], 23, 52)
+        z = z.view(-1, filters[3], 23, 52)
         ############z1 = z1.view(-1,filters[3],23,52)
         #z2 = z2.view(-1, 4, 92, 208)
         #zrho = zrho.view(-1, 1, 100, 300)
