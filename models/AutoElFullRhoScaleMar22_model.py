@@ -442,7 +442,7 @@ class AutoElFullRhoScaleMar22Model(BaseModel):
             
             self.vs_grad = torch.unsqueeze(self.vs_grad,0)
             self.vs_grad = self.vs_grad.cuda(self.fake_Vs.get_device())
-            self.fake_Vs.backward(self.vs_grad)
+            self.fake_Vs.backward(self.vs_grad,retain_graph=True)
             #self.fake_Vs.retain_grad()
             #self.fake_Vp.retain_grad()
             #self.fake_Rho.retain_grad()
@@ -451,9 +451,9 @@ class AutoElFullRhoScaleMar22Model(BaseModel):
             #if (currenterror < 0.4*initerror):
                 #print("backpropagating density gradient")
             #if (currenterror < 0.5*initerror):
-            #####7##### self.rho_grad = torch.unsqueeze(self.rho_grad,0)
-            ########7###### self.rho_grad = self.rho_grad.cuda(self.fake_Rho.get_device())
-            ########7####### self.fake_Rho.backward(self.rho_grad)
+            self.rho_grad = torch.unsqueeze(self.rho_grad,0)
+            self.rho_grad = self.rho_grad.cuda(self.fake_Rho.get_device())
+            self.fake_Rho.backward(self.rho_grad)
                 
             #self.fake_Rho.retain_grad()
 

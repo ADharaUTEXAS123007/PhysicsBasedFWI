@@ -9452,7 +9452,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
         z = z.view(-1, filters[3], 23, 52)
-        ############z1 = z1.view(-1,filters[3],23,52)
+        z1 = z1.view(-1,filters[3],23,52)
         #z2 = z2.view(-1, 4, 92, 208)
         #zrho = zrho.view(-1, 1, 100, 300)
         #down4 = torch.swapaxes(down4,2,3)
@@ -9464,7 +9464,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #up31    = self.drop31(up31)
         up32    = self.up32(z)
         #up32    = self.drop32(up32)
-        ###########up33    = self.Rhoup33(z)
+        up33    = self.up33(z1)
         ######up33    = self.up33(z1)
         ###print("shape off up33 :", np.shape(up33))
         #up3      = self.up3(z)
@@ -9475,7 +9475,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #up21    = self.drop21(up21)
         up22    = self.up22(up32)
         #up22    = self.drop22(up22)
-        #######up23    = self.up23(up33)
+        up23    = self.up23(up33)
         ###################print("shape of up23 :", np.shape(up23))
         #up23    = self.drop23(up23)
         #up2     = self.up2(up3)
@@ -9486,7 +9486,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #print("shape of up21 :", np.shape(up21))
         up12    = self.up12(up22)
         #up12    = self.drop12(up12)
-        ###########up13    = self.up13(up23)
+        up13    = self.up13(up23)
         ##print("shape of up13 :", np.shape(up13))
         #up13    = self.drop13(up13)
         #up1     = self.up1(up2)
@@ -9497,20 +9497,20 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         print("shape of up12 :", np.shape(up12))
         up11    = up11[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
         up12    = up12[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
-        #########up13    = up13[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
+        up13    = up13[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
         
         ##print("shape of up13 :", np.shape(up13))
         #up1    = up1[:,:,3:3+label_dsp_dim[0],3:3+label_dsp_dim[1]].contiguous()
         
         f11     = self.f11(up11)
         f12     = self.f12(up12)
-        ##########f13     = self.f13(up13)
+        f13     = self.f13(up13)
         #f1    = self.f1(up1)
         
         
         vp1f     = self.vp(f11)
         vs1f     = self.vs(f12)
-        #########rho1f    = self.rho(f13)
+        rho1f    = self.rho(f13)
         #rho1    = self.rho2(rho1)
         #############################7######### vp1f     = 0.39423115*vp1f + 0.002671641
         #############################7######### vs1f     = 0.22760948*vs1f + 0.0015424669
@@ -9534,19 +9534,19 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #vp1f     = self.final1(vp1f)
         #vs1f     = self.final2(vs1f)
         
-        vp1f = 76.15*vp1f+118.47
-        vs1f = 43.9*vs1f+83.87
+        #vp1f = 76.15*vp1f+118.47
+        #vs1f = 43.9*vs1f+83.87
         #####vp1    = minvp + vp1f*(maxvp-minvp)
         ####vs1    = 88.1 + vs1f*(maxvs-88.1)
         ####rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
         #vs1 = 88.10 + vs1f*(maxvs - 88.10)
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        ###############rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + rho1f
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + rho1f
 
         #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
-        rho1 = torch.unsqueeze(lowf[:,2,:,:],1)
+        #rho1 = torch.unsqueeze(lowf[:,2,:,:],1)
         ##############4###################### print("after rho1 norm :", torch.norm(rho1))
 
         
@@ -9564,7 +9564,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
         vs1    = torch.clip(vs1, min=88.10, max=maxvs)
-        #rho1   = torch.clip(rho1, min=171.9, max=maxrho)
+        rho1   = torch.clip(rho1, min=171.9, max=maxrho)
         #rho1   = torch.max(torch.min(rho1, maxrho1), minrho1)
         #######vp1 = minvp + vp1*(maxvp-minvp)
         ########vs1 = minvs + vs1*(maxvs-minvs)
@@ -9573,7 +9573,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         
         vp1[:,:,0:22,:] = inputs1[:,0,0:22,:]
         vs1[:,:,0:22,:] = inputs1[:,1,0:22,:]
-        #rho1[:,:,0:24,:] = inputs1[:,2,0:24,:]
+        rho1[:,:,0:22,:] = inputs1[:,2,0:22,:]
         
         
        #vp1     = inputs1[:,0,:,:]
@@ -9808,7 +9808,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         d.NPROCX = 6
         d.NPROCY = 5
         d.PHYSICS = 1
-        #d.FC_SPIKE_1 = 3.0
+        d.FC_SPIKE_1 = 3.0
         #d.FC_SPIKE_2 = 15.0
         ###################d.QUELLART = 1
         #d.FC_SPIKE_2 = 18.0
@@ -9855,13 +9855,14 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         model_init = api.Model(vpst, vsst, rhost, dx)
         
         
+        
         d.fwi_stages = []
         #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_high=10.0, inv_rho_iter=10000)
+        d.add_fwi_stage(fc_high=10.0)
         # if ((epoch1 >= 0) and (epoch1 <=100 )):
         #     d.add_fwi_stage(fc_low=0.0, fc_high=2.0)
         # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
