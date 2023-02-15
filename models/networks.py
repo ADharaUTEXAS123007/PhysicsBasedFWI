@@ -101,7 +101,7 @@ def get_scheduler(optimizer, opt):
     elif opt.lr_policy == 'cosine':
         scheduler = lr_scheduler.CosineAnnealingLR(optimizer, T_max=opt.n_epochs, eta_min=0)
     elif opt.lr_policy == 'cyclicLR':
-        scheduler = lr_scheduler.CyclicLR(optimizer, base_lr=0.001, max_lr=0.005, cycle_momentum=False)
+        scheduler = lr_scheduler.CyclicLR(optimizer, base_lr=0.001, max_lr=0.05, cycle_momentum=False, step_size_up=100)
     else:
         return NotImplementedError('learning rate policy [%s] is not implemented', opt.lr_policy)
     return scheduler
@@ -9746,7 +9746,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #tshots = 8
         ###xsrc = xsrcoriginal[idx[it::1]]
         ############################xsrc = xsrcoriginal[idx[0:14]]
-        xsrc = xsrcoriginal[idx[0:6]]
+        xsrc = xsrcoriginal[idx[0:20]]
         #xsrc = xsrcoriginal
         #print("xsrc1 :", xsrc)
         #xsrc = np.sort(xsrc)
