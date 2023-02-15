@@ -9452,7 +9452,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
         z = z.view(-1, filters[3], 23, 52)
-        z1 = z1.view(-1,filters[3],23,52)
+        z1 = z.view(-1,filters[3],23,52)
         #z2 = z2.view(-1, 4, 92, 208)
         #zrho = zrho.view(-1, 1, 100, 300)
         #down4 = torch.swapaxes(down4,2,3)
@@ -9855,7 +9855,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         model_init = api.Model(vpst, vsst, rhost, dx)
         
         
-        
+
         d.fwi_stages = []
         #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
@@ -9914,7 +9914,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = np.flipud(rho_grad)
 
         g1 = np.arange(np.shape(rho_grad)[0])
-        g1 = g1**1.5
+        g1 = g1**1.0
         ss = rho_grad*0
         for i in range(np.shape(rho_grad)[1]):
              ss[:,i] = g1
