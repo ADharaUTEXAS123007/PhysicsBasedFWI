@@ -9534,8 +9534,8 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #vp1f     = self.final1(vp1f)
         #vs1f     = self.final2(vs1f)
         
-        ###########90######## vp1f = 76.15*vp1f-1.525
-        #########90########### vs1f = 43.9*vs1f-16.12
+        vp1f = 76.15*vp1f-1.525
+        vs1f = 43.9*vs1f-16.12
         #####vp1    = minvp + vp1f*(maxvp-minvp)
         ####vs1    = 88.1 + vs1f*(maxvs-88.1)
         ####rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
@@ -9746,7 +9746,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #tshots = 8
         ###xsrc = xsrcoriginal[idx[it::1]]
         ############################xsrc = xsrcoriginal[idx[0:14]]
-        xsrc = xsrcoriginal[idx[0:20]]
+        xsrc = xsrcoriginal[idx[0:7]]
         #xsrc = xsrcoriginal
         #print("xsrc1 :", xsrc)
         #xsrc = np.sort(xsrc)
