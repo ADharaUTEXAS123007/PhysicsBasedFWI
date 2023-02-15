@@ -100,6 +100,8 @@ def get_scheduler(optimizer, opt):
         scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.2, threshold=0.01, patience=5)
     elif opt.lr_policy == 'cosine':
         scheduler = lr_scheduler.CosineAnnealingLR(optimizer, T_max=opt.n_epochs, eta_min=0)
+    elif opt.lr_policy == 'cyclicLR':
+        scheduler = lr_scheduler.CyclicLR(optimizer, base_lr=0.001, max_lr=0.005)
     else:
         return NotImplementedError('learning rate policy [%s] is not implemented', opt.lr_policy)
     return scheduler
