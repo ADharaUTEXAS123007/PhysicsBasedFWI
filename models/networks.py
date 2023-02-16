@@ -13,7 +13,7 @@ from torchvision import models
 from scipy.ndimage import gaussian_filter
 
 sys.path.append('./models')
-sys.path.append('/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/')
+sys.path.append('/disk/utig5/disk/fs4/adhara/Spring2023/FWISpring2023/')
 #from resunet_modules import (
 #    ResidualConv,
 #    ASPP,
@@ -2488,10 +2488,10 @@ class unetConv5(nn.Module):
         super(unetConv5, self).__init__()
         # Kernel size: 3*3, Stride: 1, Padding: 1
         if is_batchnorm:
-            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 3, 1, 1),
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 7, 1, 3),
                                        nn.BatchNorm2d(out_size),
                                        nn.LeakyReLU(0.1))
-            self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
+            self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 7, 1, 3),
                                        nn.BatchNorm2d(out_size),
                                        nn.LeakyReLU(0.1))
         else:
@@ -9534,8 +9534,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #vp1f     = self.final1(vp1f)
         #vs1f     = self.final2(vs1f)
         
-        #vp1f = 76.15*vp1f+118.47
-        #vs1f = 43.9*vs1f+83.87
+        vp1f = 76.15*vp1f+118.47
+        vs1f = 43.9*vs1f+63.87
+        rho1f = 24.5*rho1f+37.08
         #####vp1    = minvp + vp1f*(maxvp-minvp)
         ####vs1    = 88.1 + vs1f*(maxvs-88.1)
         ####rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
@@ -11084,7 +11085,7 @@ class AutoRealData_Net(nn.Module):
         #model = api.Model(vp, vs, rho, dx)
         
         
-        denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
+        denise_root = '/disk/utig5/disk/fs4/adhara/Spring2023/FWISpring2023/'
         d = api.Denise(denise_root,verbose=1)
         d.save_folder = '/disk/student/adhara/RealData/'
         d.set_paths()
