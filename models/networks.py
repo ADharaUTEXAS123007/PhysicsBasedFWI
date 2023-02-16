@@ -9832,7 +9832,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         d.SWS_TAPER_GRAD_HOR = 1
         #d.FC_SPIKE_1 = 0.0
         #d.QUELLART = 6
-        #d.EXP_TAPER_GRAD_HOR = 1.0
+        d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
         filen = './marmousiEl4JanInit/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
