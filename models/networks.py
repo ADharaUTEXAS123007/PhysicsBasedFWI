@@ -2488,12 +2488,12 @@ class unetConv5(nn.Module):
         super(unetConv5, self).__init__()
         # Kernel size: 3*3, Stride: 1, Padding: 1
         if is_batchnorm:
-            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 7, 1, 3),
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 5, 1, 2),
                                        nn.BatchNorm2d(out_size),
                                        nn.LeakyReLU(0.1))
-            self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 7, 1, 3),
-                                       nn.BatchNorm2d(out_size),
-                                       nn.LeakyReLU(0.1))
+            #self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
+            #                           nn.BatchNorm2d(out_size),
+            #                           nn.LeakyReLU(0.1))
         else:
             self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 3, 1, 1),
                                        nn.BatchNorm2d(out_size),
