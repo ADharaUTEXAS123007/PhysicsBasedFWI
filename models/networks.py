@@ -13,7 +13,7 @@ from torchvision import models
 from scipy.ndimage import gaussian_filter
 
 sys.path.append('./models')
-sys.path.append('/disk/utig5/disk/fs4/adhara/Spring2023/FWISpring2023/')
+sys.path.append('/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/')
 #from resunet_modules import (
 #    ResidualConv,
 #    ASPP,
@@ -11085,7 +11085,7 @@ class AutoRealData_Net(nn.Module):
         #model = api.Model(vp, vs, rho, dx)
         
         
-        denise_root = '/disk/utig5/disk/fs4/adhara/Spring2023/FWISpring2023/'
+        denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
         d = api.Denise(denise_root,verbose=1)
         d.save_folder = '/disk/student/adhara/RealData/'
         d.set_paths()
