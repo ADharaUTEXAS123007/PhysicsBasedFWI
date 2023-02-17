@@ -2508,12 +2508,56 @@ class unetConv5(nn.Module):
         outputs = self.conv1(inputs)
         #outputs = self.conv2(outputs)
         return outputs
+
+class unetConv9(nn.Module):
+    def __init__(self, in_size, out_size, is_batchnorm):
+        super(unetConv5, self).__init__()
+        # Kernel size: 3*3, Stride: 1, Padding: 1
+        if is_batchnorm:
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 3, 1, 1),
+                                       nn.BatchNorm2d(out_size),
+                                       nn.LeakyReLU(0.1))
+            #self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
+            #                           nn.BatchNorm2d(out_size),
+            #                           nn.LeakyReLU(0.1))
+        else:
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 3, 1, 1),
+                                       nn.BatchNorm2d(out_size),
+                                       nn.LeakyReLU(0.1))
+            self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
+                                       nn.BatchNorm2d(out_size),
+                                       nn.LeakyReLU(0.1))
+    def forward(self, inputs):
+        outputs = self.conv1(inputs)
+        #outputs = self.conv2(outputs)
+        return outputs
     
 class autoUp5(nn.Module):
     def __init__(self, in_size, out_size, is_deconv, is_batchnorm=True):
         super(autoUp5, self).__init__()
         self.conv = unetConv5(in_size, out_size, is_batchnorm)
-        self.conv2 = unetConv5(out_size, out_size, is_batchnorm)
+        #self.conv2 = unetConv5(out_size, out_size, is_batchnorm)
+        # Transposed convolution
+        if is_deconv:
+            self.up = nn.ConvTranspose2d(in_size, in_size, kernel_size=2,stride=2)
+        else:
+            self.up = nn.UpsamplingBilinear2d(scale_factor=2)
+
+    def forward(self, inputs2):
+        outputs2 = self.up(inputs2)
+        outputs3 = self.conv(outputs2)
+        #offset1 = (outputs2.size()[2]-inputs1.size()[2])
+        #offset2 = (outputs2.size()[3]-inputs1.size()[3])
+        #padding=[offset2//2,(offset2+1)//2,offset1//2,(offset1+1)//2]
+        # Skip and concatenate 
+        #outputs1 = F.pad(inputs1, padding)
+        return outputs3
+
+class autoUp9(nn.Module):
+    def __init__(self, in_size, out_size, is_deconv, is_batchnorm=True):
+        super(autoUp5, self).__init__()
+        self.conv = unetConv9(in_size, out_size, is_batchnorm)
+        #self.conv2 = unetConv5(out_size, out_size, is_batchnorm)
         # Transposed convolution
         if is_deconv:
             self.up = nn.ConvTranspose2d(in_size, in_size, kernel_size=2,stride=2)
@@ -9314,27 +9358,27 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #self.up4     = autoUp(filters[4], filters[3], self.is_deconv)
         self.up31     = autoUp5(filters[3], filters[2], self.is_deconv)
         #self.drop31   = nn.Dropout2d(0.1)
-        self.up32     = autoUp5(int(filters[3]), int(filters[2]), self.is_deconv)
+        self.up32     = autoUp9(int(filters[3]), int(filters[2]), self.is_deconv)
         #self.drop32   = nn.Dropout2d(0.1)
-        self.up33     = autoUp5(int(filters[3]), int(filters[2]/2), True)
+        self.up33     = autoUp9(int(filters[3]), int(filters[2]/2), True)
         #self.Rhoup33  = autoUp5(filters[3], int(filters[2]/4), self.is_deconv)
         #self.drop33   = nn.Dropout2d(0.1)
         #self.up3     = autoUp5(filters[3], filters[2], self.is_deconv)
         #self.dropU3  = nn.Dropout2d(0.025)
         self.up21     = autoUp5(filters[2], filters[1], self.is_deconv)
         #self.drop21   = nn.Dropout2d(0.1)
-        self.up22     = autoUp5(int(filters[2]), int(filters[1]), self.is_deconv)
+        self.up22     = autoUp9(int(filters[2]), int(filters[1]), self.is_deconv)
         #self.drop22   = nn.Dropout2d(0.1)
-        self.up23     = autoUp5(int(filters[2]/2), int(filters[1]/2), self.is_deconv)
+        self.up23     = autoUp9(int(filters[2]/2), int(filters[1]/2), self.is_deconv)
         #self.Rhoup23  = autoUp5(int(filters[2]/4), int(filters[1]/4), self.is_deconv)
         #self.drop23   = nn.Dropout2d(0.1)
         #self.up2     = autoUp5(filters[2], filters[1], self.is_deconv)
         #self.dropU2  = nn.Dropout2d(0.025)
         self.up11     = autoUp5(filters[1], filters[0], self.is_deconv)
         #self.drop11   = nn.Dropout2d(0.1)
-        self.up12     = autoUp5(int(filters[1]), int(filters[0]), self.is_deconv)
+        self.up12     = autoUp9(int(filters[1]), int(filters[0]), self.is_deconv)
         #self.drop12   = nn.Dropout2d(0.1)
-        self.up13     = autoUp5(int(filters[1]/2), int(filters[0]/2), self.is_deconv)
+        self.up13     = autoUp9(int(filters[1]/2), int(filters[0]/2), self.is_deconv)
         #self.Rhoup13  = autoUp5(int(filters[1]/4), int(filters[0]/4), self.is_deconv)
         #self.drop13   = nn.Dropout2d(0.1)
         #self.up1     = autoUp5(filters[1], filters[0], self.is_deconv)
@@ -9537,9 +9581,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #vp1f     = self.final1(vp1f)
         #vs1f     = self.final2(vs1f)
         
-        ###vp1f = 76.15*vp1f+118.47
-        ###vs1f = 43.9*vs1f+63.87
-        ###rho1f = 24.5*rho1f+37.08
+        vp1f = 72.434*vp1f+14.607
+        vs1f = 42.08*vs1f-15.031
+        rho1f = 44.8*rho1f+107.19
         #####vp1    = minvp + vp1f*(maxvp-minvp)
         ####vs1    = 88.1 + vs1f*(maxvs-88.1)
         ####rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
@@ -9567,17 +9611,17 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
 
         
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
-        vs1    = torch.clip(vs1, min=88.10, max=maxvs)
-        rho1   = torch.clip(rho1, min=171.9, max=maxrho)
+        vs1    = torch.clip(vs1, min=881.0, max=maxvs)
+        rho1   = torch.clip(rho1, min=1719.0, max=maxrho)
         #rho1   = torch.max(torch.min(rho1, maxrho1), minrho1)
         #######vp1 = minvp + vp1*(maxvp-minvp)
         ########vs1 = minvs + vs1*(maxvs-minvs)
         ##########vs1 = 8.810*torch.ones((vs10.size())).cuda(vs10.get_device())
         
         
-        vp1[:,:,0:22,:] = inputs1[:,0,0:22,:]
-        vs1[:,:,0:22,:] = inputs1[:,1,0:22,:]
-        rho1[:,:,0:22,:] = inputs1[:,2,0:22,:]
+        vp1[:,:,0:23,:] = inputs1[:,0,0:23,:]
+        vs1[:,:,0:23,:] = inputs1[:,1,0:23,:]
+        rho1[:,:,0:23,:] = inputs1[:,2,0:23,:]
         
         
        #vp1     = inputs1[:,0,:,:]
@@ -9929,9 +9973,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #ss = g1.tile((np.shape(rho_grad)[1],1))
         #print("shape of ss :", np.shape(ss))
         
-        vp_grad[0:22,:] = 0.0
-        vs_grad[0:22,:] = 0.0
-        rho_grad[0:22,:] = 0.0
+        vp_grad[0:23,:] = 0.0
+        vs_grad[0:23,:] = 0.0
+        rho_grad[0:23,:] = 0.0
         
         print("shape of vp_grad1 :", np.shape(vp_grad))
         print("shape of vs_grad1 :", np.shape(vs_grad))
