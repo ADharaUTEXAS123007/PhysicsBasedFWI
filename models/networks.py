@@ -118,7 +118,7 @@ def init_weights(net, init_type='normal', init_gain=0.02):
     We use 'normal' in the original pix2pix and CycleGAN paper. But xavier and kaiming might
     work better for some applications. Feel free to try yourself.
     """
-    
+
     def init_func(m):  # define the initialization function
         classname = m.__class__.__name__
         if hasattr(m, 'weight') and (classname.find('Conv') != -1 or classname.find('Linear') != -1):
@@ -129,7 +129,7 @@ def init_weights(net, init_type='normal', init_gain=0.02):
             elif init_type == 'xu':
                 init.xavier_uniform_(m.weight.data, init_gain)
             elif init_type == 'kaiming':
-                init.kaiming_normal_(m.weight.data, a=0.2, mode='fan_out',nonlinearity='leaky_relu')
+                init.kaiming_uniform_(m.weight.data, a=0.2, mode='fan_out',nonlinearity='leaky_relu')
             elif init_type == 'orthogonal':
                 init.orthogonal_(m.weight.data, gain=init_gain)
             else:
