@@ -9581,9 +9581,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #vp1f     = self.final1(vp1f)
         #vs1f     = self.final2(vs1f)
         
-        vp1f = 72.434*vp1f+14.607
-        vs1f = 42.08*vs1f-15.031
-        rho1f = 44.8*rho1f+107.19
+        ####vp1f = 72.434*vp1f+14.607
+        ####vs1f = 42.08*vs1f-15.031
+        #####rho1f = 44.8*rho1f+107.19
         #####vp1    = minvp + vp1f*(maxvp-minvp)
         ####vs1    = 88.1 + vs1f*(maxvs-88.1)
         ####rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
@@ -9708,9 +9708,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         vs = np.squeeze(vs)
         rho = np.squeeze(rho)
         
-        vp = np.flipud(vp)*10.0
-        vs = np.flipud(vs)*10.0
-        rho = np.flipud(rho)*10.0
+        vp = np.flipud(vp)*1.0
+        vs = np.flipud(vs)*1.0
+        rho = np.flipud(rho)*1.0
         
         #vs = (2752 - 0) * (vs - 1500)/(4766 - 1500) + 0
         #rho = (2627 - 1009) * (rho - 1500)/(4766 - 1500) + 1009
@@ -9738,9 +9738,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         vsst = np.flipud(vsst)
         rhost = np.flipud(rhost)
         
-        vpst = vpst*10.0
-        vsst = vsst*10.0
-        rhost = rhost*10.0
+        vpst = vpst*1.0
+        vsst = vsst*1.0
+        rhost = rhost*1.0
         
                
         print("max of vp passed :", np.max(vp), np.max(vs), np.max(rho))
