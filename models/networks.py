@@ -2511,7 +2511,7 @@ class unetConv5(nn.Module):
 
 class unetConv9(nn.Module):
     def __init__(self, in_size, out_size, is_batchnorm):
-        super(unetConv5, self).__init__()
+        super(unetConv9, self).__init__()
         # Kernel size: 3*3, Stride: 1, Padding: 1
         if is_batchnorm:
             self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 3, 1, 1),
@@ -2555,7 +2555,7 @@ class autoUp5(nn.Module):
 
 class autoUp9(nn.Module):
     def __init__(self, in_size, out_size, is_deconv, is_batchnorm=True):
-        super(autoUp5, self).__init__()
+        super(autoUp9, self).__init__()
         self.conv = unetConv9(in_size, out_size, is_batchnorm)
         #self.conv2 = unetConv5(out_size, out_size, is_batchnorm)
         # Transposed convolution
