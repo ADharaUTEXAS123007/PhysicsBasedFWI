@@ -125,6 +125,8 @@ def init_weights(net, init_type='normal', init_gain=0.02):
                 init.normal_(m.weight.data, 0.0, init_gain)
             elif init_type == 'xavier':
                 init.xavier_normal_(m.weight.data, init_gain)
+            elif init_type == 'xu':
+                init.xavier_uniform_(m.weight.data, init_gain)
             elif init_type == 'kaiming':
                 init.kaiming_uniform_(m.weight.data, a=0.2, mode='fan_out',nonlinearity='leaky_relu')
             elif init_type == 'orthogonal':
