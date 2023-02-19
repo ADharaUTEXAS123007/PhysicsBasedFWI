@@ -9588,12 +9588,12 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         ####vs1    = 88.1 + vs1f*(maxvs-88.1)
         ####rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
         #vs1 = 88.10 + vs1f*(maxvs - 88.10)
-        g1 = torch.arange(vp1f.size(dim=0))
-        g1 = g1/torch.shape(vp1f)[0]
+        g1 = torch.arange(vp1f.size(dim=2))
+        g1 = g1/vp1f.size(dim=2)
         #g1 = g1**2.0
         ss = vp1f*0
-        for i in range(vp1f.size(dim=1)):
-             ss[:,i] = g1
+        for i in range(vp1f.size(dim=3)):
+             ss[:,:,:,i] = g1
 
 
 
