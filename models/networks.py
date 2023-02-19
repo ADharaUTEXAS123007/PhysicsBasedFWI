@@ -9588,9 +9588,18 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         ####vs1    = 88.1 + vs1f*(maxvs-88.1)
         ####rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
         #vs1 = 88.10 + vs1f*(maxvs - 88.10)
-        vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
-        vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + rho1f
+        g1 = np.arange(np.shape(vp1f)[0])
+        g1 = g1/np.shape(vp1f)[0]
+        #g1 = g1**2.0
+        ss = vp1f*0
+        for i in range(np.shape(vp1f)[1]):
+             ss[:,i] = g1
+
+
+
+        vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + ss*vp1f
+        vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + ss*vs1f
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + ss*rho1f
 
         #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
@@ -9611,8 +9620,8 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
 
         
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
-        vs1    = torch.clip(vs1, min=881.0, max=maxvs)
-        rho1   = torch.clip(rho1, min=1719.0, max=maxrho)
+        vs1    = torch.clip(vs1, min=88.10, max=maxvs)
+        rho1   = torch.clip(rho1, min=171.90, max=maxrho)
         #rho1   = torch.max(torch.min(rho1, maxrho1), minrho1)
         #######vp1 = minvp + vp1*(maxvp-minvp)
         ########vs1 = minvs + vs1*(maxvs-minvs)
@@ -9708,9 +9717,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         vs = np.squeeze(vs)
         rho = np.squeeze(rho)
         
-        vp = np.flipud(vp)*1.0
-        vs = np.flipud(vs)*1.0
-        rho = np.flipud(rho)*1.0
+        vp = np.flipud(vp)*10.0
+        vs = np.flipud(vs)*10.0
+        rho = np.flipud(rho)*10.0
         
         #vs = (2752 - 0) * (vs - 1500)/(4766 - 1500) + 0
         #rho = (2627 - 1009) * (rho - 1500)/(4766 - 1500) + 1009
@@ -9738,9 +9747,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         vsst = np.flipud(vsst)
         rhost = np.flipud(rhost)
         
-        vpst = vpst*1.0
-        vsst = vsst*1.0
-        rhost = rhost*1.0
+        vpst = vpst*10.0
+        vsst = vsst*10.0
+        rhost = rhost*10.0
         
                
         print("max of vp passed :", np.max(vp), np.max(vs), np.max(rho))
