@@ -129,7 +129,7 @@ def init_weights(net, init_type='normal', init_gain=0.02):
             elif init_type == 'xu':
                 init.xavier_uniform_(m.weight.data, init_gain)
             elif init_type == 'kaiming':
-                init.kaiming_uniform_(m.weight.data, a=0.2, mode='fan_out',nonlinearity='leaky_relu')
+                init.kaiming_uniform_(m.weight.data, a=0.3, mode='fan_out',nonlinearity='leaky_relu')
             elif init_type == 'orthogonal':
                 init.orthogonal_(m.weight.data, gain=init_gain)
             else:
@@ -9597,9 +9597,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
 
 
 
-        vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + ss*vp1f
-        vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + ss*vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + ss*rho1f
+        vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
+        vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + rho1f
 
         #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
