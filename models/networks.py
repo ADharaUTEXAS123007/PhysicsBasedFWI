@@ -9866,7 +9866,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         d.NPROCY = 5
         d.PHYSICS = 1
         d.FC_SPIKE_1 = 3.0
-        #d.FC_SPIKE_2 = 15.0
+        d.FC_SPIKE_2 = 10.0
         ###################d.QUELLART = 1
         #d.FC_SPIKE_2 = 18.0
         #d.TIME = 6.0
@@ -9971,7 +9971,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = np.flipud(rho_grad)
 
         g1 = np.arange(np.shape(rho_grad)[0])
-        g1 = g1**2.0
+        g1 = g1**1.0
         ss = rho_grad*0
         for i in range(np.shape(rho_grad)[1]):
              ss[:,i] = g1
