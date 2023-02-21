@@ -129,7 +129,7 @@ def init_weights(net, init_type='normal', init_gain=0.02):
             elif init_type == 'xu':
                 init.xavier_uniform_(m.weight.data, init_gain)
             elif init_type == 'kaiming':
-                init.kaiming_uniform_(m.weight.data, a=0.5, mode='fan_in',nonlinearity='leaky_relu')
+                init.kaiming_normal_(m.weight.data, a=0.5, mode='fan_in',nonlinearity='leaky_relu')
             elif init_type == 'orthogonal':
                 init.orthogonal_(m.weight.data, gain=init_gain)
             else:
@@ -9628,9 +9628,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         ##########vs1 = 8.810*torch.ones((vs10.size())).cuda(vs10.get_device())
         
         
-        vp1[:,:,0:28,:] = inputs1[:,0,0:28,:]
-        vs1[:,:,0:28,:] = inputs1[:,1,0:28,:]
-        rho1[:,:,0:28,:] = inputs1[:,2,0:28,:]
+        vp1[:,:,0:27,:] = inputs1[:,0,0:27,:]
+        vs1[:,:,0:27,:] = inputs1[:,1,0:27,:]
+        rho1[:,:,0:27,:] = inputs1[:,2,0:27,:]
         
         
        #vp1     = inputs1[:,0,:,:]
