@@ -10014,13 +10014,13 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = 0.5*rho_grad*r3
         rho_grad = (rho_grad + 1e-10)
         
-        filen = './marmousiEl4JanInit/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4JanInit1/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vp_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4JanInit1/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vs_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4JanInit1/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, rho_grad)  #switch on physics based fwi
         
         print('grads names')
