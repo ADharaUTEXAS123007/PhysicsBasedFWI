@@ -9628,9 +9628,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         ##########vs1 = 8.810*torch.ones((vs10.size())).cuda(vs10.get_device())
         
         
-        vp1[:,:,0:23,:] = inputs1[:,0,0:23,:]
-        vs1[:,:,0:23,:] = inputs1[:,1,0:23,:]
-        rho1[:,:,0:23,:] = inputs1[:,2,0:23,:]
+        vp1[:,:,0:28,:] = inputs1[:,0,0:28,:]
+        vs1[:,:,0:28,:] = inputs1[:,1,0:28,:]
+        rho1[:,:,0:28,:] = inputs1[:,2,0:28,:]
         
         
        #vp1     = inputs1[:,0,:,:]
