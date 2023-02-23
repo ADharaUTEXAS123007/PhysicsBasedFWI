@@ -9599,7 +9599,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.001*rho1f
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
 
         #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
@@ -9628,9 +9628,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         ##########vs1 = 8.810*torch.ones((vs10.size())).cuda(vs10.get_device())
         
         
-        vp1[:,:,0:27,:] = inputs1[:,0,0:27,:]
-        vs1[:,:,0:27,:] = inputs1[:,1,0:27,:]
-        rho1[:,:,0:27,:] = inputs1[:,2,0:27,:]
+        vp1[:,:,0:26,:] = inputs1[:,0,0:26,:]
+        vs1[:,:,0:26,:] = inputs1[:,1,0:26,:]
+        rho1[:,:,0:26,:] = inputs1[:,2,0:26,:]
         
         
        #vp1     = inputs1[:,0,:,:]
@@ -9971,7 +9971,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = np.flipud(rho_grad)
 
         g1 = np.arange(np.shape(rho_grad)[0])
-        g1 = g1**2.0
+        g1 = g1**3.0
         ss = rho_grad*0
         for i in range(np.shape(rho_grad)[1]):
              ss[:,i] = g1
