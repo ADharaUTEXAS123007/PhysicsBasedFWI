@@ -9971,7 +9971,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = np.flipud(rho_grad)
 
         g1 = np.arange(np.shape(rho_grad)[0])
-        g1 = g1**1.0
+        g1 = g1**2.0
         ss = rho_grad*0
         for i in range(np.shape(rho_grad)[1]):
              ss[:,i] = g1
@@ -10011,7 +10011,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = torch.from_numpy(rho_grad.copy())
         rho_grad = rho_grad.float()
         #r3 = 1.0
-        rho_grad = 2.0*rho_grad*r3
+        rho_grad = 0.5*rho_grad*r3
         rho_grad = (rho_grad + 1e-10)
         
         filen = './marmousiEl4JanInit2/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
