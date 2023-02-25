@@ -9936,13 +9936,13 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
-        filen = './marmousiEl4JanInit2/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
+        filen = './marmousiEl4JanInit3/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
         np.save(filen, vpst)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit2/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiEl4JanInit3/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, vsst)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit2/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiEl4JanInit3/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, rhost)  #switch on physics based fwi
         
         
@@ -10015,7 +10015,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = np.flipud(rho_grad)
 
         g1 = np.arange(np.shape(rho_grad)[0])
-        g1 = g1**2.0
+        g1 = g1**1.75
         ss = rho_grad*0
         for i in range(np.shape(rho_grad)[1]):
              ss[:,i] = g1
@@ -10058,13 +10058,13 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = 2.0*rho_grad*r3
         rho_grad = (rho_grad + 1e-10)
         
-        filen = './marmousiEl4JanInit2/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4JanInit3/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vp_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit2/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4JanInit3/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vs_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit2/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4JanInit3/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, rho_grad)  #switch on physics based fwi
         
         print('grads names')
