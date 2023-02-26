@@ -10656,8 +10656,8 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         d.VSLOWERLIM = 0.0
         #d.RHOUPPERLIM = 2589.0
         #d.RHOLOWERLIM = 1009.0
-        d.RHOUPPERLIM = 3198.58
-        d.RHOLOWERLIM = 1063.82
+        d.RHOUPPERLIM = 2660.56
+        d.RHOLOWERLIM = 960.00
         d.SWS_TAPER_GRAD_HOR = 1
         #d.FC_SPIKE_1 = 0.0
         #d.QUELLART = 6
