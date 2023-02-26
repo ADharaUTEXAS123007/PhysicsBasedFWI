@@ -10389,7 +10389,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
 
         
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
-        vs1    = torch.clip(vs1, min=90.0, max=maxvs)
+        vs1    = torch.clip(vs1, min=97.0, max=maxvs)
         rho1   = torch.clip(rho1, min=110.6, max=maxrho)
         #rho1   = torch.max(torch.min(rho1, maxrho1), minrho1)
         #######vp1 = minvp + vp1*(maxvp-minvp)
