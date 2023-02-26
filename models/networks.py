@@ -10212,8 +10212,8 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         #stddata3 = torch.std(inputs3)
         #inputs3 = (inputs3-meandata3)/stddata3
         ############################################################
-        combine1 = self.combine1((inputs2[:,:,1:3000:3,:]))
-        combine2 = self.combine2((inputs3[:,:,1:3000:3,:]))
+        combine1 = self.combine1((inputs2[:,:,1:3500:3,:]))
+        combine2 = self.combine2((inputs3[:,:,1:3500:3,:]))
         
         c1c2 = torch.cat((combine1,combine2),axis=1)
         
@@ -10368,7 +10368,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.001*rho1f
 
         #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
