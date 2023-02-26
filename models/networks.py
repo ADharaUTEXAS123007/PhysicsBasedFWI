@@ -10368,7 +10368,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + rho1f
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*rho1f
 
         #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
@@ -10636,6 +10636,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         d.PHYSICS = 1
         d.FREE_SURF = 0
         d.FPML = 5.0
+        d.QUELLART = 1
         #d.FC_SPIKE_1 = 2.0
         #d.FC_SPIKE_2 = 12.0
         ###################d.QUELLART = 1
