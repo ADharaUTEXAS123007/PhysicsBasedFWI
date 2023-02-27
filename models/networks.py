@@ -2556,6 +2556,29 @@ class unetConv10(nn.Module):
         outputs = self.conv1(inputs)
         #outputs = self.conv2(outputs)
         return outputs
+
+class unetConv11(nn.Module):
+    def __init__(self, in_size, out_size, is_batchnorm):
+        super(unetConv11, self).__init__()
+        # Kernel size: 3*3, Stride: 1, Padding: 1
+        if is_batchnorm:
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 1, 1, 0),
+                                       nn.BatchNorm2d(out_size),
+                                       nn.LeakyReLU(0.1))
+            #self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
+            #                           nn.BatchNorm2d(out_size),
+            #                           nn.LeakyReLU(0.1))
+        else:
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 3, 1, 1),
+                                       nn.BatchNorm2d(out_size),
+                                       nn.LeakyReLU(0.1))
+            self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
+                                       nn.BatchNorm2d(out_size),
+                                       nn.LeakyReLU(0.1))
+    def forward(self, inputs):
+        outputs = self.conv1(inputs)
+        #outputs = self.conv2(outputs)
+        return outputs
     
 class autoUp5(nn.Module):
     def __init__(self, in_size, out_size, is_deconv, is_batchnorm=True):
@@ -2603,6 +2626,27 @@ class autoUp10(nn.Module):
     def __init__(self, in_size, out_size, is_deconv, is_batchnorm=True):
         super(autoUp10, self).__init__()
         self.conv = unetConv10(in_size, out_size, is_batchnorm)
+        #self.conv2 = unetConv5(out_size, out_size, is_batchnorm)
+        # Transposed convolution
+        if is_deconv:
+            self.up = nn.ConvTranspose2d(in_size, in_size, kernel_size=2,stride=2)
+        else:
+            self.up = nn.UpsamplingBilinear2d(scale_factor=2)
+
+    def forward(self, inputs2):
+        outputs2 = self.up(inputs2)
+        outputs3 = self.conv(outputs2)
+        #offset1 = (outputs2.size()[2]-inputs1.size()[2])
+        #offset2 = (outputs2.size()[3]-inputs1.size()[3])
+        #padding=[offset2//2,(offset2+1)//2,offset1//2,(offset1+1)//2]
+        # Skip and concatenate 
+        #outputs1 = F.pad(inputs1, padding)
+        return outputs3
+
+class autoUp11(nn.Module):
+    def __init__(self, in_size, out_size, is_deconv, is_batchnorm=True):
+        super(autoUp11, self).__init__()
+        self.conv = unetConv11(in_size, out_size, is_batchnorm)
         #self.conv2 = unetConv5(out_size, out_size, is_batchnorm)
         # Transposed convolution
         if is_deconv:
@@ -10129,7 +10173,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         #self.drop31   = nn.Dropout2d(0.1)
         self.up32     = autoUp5(int(filters[3]), int(filters[2]), self.is_deconv)
         #self.drop32   = nn.Dropout2d(0.1)
-        self.up33     = autoUp9(int(filters[3]), int(filters[2]/16), True)
+        self.up33     = autoUp11(int(filters[3]), int(filters[2]/16), True)
         #self.Rhoup33  = autoUp5(filters[3], int(filters[2]/4), self.is_deconv)
         #self.drop33   = nn.Dropout2d(0.1)
         #self.up3     = autoUp5(filters[3], filters[2], self.is_deconv)
@@ -10138,7 +10182,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         #self.drop21   = nn.Dropout2d(0.1)
         self.up22     = autoUp5(int(filters[2]), int(filters[1]), self.is_deconv)
         #self.drop22   = nn.Dropout2d(0.1)
-        self.up23     = autoUp9(int(filters[2]/16), int(filters[1]/8), self.is_deconv)
+        self.up23     = autoUp11(int(filters[2]/16), int(filters[1]/8), self.is_deconv)
         #self.Rhoup23  = autoUp5(int(filters[2]/4), int(filters[1]/4), self.is_deconv)
         #self.drop23   = nn.Dropout2d(0.1)
         #self.up2     = autoUp5(filters[2], filters[1], self.is_deconv)
@@ -10147,7 +10191,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         #self.drop11   = nn.Dropout2d(0.1)
         self.up12     = autoUp5(int(filters[1]), int(filters[0]), self.is_deconv)
         #self.drop12   = nn.Dropout2d(0.1)
-        self.up13     = autoUp9(int(filters[1]/8), int(filters[0]/4), self.is_deconv)
+        self.up13     = autoUp11(int(filters[1]/8), int(filters[0]/4), self.is_deconv)
         #self.Rhoup13  = autoUp5(int(filters[1]/4), int(filters[0]/4), self.is_deconv)
         #self.drop13   = nn.Dropout2d(0.1)
         #self.up1     = autoUp5(filters[1], filters[0], self.is_deconv)
@@ -10368,7 +10412,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.001*rho1f
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*rho1f
 
         #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
