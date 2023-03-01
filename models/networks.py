@@ -10203,9 +10203,11 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         #self.decoder_input1 = nn.Linear(filters[2]*125*26, latent_dim) #for marmousi 151x200
         #self.decoder_input = nn.Linear(latent_dim, filters[2]*500*102) #for marmousi 151x200
         self.decoder_input1 = nn.Linear(filters[3]*73*13, 8) #for marmousi 101x101
+        self.decoder_input2 = nn.Linear(filters[3]*73*13, 8)
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(8, filters[3]*52*30) #for marmousi 101x101
+        self.decoder_input3 = nn.Linear(8, filters[3]*52*30) #for marmousi 101x101
+        self.decoder_input4 = nn.Linear(8, filters[3]*52*30)
         #############self.decoder_input2 = nn.Linear(latent_dim, 4*92*208)
         #self.decoder_inputRho = nn.Linear(latent_dim, 1*300*100)
         
@@ -10324,7 +10326,8 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         
         #####print("result shape :", np.shape(result))
         
-        p = self.decoder_input1(result)
+        p1 = self.decoder_input1(result)
+        p2 = self.decoder_input2(result)
         ###################################################################
         #p = inputs2
         #down3  = self.down3(down2)
@@ -10336,7 +10339,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         #print("shape of down 4:", np.shape(down2))
         #print("shape of result:", np.shape(result))
         #print("shape of p :", np.shape(p))
-        latent1 = p
+        latent1 = p1
         
         #if (epoch1 <= lstart):
         #    latent1 = p
@@ -10348,7 +10351,8 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         ########latent1 = p
         #p = inputs2
         #z = 0.5*torch.ones([1,1,1,64])
-        z = self.decoder_input(p)
+        z = self.decoder_input3(p1)
+        z1 = self.decoder_input4(p2)
         ##########z1 = self.decoder_input(p)
         ##############z2 = self.decoder_input2(p)
         ####zrho = self.decoder_inputRho(p)
@@ -10356,7 +10360,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
         z = z.view(-1, filters[3], 30, 52)
-        z1 = z.view(-1,filters[3],30,52)
+        z1 = z1.view(-1,filters[3],30,52)
         #z2 = z2.view(-1, 4, 92, 208)
         #zrho = zrho.view(-1, 1, 100, 300)
         #down4 = torch.swapaxes(down4,2,3)
@@ -10749,7 +10753,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         d.SWS_TAPER_GRAD_HOR = 1
         #d.FC_SPIKE_1 = 0.0
         #d.QUELLART = 6
-        d.EXP_TAPER_GRAD_HOR = 1.0
+        d.EXP_TAPER_GRAD_HOR = 2.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
         filen = './marmousiBP4JanInit/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
