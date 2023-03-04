@@ -8772,9 +8772,11 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         #self.decoder_input1 = nn.Linear(filters[2]*125*26, latent_dim) #for marmousi 151x200
         #self.decoder_input = nn.Linear(latent_dim, filters[2]*500*102) #for marmousi 151x200
         self.decoder_input1 = nn.Linear(filters[3]*63*24, 8) #for marmousi 101x101
+        self.decoder_input2 = nn.Linear(filters[3*63*24, 8])
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(8, filters[3]*52*23) #for marmousi 101x101
+        self.decoder_input3 = nn.Linear(8, filters[3]*52*23) #for marmousi 101x101
+        self.decoder_input4 = nn.Linear(8, filters[3]*52*23)
         #############self.decoder_input2 = nn.Linear(latent_dim, 4*92*208)
         #self.decoder_inputRho = nn.Linear(latent_dim, 1*300*100)
 
@@ -8896,6 +8898,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         #####print("result shape :", np.shape(result))
         
         p = self.decoder_input1(result)
+        p1 = self.decoder_input2(result)
         ###################################################################
         #p = inputs2
         #down3  = self.down3(down2)
@@ -8919,15 +8922,15 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         ########latent1 = p
         #p = inputs2
         #z = 0.5*torch.ones([1,1,1,64])
-        z = self.decoder_input(p)
-        ##########z1 = self.decoder_input(p)
+        z = self.decoder_input3(p)
+        z1 = self.decoder_input4(p1)
         ##############z2 = self.decoder_input2(p)
         ####zrho = self.decoder_inputRho(p)
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
         z = z.view(-1, filters[3], 23, 52)
-        ############z1 = z1.view(-1,filters[3],23,52)
+        z1 = z1.view(-1,filters[3],23,52)
         #z2 = z2.view(-1, 4, 92, 208)
         #zrho = zrho.view(-1, 1, 100, 300)
         #down4 = torch.swapaxes(down4,2,3)
