@@ -9015,7 +9015,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         #vs1 = 88.10 + vs1f*(maxvs - 88.10)
         dind = rho1f*0.0
         for i in range(396):
-            dind[:,i] = torch.arange(170)
+            dind[:,:,i] = torch.arange(170)
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
