@@ -9016,7 +9016,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         dind = rho1f*0.0
         print("shape of rho1f :", np.shape(rho1f))
         for i in range(396):
-            dind[:,:,i] = torch.arange(170)
+            dind[0,0,:,i] = torch.arange(170)
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
