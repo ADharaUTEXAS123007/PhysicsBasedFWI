@@ -8936,8 +8936,8 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         #up31    = self.drop31(up31)
         up32    = self.up32(z)
         #up32    = self.drop32(up32)
-        ###########up33    = self.Rhoup33(z)
-        ######up33    = self.up33(z1)
+        ####up33    = self.Rhoup33(z)
+        up33    = self.up33(z1)
         ###print("shape off up33 :", np.shape(up33))
         #up3      = self.up3(z)
         
@@ -8947,7 +8947,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         #up21    = self.drop21(up21)
         up22    = self.up22(up32)
         #up22    = self.drop22(up22)
-        #######up23    = self.up23(up33)
+        up23    = self.up23(up33)
         ###################print("shape of up23 :", np.shape(up23))
         #up23    = self.drop23(up23)
         #up2     = self.up2(up3)
@@ -8958,7 +8958,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         #print("shape of up21 :", np.shape(up21))
         up12    = self.up12(up22)
         #up12    = self.drop12(up12)
-        ###########up13    = self.up13(up23)
+        up13    = self.up13(up23)
         ##print("shape of up13 :", np.shape(up13))
         #up13    = self.drop13(up13)
         #up1     = self.up1(up2)
@@ -8969,19 +8969,19 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         print("shape of up12 :", np.shape(up12))
         up11    = up11[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
         up12    = up12[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
-        #########up13    = up13[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
+        up13    = up13[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
         
         ##print("shape of up13 :", np.shape(up13))
         #up1    = up1[:,:,3:3+label_dsp_dim[0],3:3+label_dsp_dim[1]].contiguous()
         
         f11     = self.f11(up11)
         f12     = self.f12(up12)
-        ##########f13     = self.f13(up13)
+        f13     = self.f13(up13)
         #f1    = self.f1(up1)
 
         vp1f     = self.vp(f11)
         vs1f     = self.vs(f12)
-        #########rho1f    = self.rho(f13)
+        rho1f    = self.rho(f13)
         #rho1    = self.rho2(rho1)
         #############################7######### vp1f     = 0.39423115*vp1f + 0.002671641
         #############################7######### vs1f     = 0.22760948*vs1f + 0.0015424669
@@ -9010,13 +9010,17 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         ####vs1    = 88.1 + vs1f*(maxvs-88.1)
         ####rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
         #vs1 = 88.10 + vs1f*(maxvs - 88.10)
+        dind = rho1f*0.0
+        for i in range(396):
+            dind[:,i] = np.arange(170)
+
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        ###############rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + rho1f
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*(0.5*rho1f + 0.5*(0.304*dind+194.6))
 
         #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
-        rho1 = torch.unsqueeze(lowf[:,2,:,:],1)
+        ###rho1 = torch.unsqueeze(lowf[:,2,:,:],1)
         ##############4###################### print("after rho1 norm :", torch.norm(rho1))
 
         
@@ -9034,7 +9038,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
         vs1    = torch.clip(vs1, min=88.10, max=maxvs)
-        #rho1   = torch.clip(rho1, min=171.9, max=maxrho)
+        rho1   = torch.clip(rho1, min=171.9, max=maxrho)
         #rho1   = torch.max(torch.min(rho1, maxrho1), minrho1)
         #######vp1 = minvp + vp1*(maxvp-minvp)
         ########vs1 = minvs + vs1*(maxvs-minvs)
@@ -9043,7 +9047,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         
         vp1[:,:,0:24,:] = inputs1[:,0,0:24,:]
         vs1[:,:,0:24,:] = inputs1[:,1,0:24,:]
-        #rho1[:,:,0:24,:] = inputs1[:,2,0:24,:]
+        rho1[:,:,0:24,:] = inputs1[:,2,0:24,:]
         
         
        #vp1     = inputs1[:,0,:,:]
@@ -9230,22 +9234,22 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
 
 
         # Wrap into api
-        fsource = 5.0
+        fsource = 10.0
         rec = api.Receivers(xrec, yrec)
         src = api.Sources(xsrc, ysrc, fsource)
         
         
-        os.system('rm -rf /disk/student/adhara/MARMOUSIInitial/su1')
-        os.system('mkdir /disk/student/adhara/MARMOUSIInitial/su1')
+        os.system('rm -rf /disk/student/adhara/MARMOUSILinConst/su1')
+        os.system('mkdir /disk/student/adhara/MARMOUSILinConst/su1')
         def copyshot(id1, value):             
-            fo = 'cp /disk/student/adhara/MARMOUSIInitial/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIInitial/su1/.'
+            fo = 'cp /disk/student/adhara/MARMOUSILinConst/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSILinConst/su1/.'
             os.system(fo)
-            fo = 'cp /disk/student/adhara/MARMOUSIInitial/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIInitial/su1/.'
+            fo = 'cp /disk/student/adhara/MARMOUSILinConst/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSILinConst/su1/.'
             os.system(fo)
         #      #if (id1+1 != value+1):
-            fo = 'mv /disk/student/adhara/MARMOUSIInitial/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIInitial/su1/seisT_x.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARMOUSILinConst/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSILinConst/su1/seisT_x.su.shot' + str(value+1)
             os.system(fo)
-            fo = 'mv /disk/student/adhara/MARMOUSIInitial/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIInitial/su1/seisT_y.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARMOUSILinConst/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSILinConst/su1/seisT_y.su.shot' + str(value+1)
             os.system(fo)
         # # #pool = ThreadPool(tshots)
         #values = np.arange(0,tshots)
@@ -9256,7 +9260,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         for i in range(0,tshots):
             print("idx :", idx[i])
             copyshot(idx[i],i)
-        d.DATA_DIR = '/disk/student/adhara/MARMOUSIInitial/su1/seisT'
+        d.DATA_DIR = '/disk/student/adhara/MARMOUSILinConst/su1/seisT'
         d.SEIS_FILE_VX = 'su1/seisT_x.su'
         d.SEIS_FILE_VY = 'su1/seisT_y.su'
 
@@ -9278,8 +9282,8 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         d.NPROCX = 6
         d.NPROCY = 5
         d.PHYSICS = 1
-        #d.FC_SPIKE_1 = 3.0
-        #d.FC_SPIKE_2 = 15.0
+        d.FC_SPIKE_1 = 4.0
+        d.FC_SPIKE_2 = 15.0
         ###################d.QUELLART = 1
         #d.FC_SPIKE_2 = 18.0
         #d.TIME = 6.0
@@ -9301,17 +9305,17 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         d.RHOLOWERLIM = 1009.00
         d.SWS_TAPER_GRAD_HOR = 1
         #d.FC_SPIKE_1 = 0.0
-        #d.QUELLART = 6
+        d.QUELLART = 6
         #d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
-        filen = './marmousiEl4JanInit/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
+        filen = './marmousiEl4Jan/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
         np.save(filen, vpst)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiEl4Jan/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, vsst)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiEl4Jan/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, rhost)  #switch on physics based fwi
         
         
@@ -9331,7 +9335,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_low=0.0,fc_high=10.0, inv_rho_iter=10000)
+        d.add_fwi_stage(fc_low=4.0,fc_high=10.0)
         # if ((epoch1 >= 0) and (epoch1 <=100 )):
         #     d.add_fwi_stage(fc_low=0.0, fc_high=2.0)
         # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
@@ -9383,7 +9387,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         rho_grad = np.flipud(rho_grad)
 
         g1 = np.arange(np.shape(rho_grad)[0])
-        g1 = g1**1.5
+        g1 = g1**1.0
         ss = rho_grad*0
         for i in range(np.shape(rho_grad)[1]):
              ss[:,i] = g1
@@ -9426,13 +9430,13 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         rho_grad = 0.5*rho_grad*r3
         rho_grad = (rho_grad + 1e-10)
         
-        filen = './marmousiEl4JanInit/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4Jan/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vp_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4Jan/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vs_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4Jan/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, rho_grad)  #switch on physics based fwi
         
         print('grads names')
