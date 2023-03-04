@@ -9020,7 +9020,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.005*(0.5*rho1f + 0.5*(0.423*vp1+82.5))
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0025*(0.5*rho1f + 0.5*(0.20*vp1+202.08))
 
         #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
@@ -9042,7 +9042,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
         vs1    = torch.clip(vs1, min=88.10, max=maxvs)
-        rho1   = torch.clip(rho1, min=171.9, max=maxrho)
+        rho1   = torch.clip(rho1, min=195.9, max=maxrho)
         #rho1   = torch.max(torch.min(rho1, maxrho1), minrho1)
         #######vp1 = minvp + vp1*(maxvp-minvp)
         ########vs1 = minvs + vs1*(maxvs-minvs)
@@ -9305,7 +9305,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         d.VSLOWERLIM = 0.0
         #d.RHOUPPERLIM = 2589.0
         #d.RHOLOWERLIM = 1009.0
-        d.RHOUPPERLIM = 2626.9998
+        d.RHOUPPERLIM = 3152.3999
         d.RHOLOWERLIM = 1009.00
         d.SWS_TAPER_GRAD_HOR = 1
         #d.FC_SPIKE_1 = 0.0
