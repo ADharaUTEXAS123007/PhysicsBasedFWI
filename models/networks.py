@@ -9020,7 +9020,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*(0.6*rho1f + 0.4*(0.304*dind+194.6))
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*(0.7*rho1f + 0.3*(0.304*dind+194.6))
 
         #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
@@ -9179,7 +9179,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         
         denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
         d = api.Denise(denise_root,verbose=1)
-        d.save_folder = '/disk/student/adhara/MARMOUSIInitial/'
+        d.save_folder = '/disk/student/adhara/MARMOUSILinConst/'
         d.set_paths()
         
         #model = api.Model(vp, vs, rho, dx)
