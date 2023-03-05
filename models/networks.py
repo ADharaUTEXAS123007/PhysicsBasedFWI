@@ -9313,13 +9313,13 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         #d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
-        filen = './marmousiEl4Jan/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
+        filen = './marmousiEl4Jan1/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
         np.save(filen, vpst)  #switch on physics based fwi
         
-        filen = './marmousiEl4Jan/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiEl4Jan1/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, vsst)  #switch on physics based fwi
         
-        filen = './marmousiEl4Jan/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiEl4Jan1/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, rhost)  #switch on physics based fwi
         
         
@@ -9434,13 +9434,13 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         rho_grad = 0.5*rho_grad*r3
         rho_grad = (rho_grad + 1e-10)
         
-        filen = './marmousiEl4Jan/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4Jan1/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vp_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4Jan/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4Jan1/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vs_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4Jan/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4Jan1/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, rho_grad)  #switch on physics based fwi
         
         print('grads names')
