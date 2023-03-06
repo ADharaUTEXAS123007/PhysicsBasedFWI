@@ -9743,22 +9743,6 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
         rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.002*(0.5*rho1f + 0.5*(0.17*vp1+168.4))
 
-        #################4################# print("before rho1 norm :", torch.norm(torch.unsqueeze(lowf[:,2,:,:],1)))
-        #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.0005*rho1f
-        #rho1 = torch.unsqueeze(lowf[:,2,:,:],1)
-        ##############4###################### print("after rho1 norm :", torch.norm(rho1))
-
-        
-        #########rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
-
-        #rho1    = self.final3(rho1)
-        #vp1    = minvp + vp1*(maxvp-minvp)
-        #vs1    = minvs + vs1*(maxvs-881.0)
-        #rho1   = minrho + rho1*(maxrho-minrho)
-        #vp1  = minvp + vp1f*(maxvp-minvp)
-        #vs1  = minvs + vs1f*(maxvs-minvs)
-        ####maxrho1 = lowf[:,2,:,:]+0.2*lowf[0,2,:,:]
-        ####minrho1 = lowf[:,2,:,:]
 
         
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
