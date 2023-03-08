@@ -9179,7 +9179,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         
         denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
         d = api.Denise(denise_root,verbose=1)
-        d.save_folder = '/disk/student/adhara/MARMOUSILinConst/'
+        d.save_folder = '/disk/student/adhara/MARMOUSILinNoise/'
         d.set_paths()
         
         #model = api.Model(vp, vs, rho, dx)
@@ -9243,17 +9243,17 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         src = api.Sources(xsrc, ysrc, fsource)
         
         
-        os.system('rm -rf /disk/student/adhara/MARMOUSILinConst/su1')
-        os.system('mkdir /disk/student/adhara/MARMOUSILinConst/su1')
+        os.system('rm -rf /disk/student/adhara/MARMOUSILinNoise/su1')
+        os.system('mkdir /disk/student/adhara/MARMOUSILinNoise/su1')
         def copyshot(id1, value):             
-            fo = 'cp /disk/student/adhara/MARMOUSILinConst/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSILinConst/su1/.'
+            fo = 'cp /disk/student/adhara/MARMOUSILinNoise/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSILinNoise/su1/.'
             os.system(fo)
-            fo = 'cp /disk/student/adhara/MARMOUSILinConst/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSILinConst/su1/.'
+            fo = 'cp /disk/student/adhara/MARMOUSILinNoise/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSILinNoise/su1/.'
             os.system(fo)
         #      #if (id1+1 != value+1):
-            fo = 'mv /disk/student/adhara/MARMOUSILinConst/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSILinConst/su1/seisT_x.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARMOUSILinNoise/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSILinNoise/su1/seisT_x.su.shot' + str(value+1)
             os.system(fo)
-            fo = 'mv /disk/student/adhara/MARMOUSILinConst/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSILinConst/su1/seisT_y.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARMOUSILinNoise/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSILinNoise/su1/seisT_y.su.shot' + str(value+1)
             os.system(fo)
         # # #pool = ThreadPool(tshots)
         #values = np.arange(0,tshots)
@@ -9264,7 +9264,7 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         for i in range(0,tshots):
             print("idx :", idx[i])
             copyshot(idx[i],i)
-        d.DATA_DIR = '/disk/student/adhara/MARMOUSILinConst/su1/seisT'
+        d.DATA_DIR = '/disk/student/adhara/MARMOUSILinNoise/su1/seisT'
         d.SEIS_FILE_VX = 'su1/seisT_x.su'
         d.SEIS_FILE_VY = 'su1/seisT_y.su'
 
@@ -9313,13 +9313,13 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         #d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
-        filen = './marmousiEl4Jan1/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
+        filen = './marmousiEl4Jan1Noise/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
         np.save(filen, vpst)  #switch on physics based fwi
         
-        filen = './marmousiEl4Jan1/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiEl4Jan1Noise/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, vsst)  #switch on physics based fwi
         
-        filen = './marmousiEl4Jan1/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiEl4Jan1Noise/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, rhost)  #switch on physics based fwi
         
         
@@ -9434,13 +9434,13 @@ class AutoElFullRhoMarmousiMar22_Net(nn.Module):
         rho_grad = 0.5*rho_grad*r3
         rho_grad = (rho_grad + 1e-10)
         
-        filen = './marmousiEl4Jan1/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4Jan1Noise/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vp_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4Jan1/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4Jan1Noise/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vs_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4Jan1/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4Jan1Noise/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, rho_grad)  #switch on physics based fwi
         
         print('grads names')
