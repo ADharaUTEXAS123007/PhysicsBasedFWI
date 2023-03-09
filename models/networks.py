@@ -10137,7 +10137,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = torch.from_numpy(rho_grad.copy())
         rho_grad = rho_grad.float()
         #r3 = 1.0
-        rho_grad = 2.0*rho_grad*r3
+        rho_grad = 1.0*rho_grad*r3
         rho_grad = (rho_grad + 1e-10)
         
         filen = './marmousiEl4JanInit3/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
