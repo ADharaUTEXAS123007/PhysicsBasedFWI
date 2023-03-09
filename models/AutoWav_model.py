@@ -228,49 +228,6 @@ class AutoWavModel(BaseModel):
         print("D_MSE :", self.loss_D_MSE)
         
         self.loss_M_MSE = self.criterionMSE(self.real_B, self.fake_B)/(diff_size[0]*diff_size[1]*diff_size[2]*diff_size[3])
-        
-        #print("shape of grad :", np.shape(self.grad))
-        #k
-        #kld_loss = torch.mean(-0.5 * torch.sum(1 + self.log_var - self.mu ** 2 - self.log_var.exp(), dim = 1), dim = 0)
-        #self.loss_K_MSE = kld_loss/diff_size[0]
-        #self.loss_M_MSE = 0.0
-        #self.loss_K_MSE = 0.0
-        #print("loss_M_MSE : ",self.loss_M_MSE)
-        
-        #print("loss_K_MSE : ",self.loss_K_MSE)
-        #print("mu :", self.mu)
-        #print("shape of mu :", self.mu.size())
-        #print("var :", self.log_var)
-        #print("shape of var :", self.log_var.size())
-        #print("loss MSE example :", self.loss_M_MSE)
-        #print("diff size :", diff_size)
-        #print("device of fake B:",str(self.fake_B.get_device()))
-        
-        ######filen = './marmousi/ZZ3M' + str(batch)+'ep'+str(epoch1)+'.npy'
-        #######np.save(filen, self.z.cpu().detach().numpy()) 
-        
-        ####filen = './marmousi/ZZConstant' + str(batch)+'ep'+str(epoch1)+'.npy'
-        ######np.save(filen, self.z.cpu().detach().numpy())
-        
-        ########filen = './marmousi/MT3M' + str(batch)+'ep'+str(epoch1)+'.npy'
-        ##########np.save(filen, self.fake_B.cpu().detach().numpy()) 
-        
-        ####filen = './marmousi/FinalInvConstant' + str(batch)+'ep'+str(epoch1)+'.npy'
-        ######np.save(filen, self.fake_B.cpu().detach().numpy()) 
-        
-        # if (epoch1 > lstart):
-        #      filen = './deepwave/fake29Sep' + \
-        #          str(batch)+'ep'+str(epoch1)+'.npy'
-        #      np.save(filen, self.fake_B.cpu().detach().numpy())
-        #      filen = './deepwave/realA29Sep' + \
-        #          str(batch)+'ep'+str(epoch1)+'.npy'
-        #      np.save(filen, self.real_A.cpu().detach().numpy())
-        #      filen = './deepwave/realB29Sep' + \s
-        #          str(batch)+'ep'+str(epoch1)+'.npy'
-        #      np.save(filen, self.real_B.cpu().detach().numpy())
-        #     filen = './deepwave/fakeData11Sep' + \
-        #            str(batch)+'ep'+str(epoch1)+'.npy'
-        #     np.save(filen, self.fake_BD.cpu().detach().numpy())
 
         lambda1 = 1
         lambda2 = 0
@@ -294,42 +251,7 @@ class AutoWavModel(BaseModel):
         #print("maxb :", maxb)
         lstart1 = 35
         lstart2 = 60
-        
-        #print("length of model features :", len(self.netG.parameters()))
-        # model_weights = []
-        # conv_layers = []
-        # model_children = list(self.netG.children())
-        # model_childrens = list(model_children[0].children())
-        # mc = list(model_childrens[0].children())
-        # mc1 = list(mc[0].children())
-        # mc2 = list(mc1[0].children())
-        
-        # print("model children 2 :", mc2[0])
-        # #print("model children 1 :", mc1[1])
-        # #print("length of model children :", len(model_children))
-        # #print("model names :", self.netG.model_names)
-        
-        # # counter to keep count of the conv layers
-        # counter = 0 
-        # # append all the conv layers and their respective weights to the list
-        # for i in range(len(model_children)):
-        #     if type(model_children[i]) == nn.Conv2d:
-        #         counter += 1
-        #         model_weights.append(model_children[i].weight)
-        #         conv_layers.append(model_children[i])
-        #     elif type(model_children[i]) == nn.Sequential:
-        #         for j in range(len(model_children[i])):
-        #             for child in model_children[i][j].children():
-        #                 if type(child) == nn.Conv2d:
-        #                     counter += 1
-        #                     model_weights.append(child.weight)
-        #                     conv_layers.append(child)
-        # print(f"Total convolutional layers: {counter}")
-        
-        # # take a look at the conv layers and the respective weights
-        # for weight, conv in zip(model_weights, conv_layers):
-        #     # print(f"WEIGHT: {weight} \nSHAPE: {weight.shape}")
-        #     print(f"CONV: {conv} ====> SHAPE: {weight.shape}")
+    
         
         if (epoch1>lstart):
             print("2nd epoch1 :", epoch1)
@@ -343,28 +265,6 @@ class AutoWavModel(BaseModel):
             #if (epoch1>lstart and epoch1<=lstart1):
             self.grad = self.grad*(10**5)  #####(10**5) works for marmousi model
             #self.grad = torch.clip(self.grad, min=-0.1, max=0.1)
-                
-            #if (epoch1>lstart1 and epoch1<=lstart2):
-            #    self.grad = self.grad*(10**6)  #####(10**5) works for marmousi model
-            #    self.grad = torch.clip(self.grad, min=-0.1, max=0.1)
-                
-            #if (epoch1>lstart2):
-            #    self.grad = self.grad*(10**7)   #####(10**5) works for marmousi model
-            #    self.grad = torch.clip(self.grad, min=-2.0, max=2.0)
-            #self.grad = (self.grad-1600)/(2300-1600)
-            #self.grad = tgm.image.gaussian_blur(self.grad, (5, 5), (10, 10))
-            ##self.grad[:,:,0:26,:] = 0
-            ###self.grad = scipy.ndimage.gaussian_filter(self.grad,10)
-            #maxg = torch.max(torch.abs(self.grad))
-            #print("maxg :", maxg)
-        
-        #self.fake_B.register_hook(print)
-        #filen = './marmousi/GradNewAD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
-        #np.save(filen, self.fake_B.grad.cpu().detach().numpy())  #switch on physics based fwi
-        #print("shape of fake B grad :", self.fake_B.grad)
-        #grad = torch.unsqueeze(torch.unsqueeze(self.grad,0),1) #switch on for physics based fwi
-        #grad = grad.to(self.fake_B.get_device()) #switch on for physics based fwi
-        #print("shape of self grad :", np.shape(self.grad))
         
         #self.grad = self.grad/torch.max(self.grad.abs())
             self.fake_B.backward(self.grad) #switch on for physics based fwi

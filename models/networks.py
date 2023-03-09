@@ -14501,40 +14501,7 @@ class AutoMarmousiWav_Net(nn.Module):
         self.final   =  nn.Sigmoid()
         #self.final1  =  nn.Conv2d(1, 1, 1)
 
-        ###wavelet
-        # self.convWav11 = nn.Sequential(nn.Conv1d(1, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.convWav12 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.maxWav11 = nn.MaxPool1d(2,2,ceil_mode=True)
 
-
-        # self.convWav21 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.convWav22 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.maxWav21 = nn.MaxPool1d(2,2,ceil_mode=True)
-
-        # self.convWav31 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.convWav32 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.maxWav31 = nn.MaxPool1d(2,2,ceil_mode=True)
-
-        # self.convWav41 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.convWav42 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.maxWav41 = nn.MaxPool1d(2,2,ceil_mode=True)
-
-
-        # self.convWav51 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.convWav52 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.upWav51 = nn.Upsample(scale_factor=2)
-
-        # self.convWav61 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.convWav62 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.upWav61 = nn.Upsample(scale_factor=2)
-
-        # self.convWav71 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.convWav72 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.upWav71 = nn.Upsample(scale_factor=2)
-
-        # self.convWav81 = nn.Sequential(nn.Conv1d(8, 8, 3, 1, 1),nn.BatchNorm1d(8),nn.LeakyReLU(0.1))
-        # self.convWav82 = nn.Sequential(nn.Conv1d(8, 1, 3, 1, 1),nn.BatchNorm1d(1),nn.LeakyReLU(0.1))
-        # self.upWav81 = nn.Upsample(scale_factor=2)
         width = 64
         modes = 16
 
@@ -14647,38 +14614,6 @@ class AutoMarmousiWav_Net(nn.Module):
         lossT = 0.0
         wavgrad = 0*initial_wav
 
-        #inputwav = torch.randn(20,10,50).to(inputs1.get_device())
-        # p1 = self.convWav11(rand_wav[:,:,0:500])
-        # p1 = self.convWav12(p1)
-        # p1 = self.maxWav11(p1)
-
-        # p1 = self.convWav21(p1)
-        # p1 = self.convWav22(p1)
-        # p1 = self.maxWav21(p1)
-
-        # p1 = self.convWav31(p1)
-        # p1 = self.convWav32(p1)
-        # p1 = self.maxWav31(p1)
-
-        # p1 = self.convWav41(p1)
-        # p1 = self.convWav42(p1)
-        # p1 = self.maxWav41(p1)
-
-        # p1 = self.convWav51(p1)
-        # p1 = self.convWav52(p1)
-        # p1 = self.upWav51(p1)
-
-        # p1 = self.convWav61(p1)
-        # p1 = self.convWav62(p1)
-        # p1 = self.upWav61(p1)
-
-        # p1 = self.convWav71(p1)
-        # p1 = self.convWav72(p1)
-        # p1 = self.upWav71(p1)
-
-        # p1 = self.convWav81(p1)
-        # p1 = self.convWav82(p1)
-        # p1 = self.upWav81(p1)
         p1 = self.p(rand_wav[:,:,0:500])
         
         print("shape of p1 :", np.shape(p1))
@@ -14716,7 +14651,7 @@ class AutoMarmousiWav_Net(nn.Module):
         #print("shape of p4 :", np.shape(p4))
         print("shape of initial wav :", np.shape(initial_wav))
         wav_inp = 0*initial_wav
-        wav_inp[:,:,0:500] = self.TanhWav1(initial_wav[:,:,0:500] + p1[:,:,0:500])
+        wav_inp[:,:,0:500] = self.TanhWav1(initial_wav[:,:,0:500] + p1[:,:,0:500] + )
         print("shape of wav_inp :", np.shape(wav_inp))
 
         if (epoch1 > lstart):
@@ -14915,7 +14850,7 @@ class AutoMarmousiWav_Net(nn.Module):
                     lossinner1 = criterion1(batch_rcv_amps_pred_norm, batch_rcv_amps_true)
                     #lossinner2 = criterion2(batch_rcv_amps_pred_norm, batch_rcv_amps_true)
                     #print("batch src amps :", np.shape(batch_src_amps))
-                    lossinner = lossinner1 + 0.0*torch.norm(torch.diff(batch_src_amps,dim=0))
+                    lossinner = lossinner1 + 0.1*torch.norm(torch.diff(batch_src_amps,dim=0))
                     #y_c_features = vgg(torch.unsqueeze(batch_rcv_amps_true,0))
                     #########model2.grad[0:26,:] = 0
                     #filen = './deepwave/epoch1'+str(epoch)+'.npy'
