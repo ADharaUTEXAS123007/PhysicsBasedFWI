@@ -9741,7 +9741,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*(0.3*rho1f + 0.7*(0.17*vp1+168.4))
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.01*(0.5*rho1f + 0.5*(0.17*vp1+168.4))
 
 
         
@@ -10015,7 +10015,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         d.SWS_TAPER_GRAD_HOR = 1
         #d.FC_SPIKE_1 = 0.0
         #d.QUELLART = 6
-        d.EXP_TAPER_GRAD_HOR = 2.0
+        d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
         filen = './marmousiEl4JanInit3/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
@@ -10097,7 +10097,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = np.flipud(rho_grad)
 
         g1 = np.arange(np.shape(rho_grad)[0])
-        g1 = g1**1.0
+        g1 = g1**1.75
         ss = rho_grad*0
         for i in range(np.shape(rho_grad)[1]):
              ss[:,i] = g1
