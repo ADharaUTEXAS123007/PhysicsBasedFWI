@@ -14651,7 +14651,7 @@ class AutoMarmousiWav_Net(nn.Module):
         #print("shape of p4 :", np.shape(p4))
         print("shape of initial wav :", np.shape(initial_wav))
         wav_inp = 0*initial_wav
-        wav_inp[:,:,0:500] = self.TanhWav1(initial_wav[:,:,0:500] + p1[:,:,0:500] + )
+        wav_inp[:,:,0:500] = self.TanhWav1(initial_wav[:,:,0:500] + p1[:,:,0:500])
         print("shape of wav_inp :", np.shape(wav_inp))
 
         if (epoch1 > lstart):
