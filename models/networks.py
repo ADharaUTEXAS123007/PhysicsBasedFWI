@@ -14791,17 +14791,18 @@ class AutoMarmousiWav_Net(nn.Module):
         #rcv_amps_true_norm = receiver_amplitudes_true / (rcv_amps_true_max.abs() + 1e-10)
         rcv_amps_true_norm = receiver_amplitudes_true
 
-        criterion1 = torch.nn.L1Loss()
+        #criterion1 = torch.nn.L1Loss()
         #vgg = Vgg16().type(torch.cuda.FloatTensor)
-        #criterion2 = torch.nn.MSELoss()
+        criterion2 = torch.nn.MSELoss()
         #print("shape of mat2 :", np.shape(mat2))
         
 
         if (epoch1 > lstart):
             net1out1.requires_grad = True
             source_amplitudes_true.requires_grad = True
-            optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10},
-                                           {'params': [source_amplitudes_true],'lr':1e-3}])
+            #optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10},
+            #                               {'params': [source_amplitudes_true],'lr':1e-3}])
+            optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10}])
 
         for epoch in range(num_epochs):
                 #Shuffle shot coordinates
@@ -14847,10 +14848,11 @@ class AutoMarmousiWav_Net(nn.Module):
                     
                     #print("shape of receiver amplitudes predicted")
                     # print(np.shape(batch_rcv_amps_pred))
-                    lossinner1 = criterion1(batch_rcv_amps_pred_norm, batch_rcv_amps_true)
+                    lossinner1 = criterion2(batch_rcv_amps_pred_norm, batch_rcv_amps_true)
                     #lossinner2 = criterion2(batch_rcv_amps_pred_norm, batch_rcv_amps_true)
                     #print("batch src amps :", np.shape(batch_src_amps))
-                    lossinner = lossinner1 + 0.1*torch.norm(torch.diff(batch_src_amps,dim=0))
+                    ####lossinner = lossinner1 + 0.1*torch.norm(torch.diff(batch_src_amps,dim=0))
+                    lossinner = lossinner1
                     #y_c_features = vgg(torch.unsqueeze(batch_rcv_amps_true,0))
                     #########model2.grad[0:26,:] = 0
                     #filen = './deepwave/epoch1'+str(epoch)+'.npy'
@@ -14877,7 +14879,7 @@ class AutoMarmousiWav_Net(nn.Module):
         #net1out1 = (net1out1-2000)/(4500-2000)
         #net1out1.grad = net1out1.grad*1000
                  
-        return net1out1.grad, lossinner, source_amplitudes_true.grad
+        return net1out1.grad, lossinner, source_amplitudes_true
 
 
 class AutoMarmousiNF_Net(nn.Module):
