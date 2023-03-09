@@ -14725,10 +14725,10 @@ class AutoMarmousiWav_Net(nn.Module):
         x_r[0, :, 1] = torch.arange(num_receivers_per_shot).float() * receiver_spacing
         x_r[:, :, 1] = x_r[0, :, 1].repeat(num_shots, 1)
 
-        ####3####source_amplitudes_true = (deepwave.wavelets.ricker(freq, nt, dt, 1/freq)
-        ####3######                          .reshape(-1, 1, 1))
+        source_amplitudes_true = (deepwave.wavelets.ricker(freq, nt, dt, 1/freq)
+                                  .reshape(-1, 1, 1))
         #print("device ordinal :", self.devicek)
-        source_amplitudes_true = torch.swapaxes(wav,0,2).to(devicek)
+        #####################source_amplitudes_true = torch.swapaxes(wav,0,2).to(devicek)
         source_amplitudes_true = source_amplitudes_true.detach()
         #lstart = -1
         num_batches = 3
