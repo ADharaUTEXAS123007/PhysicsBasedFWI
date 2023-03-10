@@ -14725,12 +14725,12 @@ class AutoMarmousiWav_Net(nn.Module):
         x_r[0, :, 1] = torch.arange(num_receivers_per_shot).float() * receiver_spacing
         x_r[:, :, 1] = x_r[0, :, 1].repeat(num_shots, 1)
 
-        ##source_amplitudes_true = (deepwave.wavelets.ricker(freq, nt, dt, 1/freq)
-        ###                          .reshape(-1, 1, 1))
-        ##source_amplitudes_true = source_amplitudes_true.to(devicek)
+        source_amplitudes_true = (deepwave.wavelets.ricker(freq, nt, dt, 1/freq)
+                                  .reshape(-1, 1, 1))
+        source_amplitudes_true = source_amplitudes_true.to(devicek)
         #print("device ordinal :", self.devicek)
-        source_amplitudes_true = torch.swapaxes(wav,0,2).to(devicek)
-        source_amplitudes_true = source_amplitudes_true.detach()
+        ###source_amplitudes_true = torch.swapaxes(wav,0,2).to(devicek)
+        ####source_amplitudes_true = source_amplitudes_true.detach()
         #lstart = -1
         num_batches = 3
         num_epochs = 1
@@ -14800,10 +14800,10 @@ class AutoMarmousiWav_Net(nn.Module):
 
         if (epoch1 > lstart):
             net1out1.requires_grad = True
-            source_amplitudes_true.requires_grad = True
-            optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10},
-                                           {'params': [source_amplitudes_true],'lr':1e-3}])
-            ##optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10}])
+            #source_amplitudes_true.requires_grad = True
+            #optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10},
+            #                               {'params': [source_amplitudes_true],'lr':1e-3}])
+            optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10}])
 
         for epoch in range(num_epochs):
                 #Shuffle shot coordinates
@@ -14852,8 +14852,8 @@ class AutoMarmousiWav_Net(nn.Module):
                     lossinner1 = criterion2(batch_rcv_amps_pred_norm, batch_rcv_amps_true)
                     #lossinner2 = criterion2(batch_rcv_amps_pred_norm, batch_rcv_amps_true)
                     print("batch src amps :", np.shape(batch_src_amps))
-                    lossinner = lossinner1 + torch.norm(torch.diff(batch_src_amps,dim=0))
-                    ###lossinner = lossinner1
+                    ###lossinner = lossinner1 + 0.0*torch.norm(torch.diff(batch_src_amps,dim=0))
+                    lossinner = lossinner1
                     #y_c_features = vgg(torch.unsqueeze(batch_rcv_amps_true,0))
                     #########model2.grad[0:26,:] = 0
                     #filen = './deepwave/epoch1'+str(epoch)+'.npy'
@@ -14880,7 +14880,7 @@ class AutoMarmousiWav_Net(nn.Module):
         #net1out1 = (net1out1-2000)/(4500-2000)
         #net1out1.grad = net1out1.grad*1000
                  
-        return net1out1.grad, lossinner, source_amplitudes_true.grad
+        return net1out1.grad, lossinner, source_amplitudes_true
 
 
 class AutoMarmousiNF_Net(nn.Module):
