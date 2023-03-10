@@ -14727,7 +14727,7 @@ class AutoMarmousiWav_Net(nn.Module):
 
         #source_amplitudes_true = (deepwave.wavelets.ricker(freq, nt, dt, 1/freq)
         #                          .reshape(-1, 1, 1))
-        #source_amplitudes_true = source_amplitudes_true.to(devicek)
+        ####source_amplitudes_true = source_amplitudes_true.to(devicek)
         #print("device ordinal :", self.devicek)
         source_amplitudes_true = torch.swapaxes(wav,0,2).to(devicek)
         source_amplitudes_true = source_amplitudes_true.detach()
@@ -14802,9 +14802,9 @@ class AutoMarmousiWav_Net(nn.Module):
         if (epoch1 > lstart):
             net1out1.requires_grad = True
             #source_amplitudes_true.requires_grad = True
-            #optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10},
-            #                               {'params': [source_amplitudes_true],'lr':1e-3}])
-            optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10}])
+            optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10},
+                                           {'params': [source_amplitudes_true],'lr':1e-3}])
+            #optimizer2 = torch.optim.Adam([{'params': [net1out1], 'lr':10}])
 
         for epoch in range(num_epochs):
                 #Shuffle shot coordinates
