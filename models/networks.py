@@ -14783,8 +14783,8 @@ class AutoMarmousiWav_Net(nn.Module):
                                 x_s.to(devicek),
                                 x_r.to(devicek), dt)
         
-        ##receiver_amplitudes_true = receiver_amplitudes_true - receiver_amplitudes_cte
-        receiver_amplitudes_true = receiver_amplitudes_true
+        receiver_amplitudes_true = receiver_amplitudes_true - receiver_amplitudes_cte
+        ##receiver_amplitudes_true = receiver_amplitudes_true
         
         #print("receiver_amplitudes_true :", np.shape(receiver_amplitudes_true))
         #print("receiver_amplitudes_cte :", np.shape(receiver_amplitudes_cte))
@@ -14841,8 +14841,8 @@ class AutoMarmousiWav_Net(nn.Module):
                     batch_rcv_amps_pred = prop(batch_src_amps, batch_x_s, batch_x_r, dt)
                     #print("batch_rcv_amps_pred")
                     #print(np.shape(batch_rcv_amps_pred))
-                    #batch_rcv_amps_pred = batch_rcv_amps_pred - batch_rcv_amps_cte
-                    batch_rcv_amps_pred = batch_rcv_amps_pred
+                    batch_rcv_amps_pred = batch_rcv_amps_pred - batch_rcv_amps_cte
+                    ##batch_rcv_amps_pred = batch_rcv_amps_pred
                     batch_rcv_amps_pred_max, _ = torch.abs(batch_rcv_amps_pred).max(dim=0, keepdim=True)
                     # Normalize amplitudes by dividing by the maximum amplitude of each receiver
                     #batch_rcv_amps_pred_norm = batch_rcv_amps_pred / (batch_rcv_amps_pred_max.abs() + 1e-10)
@@ -14870,17 +14870,6 @@ class AutoMarmousiWav_Net(nn.Module):
                     ##########optimizer2.step()
                     #epoch_loss += loss.item()
                     #optimizer2.step()
-        #if (epoch1 == 52): 
-        #print("shape of inputs :", np.shape(inputs))
-        #np.save('./marmousi/rcv_amplitudes.npy',batch_rcv_amps_pred.cpu().detach().numpy())
-        #np.save('./marmousi/rcv_amplitudes_true.npy',batch_rcv_amps_true.cpu().detach().numpy())
-        #np.save('./marmousi/rcv_amplitudes_true_cte.npy',batch_rcv_amps_cte.cpu().detach().numpy())
-        #np.save('./marmousi/net1o420ut1.npy',net1out1.cpu().detach().numpy())
-        #np.save('./marmousi/netgrad1.npy',net1out1.grad.cpu().detach().numpy())
-        #np.save('./deepwave/seis231.npy',batch_rcv_amps_pred.cpu().detach().numpy())
-        #net1out1 = (net1out1 - 2000)/(4500-2000)
-        #net1out1 = (net1out1-2000)/(4500-2000)
-        #net1out1.grad = net1out1.grad*1000
                  
         return net1out1.grad, lossinner, source_amplitudes_true.grad
 
