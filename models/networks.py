@@ -9741,7 +9741,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.07*(0.2*rho1f + 0.8*(0.17*vp1+168.4))
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.01*(0.5*rho1f + 0.5*(0.17*vp1+168.4))
 
 
         
@@ -10036,8 +10036,6 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         
         #model_init = api.Model0(vpst, vsst, rhost, vp0, vs0, rho0, dx)
         model_init = api.Model(vpst, vsst, rhost, dx)
-        
-        
 
         d.fwi_stages = []
         #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
