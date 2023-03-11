@@ -9741,7 +9741,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.01*(0.5*rho1f + 0.5*(0.17*vp1+168.4))
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.07*(0.2*rho1f + 0.8*(0.17*vp1+168.4))
 
 
         
@@ -10018,13 +10018,13 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
-        filen = './marmousiEl4JanInit3/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
+        filen = './marmousiEl4JanInit2/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
         np.save(filen, vpst)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit3/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiEl4JanInit2/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, vsst)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit3/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiEl4JanInit2/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, rhost)  #switch on physics based fwi
         
         
@@ -10140,13 +10140,13 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = 1.0*rho_grad*r3
         rho_grad = (rho_grad + 1e-10)
         
-        filen = './marmousiEl4JanInit3/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4JanInit2/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vp_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit3/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4JanInit2/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vs_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl4JanInit3/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiEl4JanInit2/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, rho_grad)  #switch on physics based fwi
         
         print('grads names')
@@ -14652,6 +14652,8 @@ class AutoMarmousiWav_Net(nn.Module):
         print("shape of initial wav :", np.shape(initial_wav))
         wav_inp = 0*initial_wav
         wav_inp[:,:,0:500] = self.TanhWav1(initial_wav[:,:,0:500] + p1[:,:,0:500])
+
+
         print("shape of wav_inp :", np.shape(wav_inp))
 
         if (epoch1 > lstart):
