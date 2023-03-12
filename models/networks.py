@@ -9741,10 +9741,9 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.009*(0.6*rho1f + 0.4*(0.17*vp1+168.4))
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.005*(0.5*rho1f + 0.5*(0.17*vp1+168.4))
 
 
-        
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
         vs1    = torch.clip(vs1, min=88.10, max=maxvs)
         rho1   = torch.clip(rho1, min=171.90, max=maxrho)
@@ -9756,7 +9755,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         
         vp1[:,:,0:26,:] = inputs1[:,0,0:26,:]
         vs1[:,:,0:26,:] = inputs1[:,1,0:26,:]
-        rho1[:,:,0:27,:] = inputs1[:,2,0:27,:]
+        rho1[:,:,0:29,:] = inputs1[:,2,0:29,:]
         
         
        #vp1     = inputs1[:,0,:,:]
@@ -10043,7 +10042,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_low=2.0,fc_high=10.0)
+        d.add_fwi_stage(fc_low=2.0,fc_high=6.0)
         # if ((epoch1 >= 0) and (epoch1 <=100 )):
         #     d.add_fwi_stage(fc_low=0.0, fc_high=2.0)
         # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
@@ -10095,7 +10094,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = np.flipud(rho_grad)
 
         g1 = np.arange(np.shape(rho_grad)[0])
-        g1 = g1**1.75
+        g1 = g1**2.0
         ss = rho_grad*0
         for i in range(np.shape(rho_grad)[1]):
              ss[:,i] = g1
