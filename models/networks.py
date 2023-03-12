@@ -9755,7 +9755,7 @@ class AutoElFullRhoScaleMarmousiMar22_Net(nn.Module):
         
         vp1[:,:,0:26,:] = inputs1[:,0,0:26,:]
         vs1[:,:,0:26,:] = inputs1[:,1,0:26,:]
-        rho1[:,:,0:29,:] = inputs1[:,2,0:29,:]
+        rho1[:,:,0:27,:] = inputs1[:,2,0:27,:]
         
         
        #vp1     = inputs1[:,0,:,:]
