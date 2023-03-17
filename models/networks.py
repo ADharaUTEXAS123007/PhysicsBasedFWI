@@ -10473,7 +10473,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
         vs1    = torch.clip(vs1, min=97.0, max=maxvs)
         rho1   = torch.clip(rho1, min=110.6, max=maxrho)
-        rho1[(vp1 > 440.0)] = 216.400
+        rho1[(vp1 > 440.0)] = 225.400
         #rho1   = torch.max(torch.min(rho1, maxrho1), minrho1)
         #######vp1 = minvp + vp1*(maxvp-minvp)
         ########vs1 = minvs + vs1*(maxvs-minvs)
@@ -10774,7 +10774,7 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_low=0.0,fc_high=7.0)
+        d.add_fwi_stage(fc_low=1.0,fc_high=7.0)
         # if ((epoch1 >= 0) and (epoch1 <=100 )):
         #     d.add_fwi_stage(fc_low=0.0, fc_high=2.0)
         # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
