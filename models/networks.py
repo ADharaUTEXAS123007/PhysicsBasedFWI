@@ -10747,13 +10747,13 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         d.EXP_TAPER_GRAD_HOR = 2.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
-        filen = './marmousiBP4JanInit/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
+        filen = './marmousiBP4JanInit1/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
         np.save(filen, vpst)  #switch on physics based fwi
         
-        filen = './marmousiBP4JanInit/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiBP4JanInit1/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, vsst)  #switch on physics based fwi
         
-        filen = './marmousiBP4JanInit/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        filen = './marmousiBP4JanInit1/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
         np.save(filen, rhost)  #switch on physics based fwi
         
         
@@ -10869,13 +10869,13 @@ class AutoElBPRhoScaleMarmousiMar22_Net(nn.Module):
         rho_grad = 2.0*rho_grad*r3
         rho_grad = (rho_grad + 1e-10)
         
-        filen = './marmousiBP4JanInit/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiBP4JanInit1/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vp_grad)  #switch on physics based fwi
         
-        filen = './marmousiBP4JanInit/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiBP4JanInit1/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, vs_grad)  #switch on physics based fwi
         
-        filen = './marmousiBP4JanInit/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        filen = './marmousiBP4JanInit1/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
         np.save(filen, rho_grad)  #switch on physics based fwi
         
         print('grads names')
