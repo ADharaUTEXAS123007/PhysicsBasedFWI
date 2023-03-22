@@ -50,7 +50,7 @@ class unetConv5(nn.Module):
                                        nn.LeakyReLU(0.1))
     def forward(self, inputs):
         outputs = self.conv1(inputs)
-        outputs = self.conv2(outputs)
+        #outputs = self.conv2(outputs)
         return outputs
 
 class unetDown(nn.Module):
