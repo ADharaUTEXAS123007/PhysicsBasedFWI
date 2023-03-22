@@ -35,12 +35,12 @@ class unetConv5(nn.Module):
         super(unetConv5, self).__init__()
         # Kernel size: 3*3, Stride: 1, Padding: 1
         if is_batchnorm:
-            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 3, 1, 1),
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 5, 1, 2),
                                        nn.BatchNorm2d(out_size),
                                        nn.LeakyReLU(0.1))
-            self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
-                                       nn.BatchNorm2d(out_size),
-                                       nn.LeakyReLU(0.1))
+            #self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
+            #                           nn.BatchNorm2d(out_size),
+            #                           nn.LeakyReLU(0.1))
         else:
             self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 3, 1, 1),
                                        nn.BatchNorm2d(out_size),
@@ -72,7 +72,7 @@ class autoUp5(nn.Module):
     def __init__(self, in_size, out_size, is_deconv, is_batchnorm=True):
         super(autoUp5, self).__init__()
         self.conv = unetConv5(in_size, out_size, is_batchnorm)
-        self.conv2 = unetConv5(out_size, out_size, is_batchnorm)
+        #self.conv2 = unetConv5(out_size, out_size, is_batchnorm)
         # Transposed convolution
         if is_deconv:
             self.up = nn.ConvTranspose2d(in_size, in_size, kernel_size=2,stride=2)
