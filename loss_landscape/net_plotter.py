@@ -9,6 +9,7 @@ import h5py
 import h5_util
 import model_loader
 import os
+import numpy as np
 
 ################################################################################
 #                 Supporting functions for weights manipulation
