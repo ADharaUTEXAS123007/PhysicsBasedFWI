@@ -140,7 +140,7 @@ class ADJOINTNET(nn.Module):
         #self.drop31   = nn.Dropout2d(0.1)
         self.up32     = autoUp5(int(filters[3]), int(filters[2]), self.is_deconv)
         #self.drop32   = nn.Dropout2d(0.1)
-        #self.Rhoup33  = autoUp5(filters[3], int(filters[2]/4), self.is_deconv)
+        self.Rhoup33  = autoUp5(filters[3], int(filters[2]), self.is_deconv)
         #self.drop33   = nn.Dropout2d(0.1)
         #self.up3     = autoUp5(filters[3], filters[2], self.is_deconv)
         #self.dropU3  = nn.Dropout2d(0.025)
@@ -148,7 +148,7 @@ class ADJOINTNET(nn.Module):
         #self.drop21   = nn.Dropout2d(0.1)
         self.up22     = autoUp5(int(filters[2]), int(filters[1]), self.is_deconv)
         #self.drop22   = nn.Dropout2d(0.1)
-        #self.Rhoup23  = autoUp5(int(filters[2]/4), int(filters[1]/4), self.is_deconv)
+        self.Rhoup23  = autoUp5(int(filters[2]), int(filters[1]), self.is_deconv)
         #self.drop23   = nn.Dropout2d(0.1)
         #self.up2     = autoUp5(filters[2], filters[1], self.is_deconv)
         #self.dropU2  = nn.Dropout2d(0.025)
@@ -156,26 +156,26 @@ class ADJOINTNET(nn.Module):
         #self.drop11   = nn.Dropout2d(0.1)
         self.up12     = autoUp5(int(filters[1]), int(filters[0]), self.is_deconv)
         #self.drop12   = nn.Dropout2d(0.1)
-        #self.Rhoup13  = autoUp5(int(filters[1]/4), int(filters[0]/4), self.is_deconv)
+        self.Rhoup13  = autoUp5(int(filters[1]), int(filters[0]), self.is_deconv)
         #self.drop13   = nn.Dropout2d(0.1)
         #self.up1     = autoUp5(filters[1], filters[0], self.is_deconv)
         #self.dropU1  = nn.Dropout2d(0.025)
         ###self.upff1     = autoUp(filters[0], filters[0], self.is_deconv)
         ##self.upff2     = autoUp(filters[0], filters[0], self.is_deconv)
         #######self.f1      =  nn.Conv2d(filters[0],self.n_classes, 1)
-        self.f11      =  nn.Conv2d(filters[0],int(filters[0]/2), 1)
-        self.f12      =  nn.Conv2d(int(filters[0]),int(filters[0]/2), 1)
-        #self.Rhof13      =  nn.Conv2d(int(filters[0]/4), int(filters[0]/8), 1)
+        self.f11      =  nn.Conv2d(filters[0],int(filters[0]), 1)
+        self.f12      =  nn.Conv2d(int(filters[0]),int(filters[0]), 1)
+        self.Rhof13      =  nn.Conv2d(int(filters[0]), int(filters[0]), 1)
         
-        self.vp     =   nn.Conv2d(int(filters[0]/2),1,1)
-        self.vs     =   nn.Conv2d(int(filters[0]/2),1,1)
-        #self.Rhorho    =   nn.Conv2d(int(filters[0]/8), 1, 1)
+        self.vp     =   nn.Conv2d(int(filters[0]),1,1)
+        self.vs     =   nn.Conv2d(int(filters[0]),1,1)
+        self.Rhorho1    =   nn.Conv2d(int(filters[0]), 1, 1)
         
         #self.final1   = nn.LeakyReLU(0.1)
         #self.final2   = nn.LeakyReLU(0.1)
-        self.final1     =   nn.Sigmoid()
-        self.final2     =   nn.Sigmoid()
-        ##########self.final3     =   nn.Tanh()
+        self.final1     =   nn.Tanh()
+        self.final2     =   nn.Tanh()
+        self.final3     =   nn.Tanh()
         #self.f2      =  nn.Conv2d(1,1,1)
         #self.final1   =  nn.Sigmoid()
         #self.final1  =  nn.Conv2d(1, 1, 1)
@@ -830,7 +830,7 @@ class SIMPLENET(nn.Module):
 
 
 class ELASTICNET(nn.Module):
-    def __init__(self,outer_nc=28, inner_nc=1, input_nc=None,
+    def __init__(self,outer_nc, inner_nc, input_nc=None,
                  submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False):
         super(ELASTICNET, self).__init__()
         self.is_deconv     = False
@@ -864,10 +864,10 @@ class ELASTICNET(nn.Module):
         ##self.decoder_input1 = nn.Linear(filters[1]*250*51, latent_dim) #for marmousi 151x200
         #self.decoder_input1 = nn.Linear(filters[2]*125*26, latent_dim) #for marmousi 151x200
         #self.decoder_input = nn.Linear(latent_dim, filters[2]*500*102) #for marmousi 151x200
-        self.decoder_input1 = nn.Linear(filters[3]*79*14, latent_dim) #for marmousi 101x101
+        self.decoder_input1 = nn.Linear(filters[3]*63*20, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(latent_dim, filters[3]*38*20) #for marmousi 101x101
+        self.decoder_input = nn.Linear(latent_dim, filters[3]*13*25) #for marmousi 101x101
         
         #self.z1 = nn.Conv2d(filters[3],filters[3],1)
         #self.z2 = nn.Conv2d(filters[3],filters[3],1)
@@ -921,7 +921,7 @@ class ELASTICNET(nn.Module):
         #self.final1   =  nn.Sigmoid()
         #self.final1  =  nn.Conv2d(1, 1, 1)
         
-    def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf, inputs3, freq):
+    def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf, inputs3, freq, idx, it):
         #filters = [16, 32, 64, 128, 256]
         ######filters = [2, 4, 8, 16, 32]
         filters = [8, 16, 32, 64, 128]  ###this works very well
@@ -991,6 +991,8 @@ class ELASTICNET(nn.Module):
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         print("shape of z :", np.shape(z))
         z = z.view(-1, filters[3], 20, 38)
+
+        z1 = z.view(-1, filters[3], 20, 38)
         
         #z1 = self.z1(z)
         #z2 = self.z2(z)
@@ -1000,7 +1002,7 @@ class ELASTICNET(nn.Module):
         #up31    = self.drop31(up31)
         up32    = self.up32(z)
         #up32    = self.drop32(up32)
-        ##########up33    = self.Rhoup33(z)
+        up33    = self.Rhoup33(z1)
         #up33    = self.drop33(up33)
         #up3      = self.up3(z)
         
@@ -1010,7 +1012,7 @@ class ELASTICNET(nn.Module):
         #up21    = self.drop21(up21)
         up22    = self.up22(up32)
         #up22    = self.drop22(up22)
-        #################up23    = self.Rhoup23(up33)
+        up23    = self.Rhoup23(up33)
         #up23    = self.drop23(up23)
         #up2     = self.up2(up3)
         
@@ -1019,7 +1021,7 @@ class ELASTICNET(nn.Module):
         #up11    = self.drop11(up11)
         up12    = self.up12(up21)
         #up12    = self.drop12(up12)
-       ######################up13    = self.Rhoup13(up21)
+        up13    = self.Rhoup13(up21)
         #up13    = self.drop13(up13)
         #up1     = self.up1(up2)
         
@@ -1028,21 +1030,21 @@ class ELASTICNET(nn.Module):
         #print("shape of up11 :", np.shape(up11))
         up11    = up11[:,:,3:3+label_dsp_dim[0],3:3+label_dsp_dim[1]].contiguous()
         up12    = up12[:,:,3:3+label_dsp_dim[0],3:3+label_dsp_dim[1]].contiguous()
-        #######################up13    = up13[:,:,3:3+label_dsp_dim[0],3:3+label_dsp_dim[1]].contiguous()
+        up13    = up13[:,:,3:3+label_dsp_dim[0],3:3+label_dsp_dim[1]].contiguous()
         #up1    = up1[:,:,3:3+label_dsp_dim[0],3:3+label_dsp_dim[1]].contiguous()
         
         f11     = self.f11(up11)
         #f11     = self.dropf11(f11)
         f12     = self.f12(up12)
         #f12     = self.dropf12(f12)
-        ########################f13     = self.Rhof13(up13)
+        f13     = self.Rhof13(up13)
         #f13     = self.dropf13(f13)
         #f1    = self.f1(up1)
         
         
         vp1     = self.vp(f11)
         vs1     = self.vs(f12)
-        #########################rho1    = self.Rhorho1(f13)
+        rho1    = self.Rhorho1(f13)
         #rho1    = self.rho2(rho1)
         ###vp1    = self.vp(torch.unsqueeze(f1[:,0,:,:],1))
         ###vs1    = self.vs(torch.unsqueeze(f1[:,1,:,:],1))
@@ -1059,24 +1061,36 @@ class ELASTICNET(nn.Module):
         #vs1[:,:,0:15,:] = 0
         #rho1[:,:,0:15,:] = 0
 
-        
+        vp1 = 12.305*vp1 + 3.238
+        vs1 = 6.70688*vs1 + 1.65077
+        rho1 = 7.0706884*rho1 + 1.64139
+
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
-        
-        vp1[:,:,0:15,:] = inputs1[:,0,0:15,:]
-        vs1[:,:,0:15,:] = inputs1[:,1,0:15,:]
-        ###########rho1[:,:,0:15,:] = inputs1[:,2,0:15,:]
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*rho1
+    
         
         #vp1     = self.final1(vp1)
         #vs1     = self.final2(vs1)
         #vp1    = minvp + vp1*(maxvp-minvp)
         #vs1    = minvs + vs1*(maxvs-minvs)
         #rho1   = minrho + rho1*(maxrho-minrho)
+        print("minvp :", minvp)
+        print("maxvp :", maxvp)
+
+        print("minvs :", minvs)
+        print("maxvs :", maxvs)
+
+        print("minrho :", minrho)
+        print("maxrho :", maxrho)
         
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
         vs1    = torch.clip(vs1, min=minvs, max=maxvs)
-        ################rho1   = torch.clip(rho1, min=minrho, max=maxrho)
+        rho1   = torch.clip(rho1, min=minrho, max=maxrho)
+
+        vp1[:,:,0:15,:] = inputs1[:,0,0:15,:]
+        vs1[:,:,0:15,:] = inputs1[:,1,0:15,:]
+        rho1[:,:,0:15,:] = inputs1[:,2,0:15,:]
         
         #vp1     = inputs1[:,0,:,:]
         #rho1     = inputs1[:,2,:,:]
@@ -1123,7 +1137,7 @@ class ELASTICNET(nn.Module):
         #vs1 = vp1*0
         #rho1 = vp1*0
         if (epoch1 > lstart):
-            [vp_grad, vs_grad, rho_grad, lossT] = self.prop(vp1, vs1, rho1, inputs1, epoch1, freq, inputs2, inputs3)
+            [vp_grad, vs_grad, rho_grad, lossT] = self.prop(vp1, vs1, rho1, inputs1, epoch1, freq, idx, it)
         #if (epoch1 > lstart):
         #    [grad, lossT] = self.prop(inputs2, f1, lstart, epoch1, mintrue, maxtrue, inputs1)
         #    grad = grad.to(inputs2.get_device())
@@ -1152,7 +1166,7 @@ class ELASTICNET(nn.Module):
                     m.bias.data.zero_()
     
     # forward modeling to compute gradients  
-    def prop(self, vp1, vs1, rho1, true, epoch1, freq, inputs2, inputs3):
+    def prop(self, vp1, vs1, rho1, true, epoch1, freq, idx, it):
         dx = 10.0
         vp = true[:,0,:,:].cpu().detach().numpy()
         vs = true[:,1,:,:].cpu().detach().numpy()
@@ -1166,9 +1180,9 @@ class ELASTICNET(nn.Module):
         vs = np.flipud(vs)
         rho = np.flipud(rho)
         
-        vp = vp*1.0
-        vs = vs*1.0
-        rho = rho*1.0
+        vp = vp*10.0
+        vs = vs*10.0
+        rho = rho*10.0
         
         
         #model = api.Model(vp, vs, rho, dx)
@@ -1184,17 +1198,10 @@ class ELASTICNET(nn.Module):
         vpst = np.flipud(vpst)
         vsst = np.flipud(vsst)
         rhost = np.flipud(rhost)
-
-        print("vpst :", vpst)
-        print("vsst :", vsst)
-
-        #np.save('vpst.npy','vpst')
-        #np.save('vsst.npy','vsst')
-        #np.save('rhost.npy','rhost')
         
-        vpst = vpst*1.0
-        vsst = vsst*1.0
-        rhost = rhost*1.0
+        vpst = vpst*10.0
+        vsst = vsst*10.0
+        rhost = rhost*10.0
         
                
         print("max of vp passed :", np.max(vp), np.max(vs), np.max(rho))
@@ -1203,8 +1210,7 @@ class ELASTICNET(nn.Module):
         
         denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
         d = api.Denise(denise_root, verbose=1)
-        os.system('rm -rf ./LOSS_CURVE_DATA/')
-        d.save_folder = './LOSS_CURVE_DATA/'
+        d.save_folder = '/disk/student/adhara/DOUTPUTS/'
         d.set_paths()
         
         #model = api.Model(vp, vs, rho, dx)
@@ -1222,7 +1228,7 @@ class ELASTICNET(nn.Module):
         yrec = depth_rec * (xrec / xrec)
 
         # Sources
-        dsrc = int(160.) # source spacing [m]
+        dsrc = int(80.) # source spacing [m]
         #######dsrc = 120.
         depth_src = int(20.)  # source depth [m]
         #######depth_src = 40.
@@ -1230,20 +1236,39 @@ class ELASTICNET(nn.Module):
         ######xsrc1 = 100.
         xsrc2 = int(2610.) # last source position [m]
         #######xsrc2 = 1700.
-        xsrc = np.arange(xsrc1, xsrc2 + dx, dsrc)
+        xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
+        xsrc = xsrcoriginal[idx[0:6]]
         ysrc = depth_src * xsrc / xsrc
+        tshots = len(xsrc)
 
         # Wrap into api
         fsource = 10.0
         rec = api.Receivers(xrec, yrec)
         src = api.Sources(xsrc, ysrc, fsource)
 
-        #d.help()
-        #d.NX = 300
-        #d.NY = 150
-        #d.DH = 20.0
+        os.system('rm -rf /disk/student/adhara/DOUTPUTS/su1')
+        os.system('mkdir /disk/student/adhara/DOUTPUTS/su1')
+        def copyshot(id1, value):             
+            fo = 'cp /disk/student/adhara/DOUTPUTS/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/DOUTPUTS/su1/.'
+            os.system(fo)
+            fo = 'cp /disk/student/adhara/DOUTPUTS/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/DOUTPUTS/su1/.'
+            os.system(fo)
+        #      #if (id1+1 != value+1):
+            fo = 'mv /disk/student/adhara/DOUTPUTS/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/DOUTPUTS/su1/seisT_x.su.shot' + str(value+1)
+            os.system(fo)
+            fo = 'mv /disk/student/adhara/DOUTPUTS/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/DOUTPUTS/su1/seisT_y.su.shot' + str(value+1)
+            os.system(fo)
+
+        for i in range(0,tshots):
+            print("idx :", idx[i])
+            copyshot(idx[i],i)
+
+        d.DATA_DIR = '/disk/student/adhara/DOUTPUTS/su1/seisT'
+        d.SEIS_FILE_VX = 'su1/seisT_x.su'
+        d.SEIS_FILE_VY = 'su1/seisT_y.su'
+
         d.ITERMAX = 1
-        d.verbose = 1
+        d.verbose = 0
         print("shape of vp :", np.shape(vp))
         print("shape of vs :", np.shape(vs))
         print("shape of rho :", np.shape(rho))
@@ -1269,8 +1294,19 @@ class ELASTICNET(nn.Module):
         d.VSUPPERLIM = 1732.0
         d.VSLOWERLIM = 866.0
         d.RHOUPPERLIM = 2294.0
-        d.RHOLOWERLIM = 1929.0
-        #d.SWS_TAPER_GRAD_HOR = 0
+        d.RHOLOWERLIM = 1829.0
+        d.SWS_TAPER_GRAD_HOR = 0.0
+        #d.EXP_TAPER_GRAD_HOR = 3.0
+        #d.forward(model, src, rec)
+        #os.system('mpirun -np 4 hello')
+        filen = './marmousiEl8Mar/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
+        np.save(filen, vpst)  #switch on physics based fwi
+        
+        filen = './marmousiEl8Mar/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        np.save(filen, vsst)  #switch on physics based fwi
+        
+        filen = './marmousiEl8Mar/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        np.save(filen, rhost)  #switch on physics based fwi
         
         
         #d.NT = 1200
@@ -1280,36 +1316,43 @@ class ELASTICNET(nn.Module):
         print("min max rhost :", np.min(rhost), np.max(rhost))
         
         model_init = api.Model(vpst, vsst, rhost, dx)
-        d.forward(model_init, src, rec)
-       
-
-        #print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
+        
+        
+        d.fwi_stages = []
+        #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
+        #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
+        #for i, freq in enumerate([20]
+        #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
+        #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
+        d.add_fwi_stage(fc_high=10)
+        # if ((epoch1 >= 0) and (epoch1 <=100 )):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=2.0)
+        # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
+        # elif ((epoch1 >= 101) and (epoch1 <=200)):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=5.0)
+        # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
+        # elif ((epoch1 >= 201) and (epoch1 <=300)):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=8.0)
+        # elif ((epoch1 >= 301) and (epoch1 <=400)):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=12.0)
+        # elif ((epoch1 >= 401) and (epoch1 <=500)):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=15.0)
+        # elif ((epoch1 >= 501) and (epoch1 <=600)):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=18.0)
+        # elif ((epoch1 >= 601) and (epoch1 <=700)):
+        #    d.add_fwi_stage(fc_low=0.0, fc_high=21.0)
+        #    #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
+        # else:
+        #    d.add_fwi_stage(fc_low=0.0, fc_high=21.0)
+        print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
         #print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
-        #os.system('rm -rf loss_curve_grad.out')
+        os.system('rm -rf loss_curve_grad.out')
     
         print(f'Target data: {d.DATA_DIR}')
-        shots_y = d.get_shots(keys=['_y'])
-        #shots_y = shots_y[0:28:2]
-
-        shots_x = d.get_shots(keys=['_x'])
-        #shots_x = shots_x[0:28:2]
-
-        print("shape of shots_y :", np.shape(shots_y))
-        print("shape of shots_x :", np.shape(shots_x))
-
-        org_shots = np.concatenate((shots_y,shots_x),axis=0)
-        org_shots = np.swapaxes(org_shots,1,2)
-
-        obs_shots = np.concatenate((inputs2[0,0:28:2,:,:],inputs3[0,0:28:2,:,:]),axis=0)
-
-        diff = obs_shots - org_shots
-        print("shape of diff :", diff.shape)
-        diff = torch.from_numpy(diff)
-
-        #d.grad(model_init, src, rec)
+        d.grad(model_init, src, rec)
         
-        #loss = np.loadtxt('loss_curve_grad.out')
+        loss = np.loadtxt('loss_curve_grad.out')
         
         #print("loss :", loss)
         
@@ -1319,86 +1362,67 @@ class ELASTICNET(nn.Module):
         # vp_grad = np.array(grads[0])
         # vs_grad = np.array(grads[2])
         # rho_grad = np.array(grads[1])
-        # grads, fnames = d.get_fwi_gradients(['seis'],return_filenames=True)
-        # vp_grad = np.array(grads[1])
-        # vs_grad = np.array(grads[2])
-        # rho_grad = np.array(grads[0])
+        grads, fnames = d.get_fwi_gradients(['seis'],return_filenames=True)
+        vp_grad = np.array(grads[1])
+        vs_grad = np.array(grads[2])
+        rho_grad = np.array(grads[0])
         
-        # print("shape of vp_grad :", np.shape(vp_grad))
-        # print("shape of vs_grad :", np.shape(vs_grad))
-        # print("shape of rho_grad :", np.shape(rho_grad))
+        print("shape of vp_grad :", np.shape(vp_grad))
+        print("shape of vs_grad :", np.shape(vs_grad))
+        print("shape of rho_grad :", np.shape(rho_grad))
         
-        # vp_grad = np.flipud(vp_grad)
-        # vs_grad = np.flipud(vs_grad)
-        # rho_grad = np.flipud(rho_grad)
+        vp_grad = np.flipud(vp_grad)
+        vs_grad = np.flipud(vs_grad)
+        rho_grad = np.flipud(rho_grad)
+
+        # g1 = np.arange(np.shape(rho_grad)[0])
+        # g1 = g1**2.0
+        # ss = rho_grad*0
+        # for i in range(np.shape(rho_grad)[1]):
+        #      ss[:,i] = g1
+        # # rho_grad = scipy.ndimage.gaussian_filter(rho_grad,4)
+        # rho_grad = rho_grad*ss
         
-        # vp_grad[0:15,:] = 0.0
-        # vs_grad[0:15,:] = 0.0
-        # rho_grad[0:15,:] = 0.0
+        vp_grad[0:15,:] = 0.0
+        vs_grad[0:15,:] = 0.0
+        rho_grad[0:15,:] = 0.0
         
-        # print("shape of vp_grad1 :", np.shape(vp_grad))
-        # print("shape of vs_grad1 :", np.shape(vs_grad))
-        # print("shape of rho_grad1 :", np.shape(rho_grad))
+        print("shape of vp_grad1 :", np.shape(vp_grad))
+        print("shape of vs_grad1 :", np.shape(vs_grad))
+        print("shape of rho_grad1 :", np.shape(rho_grad))
         
-        # if freq == 2:
-        #     r = 10**5
-        # elif freq == 4:
-        #     r = 10**5
-        # elif freq == 6:
-        #     r = 10**4
-        # elif freq == 8:
-        #     r = 10**4
-        # elif freq == 10:
-        #     r = 10**3
-        # elif freq == 12:
-        #     r = 10**3
-        # elif freq == 14:
-        #     r = 10**2
-        # elif freq == 16:
-        #     r = 10**2
-        # elif freq == 18:
-        #     r = 10**1
-        # else:
-        #     r = 10**1
-        #r = 10**5
-            
-     
-        # r1 = np.max(vpst)/np.max(vp_grad)
-        # vp_grad = torch.from_numpy(vp_grad.copy())
-        # vp_grad = vp_grad.float()
-        # vp_grad = 1.0*vp_grad*r1
-        # #if (freq==1):
-        # vp_grad = vp_grad
+        r = 10**5
+
+        r1 = np.max(np.abs(vpst))/np.max(np.abs(vp_grad))
+        vp_grad = torch.from_numpy(vp_grad.copy())
+        vp_grad = vp_grad.float()
+        vp_grad = 1.0*vp_grad*r1
+        #if (freq==1):
+        vp_grad = vp_grad
         
-        # r2 = np.max(vsst)/np.max(vs_grad)
-        # vs_grad = torch.from_numpy(vs_grad.copy())
-        # vs_grad = vs_grad.float()  
-        # vs_grad = 1.0*vs_grad*r2
-        # #vs_grad = vs_grad*0
+        r2 = np.max(np.abs(vsst))/np.max(np.abs(vs_grad))
+        vs_grad = torch.from_numpy(vs_grad.copy())
+        vs_grad = vs_grad.float()  
+        vs_grad = 1.0*vs_grad*r2
+        #vs_grad = vs_grad*0
         
-        # r3 = np.max(rhost)/np.max(rho_grad)
-        # rho_grad = torch.from_numpy(rho_grad.copy())
-        # rho_grad = rho_grad.float()
-        # rho_grad = 1.0*rho_grad*r3*0.1
+        r3 = np.max(np.abs(rhost))/np.max(np.abs(rho_grad))
+        rho_grad = torch.from_numpy(rho_grad.copy())
+        rho_grad = rho_grad.float()
+        rho_grad = 1.0*rho_grad*r3*0.1
         
-        # filen = './marmousiEl/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
-        # np.save(filen, vp_grad)  #switch on physics based fwi
+        filen = './marmousiEl/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        np.save(filen, vp_grad)  #switch on physics based fwi
         
-        # filen = './marmousiEl/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
-        # np.save(filen, vs_grad)  #switch on physics based fwi
+        filen = './marmousiEl/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        np.save(filen, vs_grad)  #switch on physics based fwi
         
-        # filen = './marmousiEl/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
-        # np.save(filen, rho_grad)  #switch on physics based fwi
+        filen = './marmousiEl/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        np.save(filen, rho_grad)  #switch on physics based fwi
         
-        # print('grads names')
-        # print(fnames)
+        print('grads names')
+        print(fnames)
         #vp_grad = 0
         #vs_grad = 0
         #rho_grad = 0
-        vp_grad = 0
-        vs_grad = 0
-        rho_grad = 0
-        loss = torch.norm(diff)*100000
-
-        print("loss loss :", loss)
-        return vp_grad, vs_grad, rho_grad, loss                 
+        return vp_grad, vs_grad, rho_grad, loss
