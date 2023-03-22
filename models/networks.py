@@ -6099,7 +6099,7 @@ class AutoElMarmousi22_Net(nn.Module):
         self.decoder_input1 = nn.Linear(filters[3]*79*14, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(latent_dim, filters[3]*13*25) #for marmousi 101x101
+        self.decoder_input = nn.Linear(latent_dim, filters[3]*20*38) #for marmousi 101x101
         
         #self.z1 = nn.Conv2d(filters[3],filters[3],1)
         #self.z2 = nn.Conv2d(filters[3],filters[3],1)
@@ -6222,9 +6222,9 @@ class AutoElMarmousi22_Net(nn.Module):
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[3], 13, 25)
+        z = z.view(-1, filters[3], 20, 38)
 
-        z1 = z.view(-1, filters[3], 13, 25)
+        z1 = z.view(-1, filters[3], 20, 38)
         
         #z1 = self.z1(z)
         #z2 = self.z2(z)
