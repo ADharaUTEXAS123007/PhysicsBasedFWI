@@ -6222,9 +6222,9 @@ class AutoElMarmousi22_Net(nn.Module):
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[3], 20, 38)
+        z = z.view(-1, filters[3], 13, 25)
 
-        z1 = z.view(-1, filters[3], 20, 38)
+        z1 = z.view(-1, filters[3], 13, 25)
         
         #z1 = self.z1(z)
         #z2 = self.z2(z)
