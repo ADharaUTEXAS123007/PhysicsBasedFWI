@@ -1202,6 +1202,9 @@ class ELASTICNET(nn.Module):
         vpst = vpst*10.0
         vsst = vsst*10.0
         rhost = rhost*10.0
+
+        print("vpst max :", np.max(vpst))
+        print("vsst max :", np.max(vsst))
         
                
         print("max of vp passed :", np.max(vp), np.max(vs), np.max(rho))
