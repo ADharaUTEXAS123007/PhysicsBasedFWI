@@ -42,8 +42,9 @@ def set_weights(net, weights, directions=None, step=None):
             changes = [d*step for d in directions[0]]
 
         for (p, w, d) in zip(net.parameters(), weights, changes):
-            #print("w :", np.shape(w))
-            #print("d :", np.shape(d))
+            print("p :", p)
+            print("w :", np.shape(w))
+            print("d :", np.shape(d))
             p.data = w + torch.Tensor(d).type(type(w))
 
 
