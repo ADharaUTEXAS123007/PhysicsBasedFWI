@@ -133,12 +133,14 @@ def eval_loss3(net, use_cuda=False):
     #B_img = np.expand_dims(B_img,0)
     B = torch.from_numpy(B_img)
     B = B.float()
+    B = B/10.0
     
     C_img = np.load('/disk/student/adhara/Fall2021/FCNVMB-Deep-learning-based-seismic-velocity-model-building/MarmousiEl/trainC/1.npy')
     C_img = np.expand_dims(C_img,0)
     #C_img = np.expand_dims(C_img,0)
     C = torch.from_numpy(C_img)
     C = C.float()
+    C = C/10.0
 
     D_img = np.load('/disk/student/adhara/Fall2021/FCNVMB-Deep-learning-based-seismic-velocity-model-building/MarmousiEl/trainD/1.npy')
     D_img = np.expand_dims(D_img,0)
