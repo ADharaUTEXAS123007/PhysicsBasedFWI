@@ -25,6 +25,7 @@ def set_weights(net, weights, directions=None, step=None):
         or change weights along directions with a step size.
     """
     if directions is None:
+        print(net.parameters())
         # You cannot specify a step length without a direction.
         for (p, w) in zip(net.parameters(), weights):
             p.data.copy_(w.type(type(p.data)))
@@ -42,9 +43,9 @@ def set_weights(net, weights, directions=None, step=None):
             changes = [d*step for d in directions[0]]
 
         for (p, w, d) in zip(net.parameters(), weights, changes):
-            print("p :", p)
-            print("w :", np.shape(w))
-            print("d :", np.shape(d))
+            #print("p :", p)
+            #print("w :", np.shape(w))
+            #print("d :", np.shape(d))
             p.data = w + torch.Tensor(d).type(type(w))
 
 
