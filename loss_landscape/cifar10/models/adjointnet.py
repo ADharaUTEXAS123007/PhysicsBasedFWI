@@ -1363,67 +1363,67 @@ class ELASTICNET(nn.Module):
         # vp_grad = np.array(grads[0])
         # vs_grad = np.array(grads[2])
         # rho_grad = np.array(grads[1])
-        grads, fnames = d.get_fwi_gradients(['seis'],return_filenames=True)
-        vp_grad = np.array(grads[1])
-        vs_grad = np.array(grads[2])
-        rho_grad = np.array(grads[0])
+        # grads, fnames = d.get_fwi_gradients(['seis'],return_filenames=True)
+        # vp_grad = np.array(grads[1])
+        # vs_grad = np.array(grads[2])
+        # rho_grad = np.array(grads[0])
         
-        print("shape of vp_grad :", np.shape(vp_grad))
-        print("shape of vs_grad :", np.shape(vs_grad))
-        print("shape of rho_grad :", np.shape(rho_grad))
+        # print("shape of vp_grad :", np.shape(vp_grad))
+        # print("shape of vs_grad :", np.shape(vs_grad))
+        # print("shape of rho_grad :", np.shape(rho_grad))
         
-        vp_grad = np.flipud(vp_grad)
-        vs_grad = np.flipud(vs_grad)
-        rho_grad = np.flipud(rho_grad)
+        # vp_grad = np.flipud(vp_grad)
+        # vs_grad = np.flipud(vs_grad)
+        # rho_grad = np.flipud(rho_grad)
 
-        # g1 = np.arange(np.shape(rho_grad)[0])
-        # g1 = g1**2.0
-        # ss = rho_grad*0
-        # for i in range(np.shape(rho_grad)[1]):
-        #      ss[:,i] = g1
-        # # rho_grad = scipy.ndimage.gaussian_filter(rho_grad,4)
-        # rho_grad = rho_grad*ss
+        # # g1 = np.arange(np.shape(rho_grad)[0])
+        # # g1 = g1**2.0
+        # # ss = rho_grad*0
+        # # for i in range(np.shape(rho_grad)[1]):
+        # #      ss[:,i] = g1
+        # # # rho_grad = scipy.ndimage.gaussian_filter(rho_grad,4)
+        # # rho_grad = rho_grad*ss
         
-        vp_grad[0:15,:] = 0.0
-        vs_grad[0:15,:] = 0.0
-        rho_grad[0:15,:] = 0.0
+        # vp_grad[0:15,:] = 0.0
+        # vs_grad[0:15,:] = 0.0
+        # rho_grad[0:15,:] = 0.0
         
-        print("shape of vp_grad1 :", np.shape(vp_grad))
-        print("shape of vs_grad1 :", np.shape(vs_grad))
-        print("shape of rho_grad1 :", np.shape(rho_grad))
+        # print("shape of vp_grad1 :", np.shape(vp_grad))
+        # print("shape of vs_grad1 :", np.shape(vs_grad))
+        # print("shape of rho_grad1 :", np.shape(rho_grad))
         
-        r = 10**5
+        # r = 10**5
 
-        r1 = np.max(np.abs(vpst))/np.max(np.abs(vp_grad))
-        vp_grad = torch.from_numpy(vp_grad.copy())
-        vp_grad = vp_grad.float()
-        vp_grad = 1.0*vp_grad*r1
-        #if (freq==1):
-        vp_grad = vp_grad
+        # r1 = np.max(np.abs(vpst))/np.max(np.abs(vp_grad))
+        # vp_grad = torch.from_numpy(vp_grad.copy())
+        # vp_grad = vp_grad.float()
+        # vp_grad = 1.0*vp_grad*r1
+        # #if (freq==1):
+        # vp_grad = vp_grad
         
-        r2 = np.max(np.abs(vsst))/np.max(np.abs(vs_grad))
-        vs_grad = torch.from_numpy(vs_grad.copy())
-        vs_grad = vs_grad.float()  
-        vs_grad = 1.0*vs_grad*r2
-        #vs_grad = vs_grad*0
+        # r2 = np.max(np.abs(vsst))/np.max(np.abs(vs_grad))
+        # vs_grad = torch.from_numpy(vs_grad.copy())
+        # vs_grad = vs_grad.float()  
+        # vs_grad = 1.0*vs_grad*r2
+        # #vs_grad = vs_grad*0
         
-        r3 = np.max(np.abs(rhost))/np.max(np.abs(rho_grad))
-        rho_grad = torch.from_numpy(rho_grad.copy())
-        rho_grad = rho_grad.float()
-        rho_grad = 1.0*rho_grad*r3*0.1
+        # r3 = np.max(np.abs(rhost))/np.max(np.abs(rho_grad))
+        # rho_grad = torch.from_numpy(rho_grad.copy())
+        # rho_grad = rho_grad.float()
+        # rho_grad = 1.0*rho_grad*r3*0.1
         
-        filen = './marmousiEl/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
-        np.save(filen, vp_grad)  #switch on physics based fwi
+        # filen = './marmousiEl/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        # np.save(filen, vp_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
-        np.save(filen, vs_grad)  #switch on physics based fwi
+        # filen = './marmousiEl/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        # np.save(filen, vs_grad)  #switch on physics based fwi
         
-        filen = './marmousiEl/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
-        np.save(filen, rho_grad)  #switch on physics based fwi
+        # filen = './marmousiEl/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        # np.save(filen, rho_grad)  #switch on physics based fwi
         
-        print('grads names')
-        print(fnames)
-        #vp_grad = 0
-        #vs_grad = 0
-        #rho_grad = 0
+        # print('grads names')
+        # print(fnames)
+        vp_grad = 0
+        vs_grad = 0
+        rho_grad = 0
         return vp_grad, vs_grad, rho_grad, loss
