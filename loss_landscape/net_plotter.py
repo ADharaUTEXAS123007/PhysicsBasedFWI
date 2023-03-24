@@ -25,7 +25,7 @@ def set_weights(net, weights, directions=None, step=None):
         or change weights along directions with a step size.
     """
     if directions is None:
-        print(net.parameters())
+        #print(net.parameters())
         # You cannot specify a step length without a direction.
         for (p, w) in zip(net.parameters(), weights):
             p.data.copy_(w.type(type(p.data)))

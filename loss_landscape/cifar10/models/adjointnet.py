@@ -1237,7 +1237,8 @@ class ELASTICNET(nn.Module):
         xsrc2 = int(2610.) # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
-        xsrc = xsrcoriginal[idx[0:6]]
+        #xsrc = xsrcoriginal[idx[0:6]]
+        xsrc = xsrcoriginal
         ysrc = depth_src * xsrc / xsrc
         tshots = len(xsrc)
 
@@ -1246,26 +1247,26 @@ class ELASTICNET(nn.Module):
         rec = api.Receivers(xrec, yrec)
         src = api.Sources(xsrc, ysrc, fsource)
 
-        os.system('rm -rf /disk/student/adhara/DOUTPUTS/su1')
-        os.system('mkdir /disk/student/adhara/DOUTPUTS/su1')
-        def copyshot(id1, value):             
-            fo = 'cp /disk/student/adhara/DOUTPUTS/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/DOUTPUTS/su1/.'
-            os.system(fo)
-            fo = 'cp /disk/student/adhara/DOUTPUTS/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/DOUTPUTS/su1/.'
-            os.system(fo)
-        #      #if (id1+1 != value+1):
-            fo = 'mv /disk/student/adhara/DOUTPUTS/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/DOUTPUTS/su1/seisT_x.su.shot' + str(value+1)
-            os.system(fo)
-            fo = 'mv /disk/student/adhara/DOUTPUTS/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/DOUTPUTS/su1/seisT_y.su.shot' + str(value+1)
-            os.system(fo)
+        # os.system('rm -rf /disk/student/adhara/DOUTPUTS/su1')
+        # os.system('mkdir /disk/student/adhara/DOUTPUTS/su1')
+        # def copyshot(id1, value):             
+        #     fo = 'cp /disk/student/adhara/DOUTPUTS/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/DOUTPUTS/su1/.'
+        #     os.system(fo)
+        #     fo = 'cp /disk/student/adhara/DOUTPUTS/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/DOUTPUTS/su1/.'
+        #     os.system(fo)
+        # #      #if (id1+1 != value+1):
+        #     fo = 'mv /disk/student/adhara/DOUTPUTS/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/DOUTPUTS/su1/seisT_x.su.shot' + str(value+1)
+        #     os.system(fo)
+        #     fo = 'mv /disk/student/adhara/DOUTPUTS/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/DOUTPUTS/su1/seisT_y.su.shot' + str(value+1)
+        #     os.system(fo)
 
-        for i in range(0,tshots):
-            print("idx :", idx[i])
-            copyshot(idx[i],i)
+        # for i in range(0,tshots):
+        #     print("idx :", idx[i])
+        #     copyshot(idx[i],i)
 
-        d.DATA_DIR = '/disk/student/adhara/DOUTPUTS/su1/seisT'
-        d.SEIS_FILE_VX = 'su1/seisT_x.su'
-        d.SEIS_FILE_VY = 'su1/seisT_y.su'
+        # d.DATA_DIR = '/disk/student/adhara/DOUTPUTS/su1/seisT'
+        # d.SEIS_FILE_VX = 'su1/seisT_x.su'
+        # d.SEIS_FILE_VY = 'su1/seisT_y.su'
 
         d.ITERMAX = 1
         d.verbose = 0
