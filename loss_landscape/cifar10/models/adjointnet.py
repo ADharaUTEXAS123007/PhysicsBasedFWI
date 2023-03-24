@@ -1300,14 +1300,14 @@ class ELASTICNET(nn.Module):
         #d.EXP_TAPER_GRAD_HOR = 3.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
-        filen = './marmousiEl8Mar/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
-        np.save(filen, vpst)  #switch on physics based fwi
+        #$#####filen = './marmousiEl8Mar/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
+        #$######np.save(filen, vpst)  #switch on physics based fwi
         
-        filen = './marmousiEl8Mar/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
-        np.save(filen, vsst)  #switch on physics based fwi
+        #$#######filen = './marmousiEl8Mar/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        #$#######np.save(filen, vsst)  #switch on physics based fwi
         
-        filen = './marmousiEl8Mar/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
-        np.save(filen, rhost)  #switch on physics based fwi
+        #$######filen = './marmousiEl8Mar/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        #$#######np.save(filen, rhost)  #switch on physics based fwi
         
         
         #d.NT = 1200
