@@ -1373,10 +1373,11 @@ class ELASTICNET(nn.Module):
         #print("file_y_ob :", file_y_ob)
         #print("file_x_ob :", file_x_ob)
 
-        #print("shape of shots_y :", np.shape(shots_y))
-        #print("shape of shots_x :", np.shape(shots_x))
+        print("shape of shots_y :", np.shape(shots_y))
+        print("shape of shots_x :", np.shape(shots_x))
 
-
+        print("shape of shots_y :", np.shape(shots_y_ob))
+        print("shape of shots_x :", np.shape(shots_x_ob))
         
         ###loss = np.loadtxt('loss_curve_grad.out')
         loss = np.linalg.norm(shots-shots_obs, axis=-1)
