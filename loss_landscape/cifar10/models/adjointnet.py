@@ -1363,17 +1363,23 @@ class ELASTICNET(nn.Module):
         [shots_y_ob, file_y_ob] = d.get_observed_shots(keys=['_y'],return_filenames=True)
         [shots_x_ob, file_x_ob] = d.get_observed_shots(keys=['_x'],return_filenames=True)
 
-        print("file_y  :", file_y)
-        print("file_x :", file_x)
 
-        print("file_y_ob :", file_y_ob)
-        print("file_x_ob :", file_x_ob)
+        shots = np.concatenate((shots_y,shots_x))
+        shots_obs = np.concatenate((shots_y_ob,shots_x_ob))
 
-        print("shape of shots_y :", np.shape(shots_y))
-        print("shape of shots_x :", np.shape(shots_x))
+        #print("file_y  :", file_y)
+        #print("file_x :", file_x)
+
+        #print("file_y_ob :", file_y_ob)
+        #print("file_x_ob :", file_x_ob)
+
+        #print("shape of shots_y :", np.shape(shots_y))
+        #print("shape of shots_x :", np.shape(shots_x))
+
+
         
         ###loss = np.loadtxt('loss_curve_grad.out')
-        loss = 1.0
+        loss = np.linalg.norm(shots-shots_obs, axis=-1)
         
         #print("loss :", loss)
         
