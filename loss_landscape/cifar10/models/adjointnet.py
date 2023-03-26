@@ -1380,7 +1380,7 @@ class ELASTICNET(nn.Module):
         print("shape of shots_x :", np.shape(shots_x_ob))
         
         ###loss = np.loadtxt('loss_curve_grad.out')
-        loss = np.linalg.norm(shots-shots_obs, axis=-1)
+        loss = np.linalg.norm(shots-shots_obs)
         
         print("loss :", loss)
         
