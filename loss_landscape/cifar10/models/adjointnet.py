@@ -1381,7 +1381,7 @@ class ELASTICNET(nn.Module):
         ###loss = np.loadtxt('loss_curve_grad.out')
         loss = np.linalg.norm(shots-shots_obs, axis=-1)
         
-        #print("loss :", loss)
+        print("loss :", loss)
         
         # grads, fnames = d.get_fwi_gradients(['c','old'],return_filenames=True)
         
