@@ -1357,8 +1357,17 @@ class ELASTICNET(nn.Module):
         ###d.grad(model_init, src, rec)
         d.forward(model_init,src,rec)
 
-        shots_y = d.get_shots(keys=['_y'])
-        shots_x = d.get_shots(keys=['_x'])
+        [shots_y, file_y] = d.get_shots(keys=['_y'])
+        [shots_x, file_x] = d.get_shots(keys=['_x'])
+
+        [shots_y_ob, file_y_ob] = d.get_observed_shots(keys=['_y'])
+        [shots_x_ob, file_x_ob] = d.get_observed_shots(keys=['_x'])
+
+        print("file_y  :", file_y)
+        print("file_x :", file_x)
+
+        print("file_y_ob :", file_y_ob)
+        print("file_x_ob :", file_x_ob)
 
         print("shape of shots_y :", np.shape(shots_y))
         print("shape of shots_x :", np.shape(shots_x))
