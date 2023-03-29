@@ -48,14 +48,14 @@ def plot_2d_contour(surf_file, surf_name='train_loss', vmin=0.01, vmax=0.1, vlev
     fig = plt.figure()
     CS = plt.contour(X, Y, Z, cmap='summer', levels=np.arange(vmin, vmax, vlevel))
     plt.clabel(CS, inline=1, fontsize=8)
-    fig.savefig(surf_file + '_' + surf_name + '_2dcontour' + '.pdf', dpi=300,
-                bbox_inches='tight', format='pdf')
+    fig.savefig(surf_file + '_' + surf_name + '_2dcontour' + '.png', dpi=300,
+                bbox_inches='tight', format='png')
 
     fig = plt.figure()
-    print(surf_file + '_' + surf_name + '_2dcontourf' + '.pdf')
+    print(surf_file + '_' + surf_name + '_2dcontourf' + '.png')
     CS = plt.contourf(X, Y, Z, cmap='summer', levels=np.arange(vmin, vmax, vlevel))
-    fig.savefig(surf_file + '_' + surf_name + '_2dcontourf' + '.pdf', dpi=300,
-                bbox_inches='tight', format='pdf')
+    fig.savefig(surf_file + '_' + surf_name + '_2dcontourf' + '.png', dpi=300,
+                bbox_inches='tight', format='png')
 
     # --------------------------------------------------------------------
     # Plot 2D heatmaps
@@ -64,8 +64,8 @@ def plot_2d_contour(surf_file, surf_name='train_loss', vmin=0.01, vmax=0.1, vlev
     sns_plot = sns.heatmap(Z, cmap='viridis', cbar=True, vmin=vmin, vmax=vmax,
                            xticklabels=False, yticklabels=False)
     sns_plot.invert_yaxis()
-    sns_plot.get_figure().savefig(surf_file + '_' + surf_name + '_2dheat.pdf',
-                                  dpi=300, bbox_inches='tight', format='pdf')
+    sns_plot.get_figure().savefig(surf_file + '_' + surf_name + '_2dheat.png',
+                                  dpi=300, bbox_inches='tight', format='png')
 
     # --------------------------------------------------------------------
     # Plot 3D surface
@@ -74,9 +74,8 @@ def plot_2d_contour(surf_file, surf_name='train_loss', vmin=0.01, vmax=0.1, vlev
     ax = Axes3D(fig)
     surf = ax.plot_surface(X, Y, Z, cmap=cm.cividis, linewidth=2, antialiased=False)
     fig.colorbar(surf, shrink=0.5, aspect=5)
-    fig.savefig(surf_file + '_' + surf_name + '_3dsurface.pdf', dpi=300,
-                bbox_inches='tight', format='pdf')
-
+    fig.savefig(surf_file + '_' + surf_name + '_3dsurface.png', dpi=300,
+                bbox_inches='tight', format='png')
     f.close()
     if show: plt.show()
 
