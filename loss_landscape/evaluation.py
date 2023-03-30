@@ -109,7 +109,7 @@ def eval_loss2(net, use_cuda=False):
     
     return loss_D_MSE
 
-def eval_loss3(net, use_cuda=False):
+def eval_loss3(net, ind, use_cuda=False):
     """
     Evaluate the loss value for a given 'net' on the dataset provided by the loader.
 
@@ -160,7 +160,7 @@ def eval_loss3(net, use_cuda=False):
     print("shape of D :", np.shape(D))
 
 
-    [fake_Vp,fake_Vs,fake_Rho, grad,latent,vp_grad,vs_grad,rho_grad,loss_D_MSE] = net(B,A,lstart,epoch1,latent,C,D,freq,1,1)  # G(A)
+    [fake_Vp,fake_Vs,fake_Rho, grad,latent,vp_grad,vs_grad,rho_grad,loss_D_MSE] = net(B,A,lstart,epoch1,latent,C,D,freq,1,ind)  # G(A)
     #loss_D_MSE = 0
     print("loss D MSE :", loss_D_MSE)
     loss_D_MSE = loss_D_MSE*(10**5)
