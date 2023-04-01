@@ -6704,7 +6704,16 @@ class AutoElLinear22_Net(nn.Module):
         latent_dim = 8
         label_dsp_dim = (150,294)
         #label_dsp_dim = (40,90)
-        f11 = torch.ones(441000)
+        minvp = torch.min(inputs1[:,0,:,:])
+        maxvp = torch.max(inputs1[:,0,:,:])
+        
+        minvs = torch.min(inputs1[:,1,:,:])
+        maxvs = torch.max(inputs1[:,1,:,:])
+        
+        minrho = torch.min(inputs1[:,2,:,:])
+        maxrho = torch.max(inputs1[:,2,:,:])
+
+        f11 = torch.ones(441000).to(inputs1.device)
 
         vp1     = self.net11(f11)
         vp1     = self.net12(vp1)
