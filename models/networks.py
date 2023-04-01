@@ -6721,7 +6721,7 @@ class AutoElLinear22_Net(nn.Module):
         vs1     = self.net21(f11)
         #vs1     = self.net22(vs1)
 
-        rho1    = inputs2[:,2,:,:]
+        #rho1    = inputs2[:,2,:,:]
 
         #rho1    = 
         #rho1    = self.net32(rho1)
@@ -6751,6 +6751,7 @@ class AutoElLinear22_Net(nn.Module):
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1
         #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*rho1
+        rho1   = torch.unsqueeze(inputs2[:,2,:,:],1)
     
         
         #vp1     = self.final1(vp1)
