@@ -6691,7 +6691,7 @@ class AutoElLinear22_Net(nn.Module):
         self.net21   = nn.Linear(44100, 44100, bias=False)
         #self.net22   = nn.Linear(8, 441000, bias=False)
         #self.dropD2   = nn.Dropout2d(0.025)
-        self.net31   = nn.Linear(44100, 44100, bias=False)
+        #self.net31   = nn.Linear(44100, 44100, bias=False)
         #self.net32   = nn.Linear(8, 441000, bias=False)
         
     def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf, inputs3, freq, idx, it):
@@ -6721,7 +6721,9 @@ class AutoElLinear22_Net(nn.Module):
         vs1     = self.net21(f11)
         #vs1     = self.net22(vs1)
 
-        rho1    = self.net31(f11)
+        rho1    = inputs2[:,2,:,:]
+
+        #rho1    = 
         #rho1    = self.net32(rho1)
         #rho1    = self.rho2(rho1)
         ###vp1    = self.vp(torch.unsqueeze(f1[:,0,:,:],1))
@@ -6748,7 +6750,7 @@ class AutoElLinear22_Net(nn.Module):
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*rho1
+        #rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*rho1
     
         
         #vp1     = self.final1(vp1)
