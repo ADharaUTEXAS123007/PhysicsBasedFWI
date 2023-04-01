@@ -6742,11 +6742,11 @@ class AutoElLinear22_Net(nn.Module):
         #rho1[:,:,0:15,:] = 0
         vp1 = torch.reshape(vp1,(150,294))
         vs1 = torch.reshape(vs1,(150,294))
-        rho1 = torch.reshape(rho1,(150,294))
+        #rho1 = torch.reshape(rho1,(150,294))
 
         vp1 = 12.305*vp1 + 3.238
         vs1 = 6.70688*vs1 + 1.65077
-        rho1 = 7.0706884*rho1 + 1.64139
+        #rho1 = 7.0706884*rho1 + 1.64139
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1
