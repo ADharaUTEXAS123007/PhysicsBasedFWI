@@ -223,6 +223,8 @@ def define_G(input_nc, output_nc, ngf, netG, norm='batch', use_dropout=False, in
         net = UnetMarmousi22_Net(input_nc, output_nc, 6, ngf, norm_layer=norm_layer, use_dropout=use_dropout)
     elif netG == 'AutoEl22':
         net = AutoElMarmousi22_Net(input_nc, output_nc, 6, ngf, norm_layer=norm_layer, use_dropout=use_dropout)
+    elif netG == 'AutoElLinear22':
+        net = AutoElLinear22_Net(input_nc, output_nc, 6, ngf, norm_layer=norm_layer, use_dropout=use_dropout)
     elif netG == 'AutoElMar22':
         net = AutoElMarmousiMar22_Net(input_nc, output_nc, 6, ngf, norm_layer=norm_layer, use_dropout=use_dropout)
     elif netG == 'AutoElFullMar22':
@@ -6657,7 +6659,399 @@ class AutoElMarmousi22_Net(nn.Module):
         #vp_grad = 0
         #vs_grad = 0
         #rho_grad = 0
-        return vp_grad, vs_grad, rho_grad, loss                 
+        return vp_grad, vs_grad, rho_grad, loss        
+
+
+class AutoElLinear22_Net(nn.Module):
+    def __init__(self,outer_nc, inner_nc, input_nc=None,
+                 submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False):
+        super(AutoElLinear22_Net, self).__init__()
+        self.is_deconv     = False
+        self.in_channels   = outer_nc
+        self.is_batchnorm  = True
+        self.n_classes     = 1
+        
+        #filters = [16, 32, 64, 128, 256]
+        ####filters = [32, 64, 128, 256, 512]
+        #filters = [16, 32, 64, 128, 512]
+        #filters = [2, 4, 8, 16, 32]
+        #filters = [1, 1, 2, 4, 16]
+        filters = [8, 16, 32, 64, 128] ##best result upto now
+        #filters = [4, 8, 16, 32, 64]
+        #filters = [8, 16, 32, 64, 128]
+        #########filters = [2, 4, 8, 16, 32]
+        
+        latent_dim = 8
+        #self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
+        #self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
+        
+        self.net1   = nn.Linear(441000, 441000, bias=False)
+        #self.dropD1   = nn.Dropout2d(0.025)
+        self.net2   = nn.Linear(441000, 441000, bias=False)
+        #self.dropD2   = nn.Dropout2d(0.025)
+        self.net3   = nn.Linear(441000, 441000, bias=False)
+        
+    def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf, inputs3, freq, idx, it):
+        #filters = [16, 32, 64, 128, 256]
+        ######filters = [2, 4, 8, 16, 32]
+        filters = [8, 16, 32, 64, 128]  ###this works very well
+        #filters = [1, 1, 2, 4, 16]
+        ###filters = [32, 64, 128, 256, 512]
+        ####filters = [32, 64, 128, 256, 512]
+        latent_dim = 8
+        label_dsp_dim = (150,294)
+        #label_dsp_dim = (40,90)
+        f11 = torch.ones(441000)
+
+        vp1     = self.net1(f11)
+        vs1     = self.net2(f11)
+        rho1    = self.net3(f11)
+        #rho1    = self.rho2(rho1)
+        ###vp1    = self.vp(torch.unsqueeze(f1[:,0,:,:],1))
+        ###vs1    = self.vs(torch.unsqueeze(f1[:,1,:,:],1))
+        #rho1   = self.rho(f13)
+        #vp1     = f11
+        #vs1     = f12
+        #rho1    = f13
+        
+        #vp1    = self.final1(vp1)
+        #vs1    = self.final2(vs1)
+        #rho1   = self.final3(rho1)
+        print("shape of vp1 :", np.shape(vp1))
+        #vp1[:,:,0:15,:] = 0
+        #vs1[:,:,0:15,:] = 0
+        #rho1[:,:,0:15,:] = 0
+
+        vp1 = 12.305*vp1 + 3.238
+        vs1 = 6.70688*vs1 + 1.65077
+        rho1 = 7.0706884*rho1 + 1.64139
+
+        vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1
+        vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1
+        rho1   = torch.unsqueeze(lowf[:,2,:,:],1) + 0.1*rho1
+    
+        
+        #vp1     = self.final1(vp1)
+        #vs1     = self.final2(vs1)
+        #vp1    = minvp + vp1*(maxvp-minvp)
+        #vs1    = minvs + vs1*(maxvs-minvs)
+        #rho1   = minrho + rho1*(maxrho-minrho)
+        print("minvp :", minvp)
+        print("maxvp :", maxvp)
+
+        print("minvs :", minvs)
+        print("maxvs :", maxvs)
+
+        print("minrho :", minrho)
+        print("maxrho :", maxrho)
+        
+        vp1    = torch.clip(vp1, min=minvp, max=maxvp)
+        vs1    = torch.clip(vs1, min=minvs, max=maxvs)
+        rho1   = torch.clip(rho1, min=minrho, max=maxrho)
+
+        vp1[:,:,0:15,:] = inputs1[:,0,0:15,:]
+        vs1[:,:,0:15,:] = inputs1[:,1,0:15,:]
+        rho1[:,:,0:15,:] = inputs1[:,2,0:15,:]
+        
+        latent1 = 0
+        grad = 0*vp1
+        lossT = 0.0
+        vp_grad = vp1*0
+        vs_grad = vp1*0
+        rho_grad = vp1*0
+        
+        #vs1 = vp1*0
+        #rho1 = vp1*0
+        if (epoch1 > lstart):
+            [vp_grad, vs_grad, rho_grad, lossT] = self.prop(vp1, vs1, rho1, inputs1, epoch1, freq, idx, it)
+        #if (epoch1 > lstart):
+        #    [grad, lossT] = self.prop(inputs2, f1, lstart, epoch1, mintrue, maxtrue, inputs1)
+        #    grad = grad.to(inputs2.get_device())
+        #    grad = torch.unsqueeze(grad,0)
+        #    grad = torch.unsqueeze(grad,0)
+        #result = torch.flatten(f1, start_dim=1)
+        #print(" shape of grad :", np.shape(grad))
+
+        return vp1, vs1, rho1, grad, latent1, vp_grad, vs_grad, rho_grad, lossT
+    
+    # Initialization of Parameters
+    def  _initialize_weights(self):
+          for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, sqrt(2. / n))
+                if m.bias is not None:
+                    m.bias.data.zero_()
+            elif isinstance(m, nn.BatchNorm2d):
+                m.weight.data.fill_(1)
+                m.bias.data.zero_()
+            elif isinstance(m,nn.ConvTranspose2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, sqrt(2. / n))
+                if m.bias is not None:
+                    m.bias.data.zero_()
+    
+    # forward modeling to compute gradients  
+    def prop(self, vp1, vs1, rho1, true, epoch1, freq, idx, it):
+        dx = 10.0
+        vp = true[:,0,:,:].cpu().detach().numpy()
+        vs = true[:,1,:,:].cpu().detach().numpy()
+        rho = true[:,2,:,:].cpu().detach().numpy()
+    
+        vp = np.squeeze(vp)
+        vs = np.squeeze(vs)
+        rho = np.squeeze(rho)
+        
+        vp = np.flipud(vp)
+        vs = np.flipud(vs)
+        rho = np.flipud(rho)
+        
+        vp = vp*10.0
+        vs = vs*10.0
+        rho = rho*10.0
+        
+        
+        #model = api.Model(vp, vs, rho, dx)
+        
+        vpst = vp1.cpu().detach().numpy()
+        vsst = vs1.cpu().detach().numpy()
+        rhost = rho1.cpu().detach().numpy()
+
+        vpst = np.squeeze(np.squeeze(vpst))
+        vsst = np.squeeze(np.squeeze(vsst))
+        rhost = np.squeeze(np.squeeze(rhost))
+        
+        vpst = np.flipud(vpst)
+        vsst = np.flipud(vsst)
+        rhost = np.flipud(rhost)
+        
+        vpst = vpst*10.0
+        vsst = vsst*10.0
+        rhost = rhost*10.0
+        
+               
+        print("max of vp passed :", np.max(vp), np.max(vs), np.max(rho))
+        #model = api.Model(vp, vs, rho, dx)
+        
+        
+        denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
+        d = api.Denise(denise_root, verbose=1)
+        d.save_folder = '/disk/student/adhara/DOUTPUTS/'
+        d.set_paths()
+        
+        #model = api.Model(vp, vs, rho, dx)
+        #print(model)
+        
+        # Receivers
+        drec = int(10.)   #simple_model
+        depth_rec = int(100.)  # receiver depth [m]
+        ######depth_rec = 80. #simple_model
+        xrec1 = int(390.)     # 1st receiver position [m]
+        ######xrec1 = 100.
+        xrec2 = int(2610.)     # last receiver position [m]
+        #####xrec2 = 1700.
+        xrec = np.arange(xrec1, xrec2 + dx, drec)
+        yrec = depth_rec * (xrec / xrec)
+
+        # Sources
+        dsrc = int(80.) # source spacing [m]
+        #######dsrc = 120.
+        depth_src = int(20.)  # source depth [m]
+        #######depth_src = 40.
+        xsrc1 = int(390.) # 1st source position [m]
+        ######xsrc1 = 100.
+        xsrc2 = int(2610.) # last source position [m]
+        #######xsrc2 = 1700.
+        xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
+        xsrc = xsrcoriginal[idx[0:6]]
+        ysrc = depth_src * xsrc / xsrc
+        tshots = len(xsrc)
+
+        # Wrap into api
+        fsource = 10.0
+        rec = api.Receivers(xrec, yrec)
+        src = api.Sources(xsrc, ysrc, fsource)
+
+        os.system('rm -rf /disk/student/adhara/DOUTPUTS/su1')
+        os.system('mkdir /disk/student/adhara/DOUTPUTS/su1')
+        def copyshot(id1, value):             
+            fo = 'cp /disk/student/adhara/DOUTPUTS/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/DOUTPUTS/su1/.'
+            os.system(fo)
+            fo = 'cp /disk/student/adhara/DOUTPUTS/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/DOUTPUTS/su1/.'
+            os.system(fo)
+        #      #if (id1+1 != value+1):
+            fo = 'mv /disk/student/adhara/DOUTPUTS/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/DOUTPUTS/su1/seisT_x.su.shot' + str(value+1)
+            os.system(fo)
+            fo = 'mv /disk/student/adhara/DOUTPUTS/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/DOUTPUTS/su1/seisT_y.su.shot' + str(value+1)
+            os.system(fo)
+
+        for i in range(0,tshots):
+            print("idx :", idx[i])
+            copyshot(idx[i],i)
+
+        d.DATA_DIR = '/disk/student/adhara/DOUTPUTS/su1/seisT'
+        d.SEIS_FILE_VX = 'su1/seisT_x.su'
+        d.SEIS_FILE_VY = 'su1/seisT_y.su'
+
+        d.ITERMAX = 1
+        d.verbose = 0
+        print("shape of vp :", np.shape(vp))
+        print("shape of vs :", np.shape(vs))
+        print("shape of rho :", np.shape(rho))
+        print("shape of xsrc :", np.shape(xsrc))
+        
+
+        print(f'NSRC:\t{len(src)}')
+        print(f'NREC:\t{len(rec)}')
+        d.NPROCX = 6
+        d.NPROCY = 6
+        d.PHYSICS = 1
+        d.TIME = 5.0
+        #d.NT = 2.5e-03
+        #d.VPUPPERLIM = 3000.0
+        #d.VPLOWERLIM = 1500.0
+        #d.VSUPPERLIM = 1732.0
+        #d.VSLOWERLIM = 866.0
+        #d.RHOUPPERLIM = 2294.0
+        #d.RHOLOWERLIM = 1929.0
+        
+        d.VPUPPERLIM = 3000.0
+        d.VPLOWERLIM = 1500.0
+        d.VSUPPERLIM = 1732.0
+        d.VSLOWERLIM = 866.0
+        d.RHOUPPERLIM = 2294.0
+        d.RHOLOWERLIM = 1829.0
+        d.SWS_TAPER_GRAD_HOR = 0.0
+        #d.EXP_TAPER_GRAD_HOR = 3.0
+        #d.forward(model, src, rec)
+        #os.system('mpirun -np 4 hello')
+        filen = './marmousiEl9Mar2/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
+        np.save(filen, vpst)  #switch on physics based fwi
+        
+        filen = './marmousiEl9Mar2/vsmod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        np.save(filen, vsst)  #switch on physics based fwi
+        
+        filen = './marmousiEl9Mar2/rhomod' + str(epoch1) + '.npy' #switch on for physics based fwi     
+        np.save(filen, rhost)  #switch on physics based fwi
+        
+        
+        #d.NT = 1200
+        #d.JACOBIAN = 'sacobian/jacobian_Test'
+        print("min max vpst :", np.min(vpst), np.max(vpst))
+        print("min max vsst :", np.min(vsst), np.max(vsst))
+        print("min max rhost :", np.min(rhost), np.max(rhost))
+        
+        model_init = api.Model(vpst, vsst, rhost, dx)
+        
+        
+        d.fwi_stages = []
+        #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
+        #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
+        #for i, freq in enumerate([20]
+        #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
+        #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
+        d.add_fwi_stage(fc_high=10)
+        # if ((epoch1 >= 0) and (epoch1 <=100 )):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=2.0)
+        # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
+        # elif ((epoch1 >= 101) and (epoch1 <=200)):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=5.0)
+        # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
+        # elif ((epoch1 >= 201) and (epoch1 <=300)):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=8.0)
+        # elif ((epoch1 >= 301) and (epoch1 <=400)):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=12.0)
+        # elif ((epoch1 >= 401) and (epoch1 <=500)):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=15.0)
+        # elif ((epoch1 >= 501) and (epoch1 <=600)):
+        #     d.add_fwi_stage(fc_low=0.0, fc_high=18.0)
+        # elif ((epoch1 >= 601) and (epoch1 <=700)):
+        #    d.add_fwi_stage(fc_low=0.0, fc_high=21.0)
+        #    #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
+        # else:
+        #    d.add_fwi_stage(fc_low=0.0, fc_high=21.0)
+        print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
+            
+        #print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
+        os.system('rm -rf loss_curve_grad.out')
+    
+        print(f'Target data: {d.DATA_DIR}')
+        d.grad(model_init, src, rec)
+        
+        loss = np.loadtxt('loss_curve_grad.out')
+        
+        #print("loss :", loss)
+        
+        # grads, fnames = d.get_fwi_gradients(['c','old'],return_filenames=True)
+        
+        # print("shape of grads :", np.shape(grads))
+        # vp_grad = np.array(grads[0])
+        # vs_grad = np.array(grads[2])
+        # rho_grad = np.array(grads[1])
+        grads, fnames = d.get_fwi_gradients(['seis'],return_filenames=True)
+        vp_grad = np.array(grads[1])
+        vs_grad = np.array(grads[2])
+        rho_grad = np.array(grads[0])
+        
+        print("shape of vp_grad :", np.shape(vp_grad))
+        print("shape of vs_grad :", np.shape(vs_grad))
+        print("shape of rho_grad :", np.shape(rho_grad))
+        
+        vp_grad = np.flipud(vp_grad)
+        vs_grad = np.flipud(vs_grad)
+        rho_grad = np.flipud(rho_grad)
+
+        # g1 = np.arange(np.shape(rho_grad)[0])
+        # g1 = g1**2.0
+        # ss = rho_grad*0
+        # for i in range(np.shape(rho_grad)[1]):
+        #      ss[:,i] = g1
+        # # rho_grad = scipy.ndimage.gaussian_filter(rho_grad,4)
+        # rho_grad = rho_grad*ss
+        
+        vp_grad[0:15,:] = 0.0
+        vs_grad[0:15,:] = 0.0
+        rho_grad[0:15,:] = 0.0
+        
+        print("shape of vp_grad1 :", np.shape(vp_grad))
+        print("shape of vs_grad1 :", np.shape(vs_grad))
+        print("shape of rho_grad1 :", np.shape(rho_grad))
+        
+        r = 10**5
+
+        r1 = np.max(np.abs(vpst))/np.max(np.abs(vp_grad))
+        vp_grad = torch.from_numpy(vp_grad.copy())
+        vp_grad = vp_grad.float()
+        vp_grad = 1.0*vp_grad*r1
+        #if (freq==1):
+        vp_grad = vp_grad
+        
+        r2 = np.max(np.abs(vsst))/np.max(np.abs(vs_grad))
+        vs_grad = torch.from_numpy(vs_grad.copy())
+        vs_grad = vs_grad.float()  
+        vs_grad = 1.0*vs_grad*r2
+        #vs_grad = vs_grad*0
+        
+        r3 = np.max(np.abs(rhost))/np.max(np.abs(rho_grad))
+        rho_grad = torch.from_numpy(rho_grad.copy())
+        rho_grad = rho_grad.float()
+        rho_grad = 1.0*rho_grad*r3*0.1
+        
+        filen = './marmousiEl/vpp' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        np.save(filen, vp_grad)  #switch on physics based fwi
+        
+        filen = './marmousiEl/vss' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        np.save(filen, vs_grad)  #switch on physics based fwi
+        
+        filen = './marmousiEl/rhoo' + str(epoch1) + '.npy' #switch on for physics based fwi       
+        np.save(filen, rho_grad)  #switch on physics based fwi
+        
+        print('grads names')
+        print(fnames)
+        #vp_grad = 0
+        #vs_grad = 0
+        #rho_grad = 0
+        return vp_grad, vs_grad, rho_grad, loss               
     
 class AutoElMarmousi22N_Net(nn.Module):
     def __init__(self, outer_nc, inner_nc, gpu_ids, input_nc=None,
