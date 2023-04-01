@@ -6738,6 +6738,9 @@ class AutoElLinear22_Net(nn.Module):
         #vp1[:,:,0:15,:] = 0
         #vs1[:,:,0:15,:] = 0
         #rho1[:,:,0:15,:] = 0
+        vp1 = torch.reshape(vp1,(150,294))
+        vs1 = torch.resahpe(vs1,(150,294))
+        rho1 = torch.reshape(rho1,(150,294))
 
         vp1 = 12.305*vp1 + 3.238
         vs1 = 6.70688*vs1 + 1.65077
