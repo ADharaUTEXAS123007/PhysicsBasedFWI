@@ -6685,14 +6685,14 @@ class AutoElLinear22_Net(nn.Module):
         #self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         #self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
-        self.net11   = nn.Linear(441000, 8, bias=False)
-        self.net12   = nn.Linear(8, 441000, bias=False)
+        self.net11   = nn.Linear(44100, 44100, bias=False)
+        #self.net12   = nn.Linear(8, 441000, bias=False)
         #self.dropD1   = nn.Dropout2d(0.025)
-        self.net21   = nn.Linear(441000, 8, bias=False)
-        self.net22   = nn.Linear(8, 441000, bias=False)
+        self.net21   = nn.Linear(44100, 44100, bias=False)
+        #self.net22   = nn.Linear(8, 441000, bias=False)
         #self.dropD2   = nn.Dropout2d(0.025)
-        self.net31   = nn.Linear(441000, 8, bias=False)
-        self.net32   = nn.Linear(8, 441000, bias=False)
+        self.net31   = nn.Linear(44100, 44100, bias=False)
+        #self.net32   = nn.Linear(8, 441000, bias=False)
         
     def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf, inputs3, freq, idx, it):
         #filters = [16, 32, 64, 128, 256]
@@ -6713,16 +6713,16 @@ class AutoElLinear22_Net(nn.Module):
         minrho = torch.min(inputs1[:,2,:,:])
         maxrho = torch.max(inputs1[:,2,:,:])
 
-        f11 = torch.ones(441000).to(inputs1.device)
+        f11 = torch.ones(44100).to(inputs1.device)
 
         vp1     = self.net11(f11)
-        vp1     = self.net12(vp1)
+        #vp1     = self.net12(vp1)
 
         vs1     = self.net21(f11)
-        vs1     = self.net22(vs1)
+        #vs1     = self.net22(vs1)
 
         rho1    = self.net31(f11)
-        rho1    = self.net32(rho1)
+        #rho1    = self.net32(rho1)
         #rho1    = self.rho2(rho1)
         ###vp1    = self.vp(torch.unsqueeze(f1[:,0,:,:],1))
         ###vs1    = self.vs(torch.unsqueeze(f1[:,1,:,:],1))
