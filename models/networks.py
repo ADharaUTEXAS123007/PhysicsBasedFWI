@@ -6685,10 +6685,11 @@ class AutoElLinear22_Net(nn.Module):
         #self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         #self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
-        self.net11   = nn.Linear(44100, 44100, bias=False)
-        #self.net12   = nn.Linear(8, 441000, bias=False)
+        self.net11   = nn.Linear(44100, 8, bias=False)
+        self.net12   = nn.Linear(8, 44100, bias=False)
         #self.dropD1   = nn.Dropout2d(0.025)
-        self.net21   = nn.Linear(44100, 44100, bias=False)
+        self.net21   = nn.Linear(44100, 8, bias=False)
+        self.net22   = nn.Linear(8, 44100, bias=False)
         #self.net22   = nn.Linear(8, 441000, bias=False)
         #self.dropD2   = nn.Dropout2d(0.025)
         #self.net31   = nn.Linear(44100, 44100, bias=False)
@@ -6716,10 +6717,10 @@ class AutoElLinear22_Net(nn.Module):
         f11 = torch.ones(44100).to(inputs1.device)
 
         vp1     = self.net11(f11)
-        #vp1     = self.net12(vp1)
+        vp1     = self.net12(vp1)
 
         vs1     = self.net21(f11)
-        #vs1     = self.net22(vs1)
+        vs1     = self.net22(vs1)
 
         #rho1    = inputs2[:,2,:,:]
 
