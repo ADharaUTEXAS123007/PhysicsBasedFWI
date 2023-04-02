@@ -107,7 +107,7 @@ def get_random_models(models):
         Produce a random direction that is a list of random Gaussian tensors
         with the same shape as the network's weights, so one direction entry per weight.
     """
-    print("models shape :", np.random.randn(*models.shape))
+    #print("models shape :", np.random.randn(*models.shape))
     return [np.random.randn(*models.shape)]
 
 
