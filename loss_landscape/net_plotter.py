@@ -102,6 +102,14 @@ def get_random_weights(weights):
     """
     return [torch.randn(w.size()) for w in weights]
 
+def get_random_models(models):
+    """
+        Produce a random direction that is a list of random Gaussian tensors
+        with the same shape as the network's weights, so one direction entry per weight.
+    """
+    print("models shape :", np.shape(models))
+    return [np.random.randn(models.shape())]
+
 
 
 def get_random_states(states):
@@ -272,7 +280,7 @@ def create_random_direction_model(model):
     # random direction
     #if dir_type == 'weights':
     ###7777##### weights = get_weights(net) # a list of parameters.
-    direction = get_random_weights(model)
+    direction = get_random_models(model)
     ###777##### normalize_directions_for_weights(direction, weights, norm, ignore)
     #elif dir_type == 'states':
     #    states = net.state_dict() # a dict of parameters, including BN's running mean/var.
