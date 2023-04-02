@@ -253,7 +253,7 @@ def create_random_direction(net, dir_type='weights', ignore='biasbn', norm='filt
     return direction
 
 
-def create_random_direction_model(net):
+def create_random_direction_model(model):
     """
         Setup a random (normalized) direction with the same dimension as
         the weights or states.
@@ -271,9 +271,9 @@ def create_random_direction_model(net):
 
     # random direction
     #if dir_type == 'weights':
-    weights = get_weights(net) # a list of parameters.
-    direction = get_random_weights(weights)
-    normalize_directions_for_weights(direction, weights, norm, ignore)
+    ###7777##### weights = get_weights(net) # a list of parameters.
+    direction = get_random_weights(models)
+    ###777##### normalize_directions_for_weights(direction, weights, norm, ignore)
     #elif dir_type == 'states':
     #    states = net.state_dict() # a dict of parameters, including BN's running mean/var.
     #    direction = get_random_states(states)
@@ -281,30 +281,6 @@ def create_random_direction_model(net):
 
     return direction
 
-
-def create_random_direction_model(net, dir_type='weights', ignore='biasbn', norm='filter'):
-    """
-        Setup a random (normalized) direction with the same dimension as
-        the weights or states.
-
-        Args:
-          net: the given trained model
-          dir_type: 'weights' or 'states', type of directions.
-          ignore: 'biasbn', ignore biases and BN parameters.
-          norm: direction normalization method, including
-                'filter" | 'layer' | 'weight' | 'dlayer' | 'dfilter'
-
-        Returns:
-          direction: a random direction with the same dimension as weights or states.
-    """
-
-    # random direction
-    if dir_type == 'weights':
-        weights = get_weights(net) # a list of parameters.
-        direction = get_random_weights(weights)
-        normalize_directions_for_weights(direction, weights, norm, ignore)
-
-    return direction
 
 
 def setup_direction(args, dir_file, net):
@@ -388,12 +364,12 @@ def setup_direction_model(args, dir_file, model):
     if not args.dir_file:
         print("Setting up the plotting directions...")
         print("else")
-        xdirection = create_random_direction(model, args.dir_type, args.xignore, args.xnorm)
+        xdirection = create_random_direction_model(model, args.dir_type, args.xignore, args.xnorm)
         h5_util.write_list(f, 'xdirection', xdirection)
 
         if args.y:
             print("else 2")
-            ydirection = create_random_direction(model, args.dir_type, args.yignore, args.ynorm)
+            ydirection = create_random_direction_model(model, args.dir_type, args.yignore, args.ynorm)
             h5_util.write_list(f, 'ydirection', ydirection)
 
     f.close()
