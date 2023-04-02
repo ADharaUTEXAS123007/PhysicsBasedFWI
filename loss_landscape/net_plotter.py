@@ -48,6 +48,28 @@ def set_weights(net, weights, directions=None, step=None):
             #print("d :", np.shape(d))
             p.data = w + torch.Tensor(d).type(type(w))
 
+def set_model_weights(model, weights, directions=None, step=None):
+
+    """
+        Overwrite the network's weights with a specified list of tensors
+        or change weights along directions with a step size.
+    """
+
+        #if len(directions) == 2:
+    dx = directions[0]
+    dy = directions[1]
+            #print("directions dx:", dx)
+            #print("directions dy:", dy)
+            #print("step0 :", step[0])
+            #print("step1 :", step[1])
+    changes = [d0*step[0] + d1*step[1] for (d0, d1) in zip(dx, dy)]
+
+    for (p, w, d) in zip(net.parameters(), weights, changes):
+            #print("p :", p)
+            #print("w :", np.shape(w))
+            #print("d :", np.shape(d))
+        p.data = w + torch.Tensor(d).type(type(w))
+
 
 def set_states(net, states, directions=None, step=None):
     """
@@ -79,6 +101,7 @@ def get_random_weights(weights):
         with the same shape as the network's weights, so one direction entry per weight.
     """
     return [torch.randn(w.size()) for w in weights]
+
 
 
 def get_random_states(states):
@@ -230,6 +253,60 @@ def create_random_direction(net, dir_type='weights', ignore='biasbn', norm='filt
     return direction
 
 
+def create_random_direction_model(net):
+    """
+        Setup a random (normalized) direction with the same dimension as
+        the weights or states.
+
+        Args:
+          net: the given trained model
+          dir_type: 'weights' or 'states', type of directions.
+          ignore: 'biasbn', ignore biases and BN parameters.
+          norm: direction normalization method, including
+                'filter" | 'layer' | 'weight' | 'dlayer' | 'dfilter'
+
+        Returns:
+          direction: a random direction with the same dimension as weights or states.
+    """
+
+    # random direction
+    #if dir_type == 'weights':
+    weights = get_weights(net) # a list of parameters.
+    direction = get_random_weights(weights)
+    normalize_directions_for_weights(direction, weights, norm, ignore)
+    #elif dir_type == 'states':
+    #    states = net.state_dict() # a dict of parameters, including BN's running mean/var.
+    #    direction = get_random_states(states)
+    #    normalize_directions_for_states(direction, states, norm, ignore)
+
+    return direction
+
+
+def create_random_direction_model(net, dir_type='weights', ignore='biasbn', norm='filter'):
+    """
+        Setup a random (normalized) direction with the same dimension as
+        the weights or states.
+
+        Args:
+          net: the given trained model
+          dir_type: 'weights' or 'states', type of directions.
+          ignore: 'biasbn', ignore biases and BN parameters.
+          norm: direction normalization method, including
+                'filter" | 'layer' | 'weight' | 'dlayer' | 'dfilter'
+
+        Returns:
+          direction: a random direction with the same dimension as weights or states.
+    """
+
+    # random direction
+    if dir_type == 'weights':
+        weights = get_weights(net) # a list of parameters.
+        direction = get_random_weights(weights)
+        normalize_directions_for_weights(direction, weights, norm, ignore)
+
+    return direction
+
+
 def setup_direction(args, dir_file, net):
     """
         Setup the h5 file to store the directions.
@@ -276,6 +353,47 @@ def setup_direction(args, dir_file, net):
             else:
                 print("else 2")
                 ydirection = create_random_direction(net, args.dir_type, args.yignore, args.ynorm)
+            h5_util.write_list(f, 'ydirection', ydirection)
+
+    f.close()
+    print ("direction file created: %s" % dir_file)
+
+
+
+def setup_direction_model(args, dir_file, model):
+    ### store direction for model
+    """
+        Setup the h5 file to store the directions.
+        - xdirection, ydirection: The pertubation direction added to the mdoel.
+          The direction is a list of tensors.
+    """
+    print('-------------------------------------------------------------------')
+    print('setup_direction')
+    print('-------------------------------------------------------------------')
+    
+    # Setup env for preventing lock on h5py file for newer h5py versions
+    os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
+    
+    # Skip if the direction file already exists
+    if exists(dir_file):
+        f = h5py.File(dir_file, 'r')
+        if (args.y and 'ydirection' in f.keys()) or 'xdirection' in f.keys():
+            f.close()
+            print ("%s is already setted up" % dir_file)
+            return
+        f.close()
+
+    # Create the plotting directions
+    f = h5py.File(dir_file,'w') # create file, fail if exists
+    if not args.dir_file:
+        print("Setting up the plotting directions...")
+        print("else")
+        xdirection = create_random_direction(model, args.dir_type, args.xignore, args.xnorm)
+        h5_util.write_list(f, 'xdirection', xdirection)
+
+        if args.y:
+            print("else 2")
+            ydirection = create_random_direction(model, args.dir_type, args.yignore, args.ynorm)
             h5_util.write_list(f, 'ydirection', ydirection)
 
     f.close()
