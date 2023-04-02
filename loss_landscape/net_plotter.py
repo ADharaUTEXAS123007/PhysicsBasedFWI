@@ -64,11 +64,13 @@ def set_model_weights(model, weights, directions=None, step=None):
             #print("step1 :", step[1])
     changes = [d0*step[0] + d1*step[1] for (d0, d1) in zip(dx, dy)]
 
-    for (p, w, d) in zip(net.parameters(), weights, changes):
+    print("shape of changes :", np.shape(changes))
+
+    #for (p, w, d) in zip(net.parameters(), weights, changes):
             #print("p :", p)
             #print("w :", np.shape(w))
             #print("d :", np.shape(d))
-        p.data = w + torch.Tensor(d).type(type(w))
+    #    p.data = w + torch.Tensor(d).type(type(w))
 
 
 def set_states(net, states, directions=None, step=None):

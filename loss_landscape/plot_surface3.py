@@ -266,7 +266,7 @@ def crunch3(surf_file, model, w, s, d, loss_key, acc_key, comm, rank, args):
         print("coord :", coord)
         # Load the weights corresponding to those coordinates into the net
         # if args.dir_type == 'weights':
-        #     net_plotter.set_weights(net.module if args.ngpu > 1 else net, w, d, coord)
+        net_plotter.set_model_weights(model, w, d, coord)
 
         # # Record the time to compute the loss value
         # loss_start = time.time()
