@@ -68,7 +68,7 @@ def set_model_weights(model, weights, directions=None, step=None):
     print("shape of model :", np.shape(model))
 
     for j in range(3):
-        model[0,j,:,:] = model[0,j,:,:] + changes[0,j,:,:]
+        model[j,:,:] = model[0,j,:,:] + changes[0,j,:,:]
 
 
 
