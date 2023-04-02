@@ -407,7 +407,7 @@ if __name__ == '__main__':
     if rank == 0:
         net_plotter.setup_direction_model(args, dir_file, tmodel)
 
-    #####7777#### surf_file = name_surface_file(args, dir_file)
+    surf_file = name_surface_file(args, dir_file)
     
     ####7777### if rank == 0:
     ###7777####    setup_surface_file(args, surf_file, dir_file)
