@@ -405,7 +405,7 @@ if __name__ == '__main__':
     dir_file = net_plotter.name_direction_file(args) # name the direction file
     ####7777#### print("dir_file_name :", dir_file)
     if rank == 0:
-        net_plotter.setup_direction_model(args, dir_file, model)
+        net_plotter.setup_direction_model(args, dir_file, tmodel)
 
     #####7777#### surf_file = name_surface_file(args, dir_file)
     
