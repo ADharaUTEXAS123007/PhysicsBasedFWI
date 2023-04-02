@@ -416,9 +416,9 @@ if __name__ == '__main__':
     mpi.barrier(comm)
 
     # load directions
-    ####7777 #### d = net_plotter.load_directions(dir_file)
+    d = net_plotter.load_directions(dir_file)
     # calculate the consine similarity of the two directions
-    ####777 ##### print("d :", d)
+    print("d :", d)
     ####777 ##### if len(d) == 2 and rank == 0:
     ####777 #####    similarity = proj.cal_angle(proj.nplist_to_tensor(d[0]), proj.nplist_to_tensor(d[1]))
     ####777 #####    print('cosine similarity between x-axis and y-axis: %f' % similarity)
