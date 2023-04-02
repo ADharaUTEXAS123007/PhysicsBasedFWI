@@ -308,6 +308,7 @@ def create_random_direction_model(model):
     direction = get_random_models(model)
     print("shape of direction :", np.shape(direction))
     print("shape of model :", np.shape(model))
+    direction = np.array(direction)
     for j in range(3):
        direction[0,j,:,:] = direction[0,j,:,:]*(model[j,:,:].norm()/(direction[0,j,:,:].norm() + 1e-10))
     #elif dir_type == 'states':
