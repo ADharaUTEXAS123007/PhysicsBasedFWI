@@ -409,8 +409,8 @@ if __name__ == '__main__':
 
     surf_file = name_surface_file(args, dir_file)
     
-    ####7777### if rank == 0:
-    ###7777####    setup_surface_file(args, surf_file, dir_file)
+    if rank == 0:
+        setup_surface_file(args, surf_file, dir_file)
 
     # wait until master has setup the direction file and surface file
     mpi.barrier(comm)
