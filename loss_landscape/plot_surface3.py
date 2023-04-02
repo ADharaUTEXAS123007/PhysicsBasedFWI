@@ -391,7 +391,7 @@ if __name__ == '__main__':
     print("shape of vsmodel :", np.shape(vsmodel))
     print("shape of rhomodel :", np.shape(rhomodel))
 
-    tmodel = np.concatenate((vpmodel[0,:],vsmodel[0,:],rhomodel[0,:]),axis=0)
+    tmodel = np.concatenate((np.expand_dims(vpmodel[0,:],0),np.expand_dims(vsmodel[0,:],0),np.expand_dims(rhomodel[0,:],0)),axis=0)
 
     #####777### w = net_plotter.get_weights(net) # initial parameters
     #####7777#### s = copy.deepcopy(net.state_dict()) # deepcopy since state_dict are references
