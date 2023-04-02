@@ -272,7 +272,7 @@ def create_random_direction_model(model):
     # random direction
     #if dir_type == 'weights':
     ###7777##### weights = get_weights(net) # a list of parameters.
-    direction = get_random_weights(models)
+    direction = get_random_weights(model)
     ###777##### normalize_directions_for_weights(direction, weights, norm, ignore)
     #elif dir_type == 'states':
     #    states = net.state_dict() # a dict of parameters, including BN's running mean/var.
@@ -364,12 +364,12 @@ def setup_direction_model(args, dir_file, model):
     if not args.dir_file:
         print("Setting up the plotting directions...")
         print("else")
-        xdirection = create_random_direction_model(model, args.dir_type, args.xignore, args.xnorm)
+        xdirection = create_random_direction_model(model)
         h5_util.write_list(f, 'xdirection', xdirection)
 
         if args.y:
             print("else 2")
-            ydirection = create_random_direction_model(model, args.dir_type, args.yignore, args.ynorm)
+            ydirection = create_random_direction_model(model)
             h5_util.write_list(f, 'ydirection', ydirection)
 
     f.close()
