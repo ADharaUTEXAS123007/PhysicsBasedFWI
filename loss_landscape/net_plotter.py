@@ -193,6 +193,20 @@ def normalize_directions_for_weights(direction, weights, norm='filter', ignore='
         else:
             normalize_direction(d, w, norm)
 
+def normalize_directions_for_models(direction, model):
+    """
+        The normalization scales the direction entries according to the entries of weights.
+    """
+    assert(len(direction) == len(weights))
+    for d, w in zip(direction, weights):
+        if d.dim() <= 1:
+            if ignore == 'biasbn':
+                d.fill_(0) # ignore directions for weights with 1 dimension
+            else:
+                d.copy_(w) # keep directions for weights/bias that are only 1 per node
+        else:
+            normalize_direction(d, w, norm)
+
 
 def normalize_directions_for_states(direction, states, norm='filter', ignore='ignore'):
     assert(len(direction) == len(states))
@@ -292,7 +306,8 @@ def create_random_direction_model(model):
     #if dir_type == 'weights':
     ###7777##### weights = get_weights(net) # a list of parameters.
     direction = get_random_models(model)
-    ###777##### normalize_directions_for_weights(direction, weights, norm, ignore)
+    print("shape of direction :", np.shape(direction))
+    print("shape of model :", np.shape(model))
     #elif dir_type == 'states':
     #    states = net.state_dict() # a dict of parameters, including BN's running mean/var.
     #    direction = get_random_states(states)
