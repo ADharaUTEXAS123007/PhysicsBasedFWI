@@ -392,7 +392,8 @@ if __name__ == '__main__':
     print("shape of rhomodel :", np.shape(rhomodel))
 
     tmodel = np.concatenate((np.expand_dims(vpmodel[0,:],0),np.expand_dims(vsmodel[0,:],0),np.expand_dims(rhomodel[0,:],0)),axis=0)
-
+    w = tmodel
+    s = w
     #####777### w = net_plotter.get_weights(net) # initial parameters
     #####7777#### s = copy.deepcopy(net.state_dict()) # deepcopy since state_dict are references
     ####7777### if args.ngpu > 1:
@@ -440,7 +441,7 @@ if __name__ == '__main__':
     #--------------------------------------------------------------------------
     # Start the computation
     #--------------------------------------------------------------------------
-    crunch2(surf_file, tmodel, w, s, d, 'train_loss', 'train_acc', comm, rank, args)
+    crunch3(surf_file, tmodel, w, s, d, 'train_loss', 'train_acc', comm, rank, args)
     # crunch(surf_file, net, w, s, d, testloader, 'test_loss', 'test_acc', comm, rank, args)
     #--------------------------------------------------------------------------
     # Plot figures
