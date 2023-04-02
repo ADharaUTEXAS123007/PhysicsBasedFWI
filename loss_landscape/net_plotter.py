@@ -63,6 +63,7 @@ def set_model_weights(model, weights, directions=None, step=None):
             #print("step0 :", step[0])
             #print("step1 :", step[1])
     changes = [d0*step[0] + d1*step[1] for (d0, d1) in zip(dx, dy)]
+    changes = np.array(changes)
 
     print("shape of changes :", np.shape(changes))
     print("shape of model :", np.shape(model))
