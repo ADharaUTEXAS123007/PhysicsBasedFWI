@@ -224,7 +224,7 @@ def crunch2(surf_file, net, w, s, d, loss_key, acc_key, comm, rank, args):
     f.close()
 
 
-def crunch3(surf_file, net, w, s, d, loss_key, acc_key, comm, rank, args):
+def crunch3(surf_file, model, w, s, d, loss_key, acc_key, comm, rank, args):
     """
         Calculate the loss values and accuracies of modified models in parallel
         using MPI reduce.
@@ -265,30 +265,30 @@ def crunch3(surf_file, net, w, s, d, loss_key, acc_key, comm, rank, args):
         print("ind :", ind)
         print("coord :", coord)
         # Load the weights corresponding to those coordinates into the net
-        if args.dir_type == 'weights':
-            net_plotter.set_weights(net.module if args.ngpu > 1 else net, w, d, coord)
+        # if args.dir_type == 'weights':
+        #     net_plotter.set_weights(net.module if args.ngpu > 1 else net, w, d, coord)
 
-        # Record the time to compute the loss value
-        loss_start = time.time()
-        loss = evaluation.eval_loss3(net, ind, args.cuda)
-        #####loss = 10
-        acc = 10
-        loss_compute_time = time.time() - loss_start
+        # # Record the time to compute the loss value
+        # loss_start = time.time()
+        # loss = evaluation.eval_loss3(net, ind, args.cuda)
+        # #####loss = 10
+        # acc = 10
+        # loss_compute_time = time.time() - loss_start
 
-        # Record the result in the local array
-        losses.ravel()[ind] = loss
-        #####accuracies.ravel()[ind] = acc
-        syc_time = 0.0
+        # # Record the result in the local array
+        # losses.ravel()[ind] = loss
+        # #####accuracies.ravel()[ind] = acc
+        # syc_time = 0.0
 
-        # Only the master node writes to the file - this avoids write conflicts
-        if rank == 0:
-            f[loss_key][:] = losses
-            f[acc_key][:] = accuracies
-            f.flush()
+        # # Only the master node writes to the file - this avoids write conflicts
+        # if rank == 0:
+        #     f[loss_key][:] = losses
+        #     f[acc_key][:] = accuracies
+        #     f.flush()
 
-        print('Evaluating rank %d  %d/%d  (%.1f%%)  coord=%s \t%s= %.3f \t%s=%.2f \ttime=%.2f \tsync=%.2f' % (
-                rank, count, len(inds), 100.0 * count/len(inds), str(coord), loss_key, loss,
-                acc_key, acc, loss_compute_time, syc_time))
+        # print('Evaluating rank %d  %d/%d  (%.1f%%)  coord=%s \t%s= %.3f \t%s=%.2f \ttime=%.2f \tsync=%.2f' % (
+        #         rank, count, len(inds), 100.0 * count/len(inds), str(coord), loss_key, loss,
+        #         acc_key, acc, loss_compute_time, syc_time))
 
     f.close()
 
@@ -440,7 +440,7 @@ if __name__ == '__main__':
     #--------------------------------------------------------------------------
     # Start the computation
     #--------------------------------------------------------------------------
-    ####7777#### crunch2(surf_file, net, w, s, d, 'train_loss', 'train_acc', comm, rank, args)
+    crunch2(surf_file, tmodel, w, s, d, 'train_loss', 'train_acc', comm, rank, args)
     # crunch(surf_file, net, w, s, d, testloader, 'test_loss', 'test_acc', comm, rank, args)
     #--------------------------------------------------------------------------
     # Plot figures
