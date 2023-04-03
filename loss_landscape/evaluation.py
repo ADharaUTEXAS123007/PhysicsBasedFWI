@@ -283,7 +283,7 @@ def eval_loss4(model, ind, use_cuda=False):
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
     #d.add_fwi_stage(fc_high=10)
 
-    print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
+    #print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
         #print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
     os.system('rm -rf loss_curve_grad.out')
