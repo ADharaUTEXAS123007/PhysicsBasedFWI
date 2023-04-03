@@ -271,12 +271,20 @@ def crunch3(surf_file, model, w, s, d, loss_key, acc_key, comm, rank, args):
         vp = model[0,:]
         vs = model[1,:]
         rho = model[2, :]
+        vp[vp<1500.0] = 1500.0
+        vp[vp>3000.0] = 3000.0
+
+        vs[vs<866.0] = 866.0
+        vs[vs>1732.0] = 1732.0
+
+        rho[rho<1829.0] = 1829.0
+        rho[rho>2294.0] = 2294.0
 
         print("shape of model :", np.shape(model))
 
         # # Record the time to compute the loss value
         loss_start = time.time()
-        #loss = evaluation.eval_loss4(model, ind, args.cuda)
+        loss = evaluation.eval_loss4(model, ind, args.cuda)
         # #####loss = 10
         acc = 10
         loss_compute_time = time.time() - loss_start
