@@ -189,6 +189,8 @@ def eval_loss4(model, ind, use_cuda=False):
     total_loss = 0
     total = 1
 
+    print ("start evaluation")
+
     vpst = model[0,:,:]
     vsst = model[1,:,:]
     rhost = model[2,:,:]
