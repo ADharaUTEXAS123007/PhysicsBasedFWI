@@ -207,7 +207,7 @@ def eval_loss4(model, ind, use_cuda=False):
     dx = 10.0
 
     denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
-    d = api.Denise(denise_root, verbose=1)
+    d = api.Denise(denise_root, verbose=0)
     d.save_folder = '/disk/student/adhara/DOUTPUTS/'
     d.set_paths()
         
@@ -274,6 +274,7 @@ def eval_loss4(model, ind, use_cuda=False):
     d.RHOUPPERLIM = 2294.0
     d.RHOLOWERLIM = 1829.0
     d.SWS_TAPER_GRAD_HOR = 0.0
+    d.help()
 
     model_init = api.Model(vpst, vsst, rhost, dx)
 
