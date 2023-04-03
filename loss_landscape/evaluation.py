@@ -234,10 +234,10 @@ def eval_loss4(model, ind, use_cuda=False):
 
     d.ITERMAX = 1
     d.verbose = 0
-    print("shape of vp :", np.shape(vp))
-    print("shape of vs :", np.shape(vs))
-    print("shape of rho :", np.shape(rho))
-    print("shape of xsrc :", np.shape(xsrc))
+    #print("shape of vp :", np.shape(vp))
+    #print("shape of vs :", np.shape(vs))
+    #print("shape of rho :", np.shape(rho))
+    #print("shape of xsrc :", np.shape(xsrc))
 
     print(f'NSRC:\t{len(src)}')
     print(f'NREC:\t{len(rec)}')
