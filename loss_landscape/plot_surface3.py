@@ -280,7 +280,8 @@ def crunch3(surf_file, model, w, s, d, loss_key, acc_key, comm, rank, args):
         rho[rho<1829.0] = 1829.0
         rho[rho>2294.0] = 2294.0
 
-        model = np.concatenate((vp,vs,rho),axis=0)
+        model = np.concatenate((np.expand_dims(vp,0),\
+                np.expand_dims(vs,0),np.expand_dims(rho,0)),axis=0)
 
         print("shape of model :", np.shape(model))
 
