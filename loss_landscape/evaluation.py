@@ -256,7 +256,7 @@ def eval_loss4(model, ind, use_cuda=False):
     d.NPROCY = 6
     d.PHYSICS = 1
     d.TIME = 5.0
-    d.DT = 0.001
+    d.DT = 1.0e-3
         #d.NT = 2.5e-03
         #d.VPUPPERLIM = 3000.0
         #d.VPLOWERLIM = 1500.0
@@ -275,13 +275,13 @@ def eval_loss4(model, ind, use_cuda=False):
 
     model_init = api.Model(vpst, vsst, rhost, dx)
 
-    d.fwi_stages = []
+    #d.fwi_stages = []
         #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-    d.add_fwi_stage(fc_high=10)
+    #d.add_fwi_stage(fc_high=10)
 
     print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
