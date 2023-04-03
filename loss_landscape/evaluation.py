@@ -15,6 +15,7 @@ sys.path.append('./models')
 sys.path.append('/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/')
 import pyapi_denise as api
 import os
+from scipy.ndimage.filters import gaussian_filter
 
 def eval_loss(net, criterion, loader, use_cuda=False):
     """
@@ -191,6 +192,10 @@ def eval_loss4(model, ind, use_cuda=False):
     vpst = model[0,:,:]
     vsst = model[1,:,:]
     rhost = model[2,:,:]
+
+    vpst = gaussian_filter(vpst, sigma=3)
+    vsst = gaussian_filter(vsst, sigma=3)
+    rhost = gaussian_filter(rhost, sigma=3)
 
     np.save('vpst.npy',vpst)
     np.save('vsst.npy',vsst)
