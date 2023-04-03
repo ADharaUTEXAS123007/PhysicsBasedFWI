@@ -191,7 +191,7 @@ def eval_loss4(model, ind, use_cuda=False):
     vpst = model[0,:]
     vsst = model[1,:]
     rhost = model[2,:]
-    
+    dx = 10.0
 
     denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
     d = api.Denise(denise_root, verbose=1)
