@@ -270,7 +270,7 @@ def crunch3(surf_file, model, w, s, d, loss_key, acc_key, comm, rank, args):
 
         vp = model[0,:]
         vs = model[1,:]
-        rho = model[2, :]
+        rho = model[2,:]
         vp[vp<1500.0] = 1500.0
         vp[vp>3000.0] = 3000.0
 
@@ -279,6 +279,8 @@ def crunch3(surf_file, model, w, s, d, loss_key, acc_key, comm, rank, args):
 
         rho[rho<1829.0] = 1829.0
         rho[rho>2294.0] = 2294.0
+
+        model = np.concatenate((vp,vs,rho),axis=0)
 
         print("shape of model :", np.shape(model))
 
