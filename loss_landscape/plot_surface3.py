@@ -256,39 +256,45 @@ def crunch3(surf_file, model, w, s, d, loss_key, acc_key, comm, rank, args):
     # The coordinates of each unfilled index (with respect to the direction vectors
     # stored in 'd') are stored in 'coords'.
     inds, coords, inds_nums = scheduler.get_job_indices(losses, xcoordinates, ycoordinates, comm)
-    print("inds :", inds)
+    #print("inds :", inds)
     
     # Loop over all uncalculated loss values
     for count, ind in enumerate(inds):
         # Get the coordinates of the loss value being calculated
         coord = coords[count]
-        print("ind :", ind)
-        print("coord :", coord)
+        #print("ind :", ind)
+        #print("coord :", coord)
         # Load the weights corresponding to those coordinates into the net
         # if args.dir_type == 'weights':
         net_plotter.set_model_weights(model, w, d, coord)
 
+        vp = model[0,:]
+        vs = model[1,:]
+        rho = model[2, :]
+
+        print("shape of model :", np.shape(model))
+
         # # Record the time to compute the loss value
-        # loss_start = time.time()
-        # loss = evaluation.eval_loss3(net, ind, args.cuda)
+        loss_start = time.time()
+        #loss = evaluation.eval_loss4(model, ind, args.cuda)
         # #####loss = 10
-        # acc = 10
-        # loss_compute_time = time.time() - loss_start
+        acc = 10
+        loss_compute_time = time.time() - loss_start
 
         # # Record the result in the local array
-        # losses.ravel()[ind] = loss
+        losses.ravel()[ind] = loss
         # #####accuracies.ravel()[ind] = acc
-        # syc_time = 0.0
+        syc_time = 0.0
 
         # # Only the master node writes to the file - this avoids write conflicts
-        # if rank == 0:
-        #     f[loss_key][:] = losses
-        #     f[acc_key][:] = accuracies
-        #     f.flush()
+        if rank == 0:
+            f[loss_key][:] = losses
+            f[acc_key][:] = accuracies
+            f.flush()
 
-        # print('Evaluating rank %d  %d/%d  (%.1f%%)  coord=%s \t%s= %.3f \t%s=%.2f \ttime=%.2f \tsync=%.2f' % (
-        #         rank, count, len(inds), 100.0 * count/len(inds), str(coord), loss_key, loss,
-        #         acc_key, acc, loss_compute_time, syc_time))
+        print('Evaluating rank %d  %d/%d  (%.1f%%)  coord=%s \t%s= %.3f \t%s=%.2f \ttime=%.2f \tsync=%.2f' % (
+                rank, count, len(inds), 100.0 * count/len(inds), str(coord), loss_key, loss,
+                acc_key, acc, loss_compute_time, syc_time))
 
     f.close()
 

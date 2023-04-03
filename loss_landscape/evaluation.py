@@ -10,6 +10,10 @@ import time
 from torch.autograd.variable import Variable
 import deepwave
 import numpy as np
+sys.path.append('./models')
+sys.path.append('/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/')
+import pyapi_denise as api
+import os
 
 def eval_loss(net, criterion, loader, use_cuda=False):
     """
@@ -164,5 +168,131 @@ def eval_loss3(net, ind, use_cuda=False):
     #loss_D_MSE = 0
     print("loss D MSE :", loss_D_MSE)
     loss_D_MSE = loss_D_MSE*(10**5)
+    
+    return loss_D_MSE
+
+
+def eval_loss4(model, ind, use_cuda=False):
+    """
+    Evaluate the loss value for a given 'net' on the dataset provided by the loader.
+
+    Args:
+        net: the neural net model
+        criterion: loss function
+        loader: dataloader
+        use_cuda: use cuda or not
+    Returns:
+        loss value and accuracy
+    """
+    total_loss = 0
+    total = 1
+
+    vpst = model[0,:]
+    vsst = model[1,:]
+    rhost = model[2,:]
+    
+
+    denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
+    d = api.Denise(denise_root, verbose=1)
+    d.save_folder = '/disk/student/adhara/DOUTPUTS/'
+    d.set_paths()
+        
+        #model = api.Model(vp, vs, rho, dx)
+        #print(model)
+        
+    # Receivers
+    drec = int(10.)   #simple_model
+    depth_rec = int(100.)  # receiver depth [m]
+    ######depth_rec = 80. #simple_model
+    xrec1 = int(390.)     # 1st receiver position [m]
+    ######xrec1 = 100.
+    xrec2 = int(2610.)     # last receiver position [m]
+    #####xrec2 = 1700.
+    xrec = np.arange(xrec1, xrec2 + dx, drec)
+    yrec = depth_rec * (xrec / xrec)
+
+    # Sources
+    dsrc = int(80.) # source spacing [m]
+    #######dsrc = 120.
+    depth_src = int(20.)  # source depth [m]
+    #######depth_src = 40.
+    xsrc1 = int(390.) # 1st source position [m]
+    ######xsrc1 = 100.
+    xsrc2 = int(2610.) # last source position [m]
+    #######xsrc2 = 1700.
+    xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
+    #xsrc = xsrcoriginal[idx[0:6]]
+    xsrc = xsrcoriginal
+    ysrc = depth_src * xsrc / xsrc
+    tshots = len(xsrc)
+
+    # Wrap into api
+    fsource = 10.0
+    rec = api.Receivers(xrec, yrec)
+    src = api.Sources(xsrc, ysrc, fsource)
+
+    d.ITERMAX = 1
+    d.verbose = 0
+    print("shape of vp :", np.shape(vp))
+    print("shape of vs :", np.shape(vs))
+    print("shape of rho :", np.shape(rho))
+    print("shape of xsrc :", np.shape(xsrc))
+
+    print(f'NSRC:\t{len(src)}')
+    print(f'NREC:\t{len(rec)}')
+    d.NPROCX = 6
+    d.NPROCY = 6
+    d.PHYSICS = 1
+    d.TIME = 5.0
+        #d.NT = 2.5e-03
+        #d.VPUPPERLIM = 3000.0
+        #d.VPLOWERLIM = 1500.0
+        #d.VSUPPERLIM = 1732.0
+        #d.VSLOWERLIM = 866.0
+        #d.RHOUPPERLIM = 2294.0
+        #d.RHOLOWERLIM = 1929.0
+        
+    d.VPUPPERLIM = 3000.0
+    d.VPLOWERLIM = 1500.0
+    d.VSUPPERLIM = 1732.0
+    d.VSLOWERLIM = 866.0
+    d.RHOUPPERLIM = 2294.0
+    d.RHOLOWERLIM = 1829.0
+    d.SWS_TAPER_GRAD_HOR = 0.0
+
+    model_init = api.Model(vpst, vsst, rhost, dx)
+
+    d.fwi_stages = []
+        #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
+        #d.add_fwi_stage(fc_low=0.0, fc_high=20.0)
+        #for i, freq in enumerate([20]
+        #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
+        #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
+    d.add_fwi_stage(fc_high=10)
+
+    print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
+            
+        #print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
+    os.system('rm -rf loss_curve_grad.out')
+    
+    print(f'Target data: {d.DATA_DIR}')
+        ###d.grad(model_init, src, rec)
+    d.forward(model_init,src,rec)
+
+    [shots_y, file_y] = d.get_shots(keys=['_y'],return_filenames=True)
+    [shots_x, file_x] = d.get_shots(keys=['_x'],return_filenames=True)
+
+    [shots_y_ob, file_y_ob] = d.get_observed_shots(keys=['_y'],return_filenames=True)
+    [shots_x_ob, file_x_ob] = d.get_observed_shots(keys=['_x'],return_filenames=True)
+
+
+    shots = np.concatenate((shots_y,shots_x))
+    shots_obs = np.concatenate((shots_y_ob,shots_x_ob))
+
+    loss = np.linalg.norm(shots-shots_obs)
+
+    #loss_D_MSE = 0
+    print("loss D MSE :", loss_D_MSE)
+    loss_D_MSE = loss*(10**5)
     
     return loss_D_MSE

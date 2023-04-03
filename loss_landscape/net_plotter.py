@@ -306,8 +306,8 @@ def create_random_direction_model(model):
     #if dir_type == 'weights':
     ###7777##### weights = get_weights(net) # a list of parameters.
     direction = get_random_models(model)
-    print("shape of direction :", np.shape(direction))
-    print("shape of model :", np.shape(model))
+    #print("shape of direction :", np.shape(direction))
+    #print("shape of model :", np.shape(model))
     direction = np.array(direction)
     for j in range(3):
        direction[0,j,:,:] = direction[0,j,:,:]*(np.linalg.norm(model[j,:,:])/(np.linalg.norm(direction[0,j,:,:]) + 1e-10))
