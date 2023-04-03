@@ -237,7 +237,8 @@ def crunch3(surf_file, model, w, s, d, loss_key, acc_key, comm, rank, args):
     
     print("xcoordinates :", xcoordinates)
     print("ycoordinates :", ycoordinates)
-    
+    dx = 10.0
+
     if loss_key not in f.keys():
         shape = xcoordinates.shape if ycoordinates is None else (len(xcoordinates),len(ycoordinates))
         losses = -np.ones(shape=shape)
