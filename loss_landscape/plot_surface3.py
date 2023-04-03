@@ -403,11 +403,14 @@ if __name__ == '__main__':
     vsmodel = np.load('/disk/student/adhara/Spring2022/DENISE-Black-Edition/vsmodels.npy')
     rhomodel = np.load('/disk/student/adhara/Spring2022/DENISE-Black-Edition/rhomodels.npy')
 
+
     print("shape of vpmodel :", np.shape(vpmodel))
     print("shape of vsmodel :", np.shape(vsmodel))
     print("shape of rhomodel :", np.shape(rhomodel))
 
-    tmodel = np.concatenate((np.expand_dims(vpmodel[0,:],0),np.expand_dims(vsmodel[0,:],0),np.expand_dims(rhomodel[0,:],0)),axis=0)
+    tmodel = np.concatenate((np.expand_dims(np.flipud(vpmodel[0,:]),0), \
+                             np.expand_dims(np.flipud(vsmodel[0,:]),0), \
+                             np.expand_dims(np.flipud(rhomodel[0,:]),0)),axis=0)
     w = tmodel
     s = w
     #####777### w = net_plotter.get_weights(net) # initial parameters
