@@ -10,6 +10,7 @@ import time
 from torch.autograd.variable import Variable
 import deepwave
 import numpy as np
+import sys
 sys.path.append('./models')
 sys.path.append('/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/')
 import pyapi_denise as api
