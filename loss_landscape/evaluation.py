@@ -303,8 +303,8 @@ def eval_loss4(model, ind, use_cuda=False):
 
     loss = np.linalg.norm(shots-shots_obs)
 
-    #loss_D_MSE = 0
-    print("loss D MSE :", loss_D_MSE)
+    #loss_D_MSE = 
     loss_D_MSE = loss*(10**5)
+    print("loss D MSE :", loss_D_MSE)
     
     return loss_D_MSE
