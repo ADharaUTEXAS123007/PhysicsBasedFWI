@@ -192,6 +192,10 @@ def eval_loss4(model, ind, use_cuda=False):
     vsst = model[1,:,:]
     rhost = model[2,:,:]
 
+    np.save('vpst.npy',vpst)
+    np.save('vsst.npy',vsst)
+    np.save('rhost.npy',rhost)
+
     print("vpst :", np.shape(vpst))
     dx = 10.0
 
