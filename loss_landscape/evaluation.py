@@ -188,9 +188,11 @@ def eval_loss4(model, ind, use_cuda=False):
     total_loss = 0
     total = 1
 
-    vpst = model[0,:]
-    vsst = model[1,:]
-    rhost = model[2,:]
+    vpst = model[0,:,:]
+    vsst = model[1,:,:]
+    rhost = model[2,:,:]
+
+    print("vpst :", np.shape(vpst))
     dx = 10.0
 
     denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
