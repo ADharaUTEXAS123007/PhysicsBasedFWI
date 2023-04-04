@@ -151,9 +151,7 @@ def crunch(surf_file, net, w, s, d, dataloader, loss_key, acc_key, comm, rank, a
     total_time = time.time() - start_time
     print('Rank %d done!  Total time: %.2f Sync: %.2f' % (rank, total_time, total_sync))
 
-    f.close()
-    
-def crunch2(surf_file, net, w, s, d, loss_key, acc_key, comm, rank, args):
+    f.closecrunch2(surf_file, net, w, s, d, loss_key, acc_key, comm, rank, args):
     """
         Calculate the loss values and accuracies of modified models in parallel
         using MPI reduce.

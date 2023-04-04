@@ -425,32 +425,32 @@ class AutoEl22NModel(BaseModel):
             #print("initerror :", initerror)
             #if (currenterror < 0.4*initerror):
                 #print("backpropagating density gradient")
-            # self.rho_grad = torch.unsqueeze(self.rho_grad,0)
-            # self.rho_grad = self.rho_grad.cuda(self.fake_Rho.get_device())
-            # self.fake_Rho.backward(self.rho_grad)
+            self.rho_grad = torch.unsqueeze(self.rho_grad,0)
+            self.rho_grad = self.rho_grad.cuda(self.fake_Rho.get_device())
+            self.fake_Rho.backward(self.rho_grad)
                 
             #self.fake_Rho.retain_grad()
 
         #print("shape of fake_B :", np.shape(self.fake_B))
         #print("shape of grad :", np.shape(self.grad))   
-        if (epoch1 % 1 == 0): 
-            #filen = './marmousi22/Grad20Dec2AD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
-            #np.save(filen, self.grad.cpu().detach().numpy())  #switch on physics based fwi
+        # if (epoch1 % 1 == 0): 
+        #     #filen = './marmousi22/Grad20Dec2AD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
+        #     #np.save(filen, self.grad.cpu().detach().numpy())  #switch on physics based fwi
             
-            filen = './marmousiEl/Grad2JanAD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
-            np.save(filen, self.grad.cpu().detach().numpy())  #switch on physics based fwi
+        #     filen = './marmousiEl/Grad2JanAD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
+        #     np.save(filen, self.grad.cpu().detach().numpy())  #switch on physics based fwi
         
-            #filen = './marmousi22/Fake20Dec2AD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
-            #np.save(filen, self.fake_B.cpu().detach().numpy())  #switch on physics based fwi
+        #     #filen = './marmousi22/Fake20Dec2AD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
+        #     #np.save(filen, self.fake_B.cpu().detach().numpy())  #switch on physics based fwi
             
-            filen = './marmousiEl/Fake2JanAD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
-            np.save(filen, self.fake_B.cpu().detach().numpy())  #switch on physics based fwi
+        #     filen = './marmousiEl/Fake2JanAD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
+        #     np.save(filen, self.fake_B.cpu().detach().numpy())  #switch on physics based fwi
             
-            #filen = './marmousi22/Real20Dec2AD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
-            #np.save(filen, self.real_B.cpu().det2ach().numpy())  #switch on physics based fwi
+        #     #filen = './marmousi22/Real20Dec2AD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
+        #     #np.save(filen, self.real_B.cpu().det2ach().numpy())  #switch on physics based fwi
             
-            filen = './marmousiEl/Real2JanAD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
-            np.save(filen, self.real_B.cpu().detach().numpy())  #switch on physics based fwi
+        #     filen = './marmousiEl/Real2JanAD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
+        #     np.save(filen, self.real_B.cpu().detach().numpy())  #switch on physics based fwi
         
         #filen = './marmousi/RealAD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
         #np.save(filen, self.real_B.cpu().detach().numpy())  #switch on physics based fwi

@@ -294,7 +294,7 @@ def crunch3(surf_file, model, w, s, d, loss_key, acc_key, comm, rank, args):
 
         # # Record the result in the local array
         losses.ravel()[ind] = loss
-        # #####accuracies.ravel()[ind] = acc
+        accuracies.ravel()[ind] = acc
         syc_time = 0.0
 
         # # Only the master node writes to the file - this avoids write conflicts
