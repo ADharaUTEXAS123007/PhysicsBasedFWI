@@ -18595,7 +18595,7 @@ class Vaevel_Net(nn.Module):
                 if m.bias is not None:
                     m.bias.data.zero_()
     
-    
+
     # def sample(self,
     #            num_samples:int,
     #            current_device: int, **kwargs) -> Tensor:
