@@ -8834,8 +8834,8 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         d.VSLOWERLIM = 0.0
         #d.RHOUPPERLIM = 2589.0
         #d.RHOLOWERLIM = 1009.0
-        d.RHOUPPERLIM = 1000.00
-        d.RHOLOWERLIM = 1000.00
+        d.RHOUPPERLIM = 2627.00
+        d.RHOLOWERLIM = 1009.99
         d.SWS_TAPER_GRAD_HOR = 1
         #d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
@@ -8866,7 +8866,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_low=0.0,fc_high=12, inv_rho_iter=10000)
+        d.add_fwi_stage(fc_low=0.0,fc_high=10, inv_rho_iter=10000)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
