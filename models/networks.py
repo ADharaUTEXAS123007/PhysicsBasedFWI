@@ -8627,8 +8627,8 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         rho1   = torch.unsqueeze(lowf[:,0,:,:],3)
 
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
-        
-        
+         
+        print("shape of inputs1 :", np.shape(inputs1)) 
         vp1[:,:,0:24,:] = inputs1[:,0,0:24,:] 
         vs1[:,:,0:24,:] = inputs1[:,1,0:24,:]
         rho1[:,:,0:24,:] = inputs1[:,2,0:24,:] 
