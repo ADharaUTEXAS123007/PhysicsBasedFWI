@@ -8507,7 +8507,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         #self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
-        self.down1   = unetDown(2, filters[0], self.is_batchnorm)
+        self.down1   = unetDown(1, filters[0], self.is_batchnorm)
         #self.dropD1   = nn.Dropout2d(0.025)
         self.down2   = unetDown(filters[0], filters[1], self.is_batchnorm)
         #self.dropD2   = nn.Dropout2d(0.025)
