@@ -8725,7 +8725,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         
         denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
         d = api.Denise(denise_root,verbose=1)
-        d.save_folder = '/disk/student/adhara/MarmousiEP/'
+        d.save_folder = '/disk/student/adhara/MARMOUSIPressure/'
         d.set_paths()
         
         #model = api.Model(vp, vs, rho, dx)
@@ -8877,15 +8877,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         d.grad(model_init, src, rec)
         
         loss = np.loadtxt('loss_curve_grad.out')
-        
-        #print("loss :", loss)
-        
-        # grads, fnames = d.get_fwi_gradients(['c','old'],return_filenames=True)
-        
-        # print("shape of grads :", np.shape(grads))
-        # vp_grad = np.array(grads[0])
-        # vs_grad = np.array(grads[2])
-        # rho_grad = np.array(grads[1])
+
         grads, fnames = d.get_fwi_gradients(['seis'],return_filenames=True)
         vp_grad = np.array(grads[1])
         vs_grad = np.array(grads[2])
