@@ -8745,7 +8745,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #######dsrc = 120.
         depth_src = 40.  # source depth [m]
         #######depth_src = 40.
-        xsrc1 = 620.  # 1st source position [m]
+        xsrc1 = 400.  # 1st source position [m]
         ######xsrc1 = 100.
         xsrc2 = 7700.  # last source position [m]
         #######xsrc2 = 1700.
