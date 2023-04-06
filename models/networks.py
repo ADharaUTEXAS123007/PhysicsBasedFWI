@@ -8505,7 +8505,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         
         latent_dim = 8
         self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
-        self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
+        #self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
         self.down1   = unetDown(2, filters[0], self.is_batchnorm)
         #self.dropD1   = nn.Dropout2d(0.025)
@@ -8528,48 +8528,19 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         
         #self.up4     = autoUp(filters[4], filters[3], self.is_deconv)
         self.up31     = autoUp5(filters[3], filters[2], self.is_deconv)
-        #self.drop31   = nn.Dropout2d(0.1)
-        self.up32     = autoUp5(int(filters[3]), int(filters[2]), self.is_deconv)
-        #self.drop32   = nn.Dropout2d(0.1)
-        #self.Rhoup33  = autoUp5(filters[3], int(filters[2]/4), self.is_deconv)
-        #self.drop33   = nn.Dropout2d(0.1)
-        #self.up3     = autoUp5(filters[3], filters[2], self.is_deconv)
-        #self.dropU3  = nn.Dropout2d(0.025)
+
         self.up21     = autoUp5(filters[2], filters[1], self.is_deconv)
-        #self.drop21   = nn.Dropout2d(0.1)
-        self.up22     = autoUp5(int(filters[2]), int(filters[1]), self.is_deconv)
-        #self.drop22   = nn.Dropout2d(0.1)
-        #self.Rhoup23  = autoUp5(int(filters[2]/4), int(filters[1]/4), self.is_deconv)
-        #self.drop23   = nn.Dropout2d(0.1)
-        #self.up2     = autoUp5(filters[2], filters[1], self.is_deconv)
-        #self.dropU2  = nn.Dropout2d(0.025)
+
         self.up11     = autoUp5(filters[1], filters[0], self.is_deconv)
-        #self.drop11   = nn.Dropout2d(0.1)
-        self.up12     = autoUp5(int(filters[1]), int(filters[0]), self.is_deconv)
-        #self.drop12   = nn.Dropout2d(0.1)
-        #self.Rhoup13  = autoUp5(int(filters[1]/4), int(filters[0]/4), self.is_deconv)
-        #self.drop13   = nn.Dropout2d(0.1)
-        #self.up1     = autoUp5(filters[1], filters[0], self.is_deconv)
-        #self.dropU1  = nn.Dropout2d(0.025)
-        ###self.upff1     = autoUp(filters[0], filters[0], self.is_deconv)
-        ##self.upff2     = autoUp(filters[0], filters[0], self.is_deconv)
-        #######self.f1      =  nn.Conv2d(filters[0],self.n_classes, 1)
+
         self.f11      =  nn.Conv2d(filters[0],int(filters[0]/2), 1)
-        self.f12      =  nn.Conv2d(int(filters[0]),int(filters[0]/2), 1)
-        #self.Rhof13      =  nn.Conv2d(int(filters[0]/4), int(filters[0]/8), 1)
         
         self.vp     =   nn.Conv2d(int(filters[0]/2),1,1)
-        self.vs     =   nn.Conv2d(int(filters[0]/2),1,1)
-        #self.Rhorho    =   nn.Conv2d(int(filters[0]/8), 1, 1)
         
         #self.final1   = nn.LeakyReLU(0.1)
         #self.final2   = nn.LeakyReLU(0.1)
-        self.final1     =   nn.Tanh()
-        self.final2     =   nn.Tanh()
-        ##########self.final3     =   nn.Tanh()
-        #self.f2      =  nn.Conv2d(1,1,1)
-        #self.final1   =  nn.Sigmoid()
-        #self.final1  =  nn.Conv2d(1, 1, 1)
+        #self.final1     =   nn.Tanh()
+
         
     def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf, inputs3, freq, idx, it):
         #filters = [16, 32, 64, 128, 256]
@@ -8599,14 +8570,11 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #stddata = torch.std(inputs2)
         ############################################################
         combine1 = self.combine1((inputs2[:,:,1:3000:3,:]))
-        combine2 = self.combine2((inputs3[:,:,1:3000:3,:]))
-        
-        c1c2 = torch.cat((combine1,combine2),axis=1)
-        
+
         #############################print("shape of inputs2 :", np.shape(inputs2))
         #############################print("shape of inputs1 :", np.shape(inputs1))
         #down1  = self.down1((inputs2[:,:,1:1200:4,:]))
-        down1  = self.down1(c1c2)
+        down1  = self.down1(combine1)
         #down1  = self.dropD1(down1)
         down2  = self.down2(down1)
         #down2  = self.dropD2(down2)
@@ -8623,29 +8591,9 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #####print("result shape :", np.shape(result))
         
         p = self.decoder_input1(result)
-        ###################################################################
-        #p = inputs2
-        #down3  = self.down3(down2)
-        #down4  = self.down4(down3)s
-        #center = self.center(down4)
-        #up4    = self.up4(center)
-        #up3    = self.up3(up4)
-        #up2    = self.up2(up3)
-        #print("shape of down 4:", np.shape(down2))
-        #print("shape of result:", np.shape(result))
-        #print("shape of p :", np.shape(p))
+
         latent1 = p
         
-        #if (epoch1 <= lstart):
-        #    latent1 = p
-        #else:
-        #    latent1 = latentI
-        #    p = latent1
-        #latent1 = p
-            
-        ########latent1 = p
-        #p = inputs2
-        #z = 0.5*torch.ones([1,1,1,64])
         z = self.decoder_input(p)
         ####zrho = self.decoder_inputRho(p)
         #####z = inputs2
@@ -8655,136 +8603,36 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #zrho = zrho.view(-1, 1, 100, 300)
     
         up31    = self.up31(z)
-        #up31    = self.drop31(up31)
-        up32    = self.up32(z)
-        #up32    = self.drop32(up32)
-        ####up33    = self.Rhoup33(z)
-        #up33    = self.drop33(up33)
-        #up3      = self.up3(z)
         
         #up3    = self.dropU3(up3)
         #print(" shape of up1 :", np.shape(up1))
         up21    = self.up21(up31)
-        #up21    = self.drop21(up21)
-        up22    = self.up22(up32)
-        #up22    = self.drop22(up22)
-        ####up23    = self.Rhoup23(up33)
-        #up23    = self.drop23(up23)
-        #up2     = self.up2(up3)
+
         
         #up2    = self.dropU2(up2)
         up11    = self.up11(up21)
-        #up11    = self.drop11(up11)
-        up12    = self.up12(up21)
-        #up12    = self.drop12(up12)
-        ####up13    = self.Rhoup13(up23)
-        #up13    = self.drop13(up13)
-        #up1     = self.up1(up2)
         
         
         #up1    = self.dropU1(up1)
         #print("shape of up11 :", np.shape(up11))
         #print("shape of up12 :", np.shape(up12))
         up11    = up11[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
-        up12    = up12[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
-        ####up13    = up13[:,:,3:3+label_dsp_dim[0],3:3+label_dsp_dim[1]].contiguous()
-        #up1    = up1[:,:,3:3+label_dsp_dim[0],3:3+label_dsp_dim[1]].contiguous()
         
         f11     = self.f11(up11)
-        f12     = self.f12(up12)
-        ####f13     = self.Rhof13(up13)
-        #f1    = self.f1(up1)
-        
-        
-        
-        vp1f     = self.vp(f11)
-        vs1f     = self.vs(f12)
-        #####rho1f    = self.Rhorho(f13)
-        #rho1    = self.rho2(rho1)
-        ###vp1    = self.vp(torch.unsqueeze(f1[:,0,:,:],1))
-        ###vs1    = self.vs(torch.unsqueeze(f1[:,1,:,:],1))
-        #rho1   = self.rho(f13)
-        #vp1     = f11
-        #vs1     = f12
-        #rho1    = f13
-        
-        #vp1f    = self.final1(vp1f)
-        #vs1f    = self.final2(vs1f)
-        ############rho1   = self.final3(rho1)
-        #print("shape of vp1 :", np.shape(vp1))
-        #vp1[:,:,0:15,:] = 0
-        #vs1[:,:,0:15,:] = 0
-        #rho1[:,:,0:15,:] = 0
-        #rho1 = self.final3(rho1)
-        #vp1f     = self.final1(vp1f)
-        #vs1f     = self.final2(vs1f)
-        
-        #vp1    = minvp + vp1f*(maxvp-minvp)
-        #vs1    = minvs + vs1f*(maxvs-88.1)
-        #vp1 =  minvp + vp1f*(maxvp - minvp)
-        #vs1 = 88.10 + vs1f*(maxvs - 88.10)
-        vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
-        vs1    = torch.unsqueeze(lowf[:,1,:,:],1) + vs1f
-        rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
-        ####2######rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
-        #####2######vp1 = vp1f
-        #####2#######vs1 = vs1f
 
-        #rho1    = self.final3(rho1)
-        #vp1    = minvp + vp1*(maxvp-minvp)
-        #vs1    = minvs + vs1*(maxvs-881.0)
-        #rho1   = minrho + rho1*(maxrho-minrho)
-        #vp1  = minvp + vp1f*(maxvp-minvp)
-        #vs1  = minvs + vs1f*(maxvs-minvs)
-        
+        vp1f     = self.vp(f11)
+
+        vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
+        vs1    = torch.unsqueeze(lowf[:,0,:,:],2)
+        rho1   = torch.unsqueeze(lowf[:,0,:,:],3)
+
         vp1    = torch.clip(vp1, min=minvp, max=maxvp)
-        vs1    = torch.clip(vs1, min=88.1, max=maxvs)
-        ####rho1   = torch.clip(rho1, min=17.199993, max=maxrho)
-        #######vp1 = minvp + vp1*(maxvp-minvp)
-        ########vs1 = minvs + vs1*(maxvs-minvs)
-        ##########vs1 = 8.810*torch.ones((vs10.size())).cuda(vs10.get_device())
         
         
-        vp1[:,:,0:24,:] = inputs1[:,0,0:24,:]
+        vp1[:,:,0:24,:] = inputs1[:,0,0:24,:] 
         vs1[:,:,0:24,:] = inputs1[:,1,0:24,:]
-        ####rho1[:,:,0:25,:] = inputs1[:,2,0:25,:]
-        
-        
-       #vp1     = inputs1[:,0,:,:]
-        #rho1     = inputs1[:,2,:,:]
-        
-        
-        #vp1    = torch.unsqueeze(vp1,1)
-        #vs1    = torch.unsqueeze(vs1,1)
-        #rho1   = torch.unsqueeze(rho1,1)
-        #f11    = torch.cat((vp1,vs1),dim=1)
-        #f11     = vp1
-        #f1     = self.final(f1)
-        #f1     = self.final1(f1)
-        #f1     = self.final(f1)
-        #f1     = f1/torch.max(f1)
-        #print("mintrue :", mintrue)
-        #print("maxtrue :", maxtrue)
-        
-        #f1    = mintrue + f1*(maxtrue-mintrue)
-        #f1[(inputs1==1500)] = 1500
-        #f1     = lowf + f1
-        #f1[(inputs1 == 1.510)] = 1.510
-        #f1     = torch.clamp(f1,min=mintrue,max=maxtrue)
-        #f1[(inputs1 == 1.510)] = 1.510
-        
-        #f1     = torch.add(f1,1600.0)
-        #f1     = torch.add(f1,lowf)
-        #f1     = 3.0 + f1*(6.0-3.0)
-        #f1     = torch.clamp(f1, min=mintrue, max=maxtrue)
-        #print("shape of f1 :", np.shape(f1))
-        #f1[(inputs1==2000)] = 2000
-        #f1     = f1*100
-        #f1     = torch.clip(f1, min=1500, max=3550) ##clamping for marmousi
-        #with torch.no_grad():
-        #    f4 = torch.clamp(f1,15.0, 35.5)  # You must use v[:]=xxx instead of v=xxx
-        #f1[:,:,0:26,:] = 1500.0
-        #f1     = torch.clamp(f1,min=20,max=45)
+        rho1[:,:,0:24,:] = inputs1[:,2,0:24,:] 
+
         latent1 = 0
         grad = 0*vp1
         lossT = 0.0
@@ -8875,7 +8723,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         
         denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
         d = api.Denise(denise_root,verbose=1)
-        d.save_folder = '/disk/student/adhara/MARMOUSILinConst/'
+        d.save_folder = '/disk/student/adhara/MarmousiEP/'
         d.set_paths()
         
         #model = api.Model(vp, vs, rho, dx)
@@ -8902,24 +8750,6 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         xsrc2 = 7700.  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
-        #print("xsrcoriginal :", xsrcoriginal)
-        #xsrcoriginal = xsrcoriginal[idx]
-        #print("xsrcoriginal sorted :", xsrcoriginal)
-        #lens = len(xsrcoriginal)
-        
-        # r = random.randint(1,2)
-        # if (r==1):
-        #     xsrc = xsrcoriginal[0:len(xsrcoriginal):2]
-        #     idx = np.arange(0, len(xsrcoriginal), 2)
-        # else:
-        #     xsrc = xsrcoriginal[1:len(xsrcoriginal):2]
-        #     idx = np.arange(1, len(xsrcoriginal), 2)
-        #print("xsrcoriginal :",xsrcoriginal)
-        #idx = np.random.permutation(len(xsrcoriginal))
-        #xsrc = xsrcoriginal[idx]
-        #tshots = 8
-        ###xsrc = xsrcoriginal[idx[it::1]]
-        ############################xsrc = xsrcoriginal[idx[0:14]]
         xsrc = xsrcoriginal[idx[0:6]]
         #xsrc = xsrcoriginal
         #print("xsrc1 :", xsrc)
@@ -8939,18 +8769,18 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         src = api.Sources(xsrc, ysrc, fsource)
         
         
-        os.system('rm -rf /disk/student/adhara/MARMOUSILinConst/su1')
-        os.system('mkdir /disk/student/adhara/MARMOUSILinConst/su1')
+        os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/su1')
+        os.system('mkdir /disk/student/adhara/MARMOUSIPressure/su1')
         def copyshot(id1, value):             
-            fo = 'cp /disk/student/adhara/MARMOUSILinConst/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSILinConst/su1/.'
+            fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
             os.system(fo)
-            fo = 'cp /disk/student/adhara/MARMOUSILinConst/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSILinConst/su1/.'
-            os.system(fo)
+            #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
+            #os.system(fo)
         #      #if (id1+1 != value+1):
-            fo = 'mv /disk/student/adhara/MARMOUSILinConst/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSILinConst/su1/seisT_x.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_p.su.shot' + str(value+1)
             os.system(fo)
-            fo = 'mv /disk/student/adhara/MARMOUSILinConst/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSILinConst/su1/seisT_y.su.shot' + str(value+1)
-            os.system(fo)
+            #fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_y.su.shot' + str(value+1)
+            #os.system(fo)
         # # #pool = ThreadPool(tshots)
         #values = np.arange(0,tshots)
         #print("values :", values)
@@ -8960,9 +8790,9 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         for i in range(0,tshots):
             print("idx :", idx[i])
             copyshot(idx[i],i)
-        d.DATA_DIR = '/disk/student/adhara/MARMOUSILinConst/su1/seisT'
-        d.SEIS_FILE_VX = 'su1/seisT_x.su'
-        d.SEIS_FILE_VY = 'su1/seisT_y.su'
+        d.DATA_DIR = '/disk/student/adhara/MARMOUSIPressure/su1/seisT'
+        d.SEIS_FILE_P = 'su1/seisT_p.su'
+        #d.SEIS_FILE_VY = 'su1/seisT_y.su'
 
         d.help()
         #d.NX = 300
@@ -8981,8 +8811,10 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         print(f'NREC:\t{len(rec)}')
         d.NPROCX = 6
         d.NPROCY = 5
-        d.PHYSICS = 1
-        d.FC_SPIKE_1 = 5.0
+        d.PHYSICS = 2
+        d.QUELLTYPB = 4
+        d.GRAD_FORM = 2
+        ####d.FC_SPIKE_1 = 5.0
         d.QUELLART = 6
         #d.FC_SPIKE_2 = 18.0
         #d.TIME = 6.0
@@ -9033,25 +8865,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
         d.add_fwi_stage(fc_low=0.0,fc_high=12, inv_rho_iter=10000)
-        # if ((epoch1 >= 0) and (epoch1 <=100 )):
-        #     d.add_fwi_stage(fc_low=0.0, fc_high=2.0)
-        # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
-        # elif ((epoch1 >= 101) and (epoch1 <=200)):
-        #     d.add_fwi_stage(fc_low=0.0, fc_high=5.0)
-        # #     #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
-        # elif ((epoch1 >= 201) and (epoch1 <=300)):
-        #     d.add_fwi_stage(fc_low=0.0, fc_high=8.0)
-        # elif ((epoch1 >= 301) and (epoch1 <=400)):
-        #     d.add_fwi_stage(fc_low=0.0, fc_high=12.0)
-        # elif ((epoch1 >= 401) and (epoch1 <=500)):
-        #     d.add_fwi_stage(fc_low=0.0, fc_high=15.0)
-        # elif ((epoch1 >= 501) and (epoch1 <=600)):
-        #     d.add_fwi_stage(fc_low=0.0, fc_high=18.0)
-        # elif ((epoch1 >= 601) and (epoch1 <=700)):
-        #    d.add_fwi_stage(fc_low=0.0, fc_high=21.0)
-        #    #print(f'Stage {i+1}:\n\t{d.fwi_stages[i]}\n')
-        # else:
-        #    d.add_fwi_stage(fc_low=0.0, fc_high=21.0)
+
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
         #print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
@@ -9091,26 +8905,6 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         print("shape of vs_grad1 :", np.shape(vs_grad))
         print("shape of rho_grad1 :", np.shape(rho_grad))
         
-        # if freq == 2:
-        #     r = 10**5
-        # elif freq == 4:
-        #     r = 10**5
-        # elif freq == 6:
-        #     r = 10**4
-        # elif freq == 8:
-        #     r = 10**4
-        # elif freq == 10:
-        #     r = 10**3
-        # elif freq == 12:
-        #     r = 10**3
-        # elif freq == 14:
-        #     r = 10**2
-        # elif freq == 16:
-        #     r = 10**2
-        # elif freq == 18:
-        #     r = 10**1
-        # else:
-        #     r = 10**1
         r = 10**5
             
      
