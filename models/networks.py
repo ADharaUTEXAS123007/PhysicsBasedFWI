@@ -8816,6 +8816,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         d.PHYSICS = 2
         d.QUELLTYPB = 4
         d.GRAD_FORM = 2
+        d.SEISMO = 2
         ####d.FC_SPIKE_1 = 5.0
         d.QUELLART = 6
         #d.FC_SPIKE_2 = 18.0
