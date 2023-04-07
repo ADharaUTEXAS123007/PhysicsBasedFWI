@@ -8751,7 +8751,6 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         xsrc = xsrcoriginal[idx[0:6]]
-
         ysrc = depth_src * xsrc / xsrc
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
@@ -8901,9 +8900,9 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         vp_grad = torch.from_numpy(vp_grad.copy())
         vp_grad = vp_grad.float()
         #r1 = 1.0
-        #vp_grad = 1.0*vp_grad*r1
+        vp_grad = 1.0*vp_grad*r1
         #if (freq==1):
-        vp_grad = vp_grad
+        #vp_grad = vp_grad
         
         r2 = np.max(vsst)/np.max(vs_grad)
         vs_grad = torch.from_numpy(vs_grad.copy())
