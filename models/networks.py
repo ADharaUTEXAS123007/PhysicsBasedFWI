@@ -8608,7 +8608,6 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #print(" shape of up1 :", np.shape(up1))
         up21    = self.up21(up31)
 
-        
         #up2    = self.dropU2(up2)
         up11    = self.up11(up21)
         
@@ -8752,13 +8751,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         xsrc = xsrcoriginal[idx[0:6]]
-        #xsrc = xsrcoriginal
-        #print("xsrc1 :", xsrc)
-        #xsrc = np.sort(xsrc)
-        #print("xsrc2 :", xsrc)
-        #idx = idx[it::3]
-        ###idx = np.sort(idx[it::1])
-        #print("idx :", idx)
+
         ysrc = depth_src * xsrc / xsrc
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
