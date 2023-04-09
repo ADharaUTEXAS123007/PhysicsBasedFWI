@@ -8793,6 +8793,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
             copyshot(idx[i],i)
         d.DATA_DIR = '/disk/student/adhara/MARMOUSIPressure/su1/seisT'
         d.SEIS_FILE_P = 'su1/seisT_p.su'
+        d.DIR_DIR = '/disk/student/adhara/MARMOUSIPressure/sudir1/seisT'
         #d.SEIS_FILE_VY = 'su1/seisT_y.su'
 
         d.help()
