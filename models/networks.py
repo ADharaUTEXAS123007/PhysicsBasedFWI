@@ -8776,7 +8776,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
             #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
             #os.system(fo)
         #      #if (id1+1 != value+1):
-            fo = 'mv /disk/student/adhara/MARINEPressure/su1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARINEPressure/su1/seisT_p.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARINEPressure/su/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARINEPressure/su1/seisT_p.su.shot' + str(value+1)
             os.system(fo)
 
             fo = 'mv /disk/student/adhara/MARINEPressure/sudir/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARINEPressure/sudir1/seisT_p.su.shot' + str(value+1)
