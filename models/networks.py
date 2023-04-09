@@ -8764,13 +8764,21 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         
         os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/su1')
         os.system('mkdir /disk/student/adhara/MARMOUSIPressure/su1')
+        os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/sudir1')
+        os.system('mkdir /disk/student/adhara/MARMOUSIPressure/sudir1')
         def copyshot(id1, value):             
             fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
+            os.system(fo)
+
+            fo = 'cp /disk/student/adhara/MARMOUSIPressure/sudir/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/sudir1/.'
             os.system(fo)
             #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
             #os.system(fo)
         #      #if (id1+1 != value+1):
             fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_p.su.shot' + str(value+1)
+            os.system(fo)
+
+            fo = 'mv /disk/student/adhara/MARMOUSIPressure/sudir1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/sudir1/seisT_p.su.shot' + str(value+1)
             os.system(fo)
             #fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_y.su.shot' + str(value+1)
             #os.system(fo)
@@ -8819,7 +8827,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #d.VSLOWERLIM = 866.0
         #d.RHOUPPERLIM = 2294.0
         #d.RHOLOWERLIM = 1929.0
-        d.DIRWAVE = 0
+        d.DIRWAVE = 1
         d.VPUPPERLIM = 4767.0
         d.VPLOWERLIM = 1500.0
         d.VSUPPERLIM = 2752.0
