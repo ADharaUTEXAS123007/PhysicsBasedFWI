@@ -8552,7 +8552,8 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #filters = [16, 32, 64, 128, 256]
         #filters = [4, 8, 16, 32, 64]
         latent_dim = 8
-        label_dsp_dim = (170,396)
+        ######$########label_dsp_dim = (170,396)
+        label_dsp_dim = (160,225)
         #label_dsp_dim = (40,90)
         minvp = torch.min(inputs1[:,0,:,:])
         maxvp = torch.max(inputs1[:,0,:,:])
@@ -8613,7 +8614,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         
         
         #up1    = self.dropU1(up1)
-        #print("shape of up11 :", np.shape(up11))
+        print("shape of up11 :", np.shape(up11))
         #print("shape of up12 :", np.shape(up12))
         up11    = up11[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
         
@@ -8630,8 +8631,8 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         print("shape of inputs1 :", np.shape(inputs1)) 
         print("shape of vp1 :", np.shape(vp1))
         print("shape of vp1f :", np.shape(vp1f))
-        vp1[:,:,0:24,:] = inputs1[:,0,0:24,:] 
-        vs1[:,:,0:24,:] = inputs1[:,1,0:24,:]
+        vp1[:,:,0:10,:] = inputs1[:,0,0:10,:] 
+        vs1[:,:,0:10,:] = inputs1[:,1,0:10,:]
         rho1[:,:,0:24,:] = inputs1[:,2,0:24,:] 
 
         latent1 = 0
@@ -8723,31 +8724,31 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         
         denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
         d = api.Denise(denise_root,verbose=1)
-        d.save_folder = '/disk/student/adhara/MARMOUSIPressure/'
+        d.save_folder = '/disk/student/adhara/MARINEPressure/'
         d.set_paths()
         
         #model = api.Model(vp, vs, rho, dx)
         #print(model)
         
         # Receivers
-        drec = 20.   #simple_model
-        depth_rec = 380.  # receiver depth [m]
+        drec = 50.   #simple_model
+        depth_rec = 50.  # receiver depth [m]
         ######depth_rec = 80. #simple_model
-        xrec1 = 400.      # 1st receiver position [m]
+        xrec1 = 500.      # 1st receiver position [m]
         ######xrec1 = 100.
-        xrec2 = 7780.     # last receiver position [m]
+        xrec2 = 500.+4450.     # last receiver position [m]
         #####xrec2 = 1700.
         xrec = np.arange(xrec1, xrec2 + dx, drec)
         yrec = depth_rec * (xrec / xrec)
 
         # Sources
-        dsrc = 160. # source spacing [m]
+        dsrc = 25. # source spacing [m]
         #######dsrc = 120.
-        depth_src = 40.  # source depth [m]
+        depth_src = 50.  # source depth [m]
         #######depth_src = 40.
-        xsrc1 = 400.  # 1st source position [m]
+        xsrc1 = 500.  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = 7700.  # last source position [m]
+        xsrc2 = 500.0+1250.0  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         xsrc = xsrcoriginal[idx[0:6]]
@@ -8762,23 +8763,23 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         src = api.Sources(xsrc, ysrc, fsource)
         
         
-        os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/su1')
-        os.system('mkdir /disk/student/adhara/MARMOUSIPressure/su1')
-        os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/sudir1')
-        os.system('mkdir /disk/student/adhara/MARMOUSIPressure/sudir1')
+        os.system('rm -rf /disk/student/adhara/MARINEPressure/su1')
+        os.system('mkdir /disk/student/adhara/MARINEPressure/su1')
+        os.system('rm -rf /disk/student/adhara/MARINEPressure/sudir1')
+        os.system('mkdir /disk/student/adhara/MARINEPressure/sudir1')
         def copyshot(id1, value):             
-            fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
+            fo = 'cp /disk/student/adhara/MARINEPressure/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARINEPressure/su1/.'
             os.system(fo)
 
-            fo = 'cp /disk/student/adhara/MARMOUSIPressure/sudir/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/sudir1/.'
+            fo = 'cp /disk/student/adhara/MARINEPressure/sudir/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARINEPressure/sudir1/.'
             os.system(fo)
             #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
             #os.system(fo)
         #      #if (id1+1 != value+1):
-            fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_p.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARINEPressure/su1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARINEPressure/su1/seisT_p.su.shot' + str(value+1)
             os.system(fo)
 
-            fo = 'mv /disk/student/adhara/MARMOUSIPressure/sudir1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/sudir1/seisT_p.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARINEPressure/sudir1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARINEPressure/sudir1/seisT_p.su.shot' + str(value+1)
             os.system(fo)
             #fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_y.su.shot' + str(value+1)
             #os.system(fo)
@@ -8811,14 +8812,26 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
 
         print(f'NSRC:\t{len(src)}')
         print(f'NREC:\t{len(rec)}')
-        d.NPROCX = 6
+        d.NPROCX = 5
         d.NPROCY = 5
+        d.N_STREAMER = 1
+        d.REC_INCR_X = 25
+
         d.PHYSICS = 2
+        d.TIME = 3.602
+        d.DT = 0.002
+        d.FW = 10
+        d.DAMPING = 1500.0
+        d.npower = 4.0
+        d.FPML = 10.0
+
         d.QUELLTYPB = 4
+        d.FREE_SURF = 1
+
         d.GRAD_FORM = 2
         d.SEISMO = 2
         ####d.FC_SPIKE_1 = 5.0
-        d.QUELLART = 6
+        d.QUELLART = 3
         d.GRADT1 = 21
         d.GRADT2 = 25
         #d.FC_SPIKE_2 = 18.0
@@ -8831,14 +8844,14 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #d.RHOUPPERLIM = 2294.0
         #d.RHOLOWERLIM = 1929.0
         d.DIRWAVE = 1
-        d.VPUPPERLIM = 4767.0
-        d.VPLOWERLIM = 1500.0
-        d.VSUPPERLIM = 2752.0
-        d.VSLOWERLIM = 0.0
+        d.VPUPPERLIM = 2470.0
+        d.VPLOWERLIM = 1495.0
+        d.VSUPPERLIM = 881.0
+        d.VSLOWERLIM = 881.0
         #d.RHOUPPERLIM = 2589.0
         #d.RHOLOWERLIM = 1009.0
-        d.RHOUPPERLIM = 2627.00
-        d.RHOLOWERLIM = 1009.99
+        d.RHOUPPERLIM = 1010.00
+        d.RHOLOWERLIM = 1010.99
         d.SWS_TAPER_GRAD_HOR = 1
         #d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
