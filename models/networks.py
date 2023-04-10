@@ -8633,7 +8633,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         print("shape of vp1f :", np.shape(vp1f))
         vp1[:,:,0:10,:] = inputs1[:,0,0:10,:] 
         vs1[:,:,0:10,:] = inputs1[:,1,0:10,:]
-        rho1[:,:,0:24,:] = inputs1[:,2,0:24,:] 
+        rho1[:,:,0:24,:] = inputs1[:,2,0:10,:] 
 
         latent1 = 0
         grad = 0*vp1
