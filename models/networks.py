@@ -8751,16 +8751,17 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         xsrc2 = 500.0+1250.0  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
+        
         #print("idx idx idx :", len(idx))
         print("epoch1 :", epoch1)
         if (epoch1%3 == 0):
-            xrc = xsrcoriginal[idx[0:51:3]]
+            idx = idx[0:51:3]
         elif (epoch1%3 == 1):
-            xsrc = xsrcoriginal[idx[1:51:3]]
+            idx = idx[1:51:3]
         else :
-            xsrc = xsrcoriginal[idx[2:51:3]]
+            idx = idx[2:51:3]
 
-        xsrc = xsrcoriginal[idx[0:8]]
+        xsrc = xsrcoriginal[idx]
         ysrc = depth_src * xsrc / xsrc
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
