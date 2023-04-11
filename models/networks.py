@@ -8751,7 +8751,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         xsrc2 = 500.0+1250.0  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
-        xsrc = xsrcoriginal[idx[0:6]]
+        xsrc = xsrcoriginal[idx[0:51]]
         ysrc = depth_src * xsrc / xsrc
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
