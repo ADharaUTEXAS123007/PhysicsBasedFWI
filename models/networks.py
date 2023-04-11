@@ -8754,12 +8754,12 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         
         #print("idx idx idx :", len(idx))
         print("epoch1 :", epoch1)
-        ##if (epoch1%3 == 0):
-        ##    idx = idx[0:51:3]
-        ##elif (epoch1%3 == 1):
-        ##    idx = idx[1:51:3]
-        ##else :
-        ##    idx = idx[2:51:3]
+        if (epoch1%3 == 0):
+            idx = idx[0:51:3]
+        elif (epoch1%3 == 1):
+            idx = idx[1:51:3]
+        else :
+            idx = idx[2:51:3]
 
         xsrc = xsrcoriginal[idx]
         ysrc = depth_src * xsrc / xsrc
@@ -8934,7 +8934,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         vp_grad = torch.from_numpy(vp_grad.copy())
         vp_grad = vp_grad.float()
         #r1 = 1.0
-        vp_grad = 1.0*vp_grad
+        vp_grad = 1.0*vp_grad*r1
         #if (freq==1):
         #vp_grad = vp_grad
         
