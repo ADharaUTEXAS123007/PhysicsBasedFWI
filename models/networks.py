@@ -8753,11 +8753,11 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         #print("idx idx idx :", len(idx))
         if (epoch1%3 == 0):
-            xrc = xsrcoriginal[idx[0:]]
+            xrc = xsrcoriginal[idx[0:51:3]]
         elif (epoch1%3 == 1):
-            xsrc = xsrcoriginal[idx[1:3:51]]
+            xsrc = xsrcoriginal[idx[1:51:3]]
         else :
-            xsrc = xsrcoriginal[idx[2:3:51]]
+            xsrc = xsrcoriginal[idx[2:51:3]]
 
         xsrc = xsrcoriginal[idx[0:8]]
         ysrc = depth_src * xsrc / xsrc
