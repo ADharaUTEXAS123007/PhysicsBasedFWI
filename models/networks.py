@@ -9061,7 +9061,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         #meandata = torch.mean(inputs2)
         #stddata = torch.std(inputs2)
         ############################################################
-        combine1 = self.combine1((inputs2[:,:,1:3000:3,:]))
+        combine1 = self.combine1((inputs2[:,:,1:1801,:]))
 
         #############################print("shape of inputs2 :", np.shape(inputs2))
         #############################print("shape of inputs1 :", np.shape(inputs1))
@@ -9245,12 +9245,13 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         
         #print("idx idx idx :", len(idx))
         print("epoch1 :", epoch1)
-        if (epoch1%3 == 0):
-            idx = idx[0:51:3]
-        elif (epoch1%3 == 1):
-            idx = idx[1:51:3]
-        else :
-            idx = idx[2:51:3]
+        idx = idx[0:7]
+        #if (epoch1%3 == 0):
+        #    idx = idx[0:51:3]
+        #elif (epoch1%3 == 1):
+        #    idx = idx[1:51:3]
+        #else :
+        #    idx = idx[2:51:3]
 
         xsrc = xsrcoriginal[idx]
         ysrc = depth_src * xsrc / xsrc
@@ -9345,8 +9346,8 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         #d.RHOUPPERLIM = 2294.0
         #d.RHOLOWERLIM = 1929.0
         d.DIRWAVE = 1
-        d.VPUPPERLIM = 2470.0
-        d.VPLOWERLIM = 1495.0
+        d.VPUPPERLIM = 4727.0
+        d.VPLOWERLIM = 1500.0
         d.VSUPPERLIM = 881.0
         d.VSLOWERLIM = 881.0
         #d.RHOUPPERLIM = 2589.0
