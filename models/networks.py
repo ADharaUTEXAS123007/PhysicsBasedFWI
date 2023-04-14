@@ -8572,7 +8572,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #meandata = torch.mean(inputs2)
         #stddata = torch.std(inputs2)
         ############################################################
-        combine1 = self.combine1((inputs2[:,:,1:3000:3,:]))
+        combine1 = self.combine1((inputs2[:,:,1:1801,:]))
 
         print("shape of inputs2 :", np.shape(inputs2))
         #############################print("shape of inputs1 :", np.shape(inputs1))
