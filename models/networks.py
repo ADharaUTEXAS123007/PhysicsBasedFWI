@@ -8574,7 +8574,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         ############################################################
         combine1 = self.combine1((inputs2[:,:,1:3000:3,:]))
 
-        #############################print("shape of inputs2 :", np.shape(inputs2))
+        print("shape of inputs2 :", np.shape(inputs2))
         #############################print("shape of inputs1 :", np.shape(inputs1))
         #down1  = self.down1((inputs2[:,:,1:1200:4,:]))
         down1  = self.down1(combine1)
