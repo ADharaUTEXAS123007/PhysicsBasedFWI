@@ -9122,9 +9122,9 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         print("shape of inputs1 :", np.shape(inputs1)) 
         print("shape of vp1 :", np.shape(vp1))
         print("shape of vp1f :", np.shape(vp1f))
-        vp1[:,:,0:10,:] = inputs1[:,0,0:10,:] 
-        vs1[:,:,0:10,:] = inputs1[:,1,0:10,:]
-        rho1[:,:,0:10,:] = inputs1[:,2,0:10,:] 
+        vp1[:,:,0:24,:] = inputs1[:,0,0:24,:] 
+        vs1[:,:,0:24,:] = inputs1[:,1,0:24,:]
+        rho1[:,:,0:24,:] = inputs1[:,2,0:24,:] 
 
         latent1 = 0
         grad = 0*vp1
@@ -9389,13 +9389,13 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
         #print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
-        os.system('rm -rf loss_curve_grad.out')
+        os.system('rm -rf loss_curve_grad10.out')
     
         print(f'Target data: {d.DATA_DIR}')
         d.grad(model_init, src, rec)
         
-        loss = np.loadtxt('loss_curve_grad.out')
-
+        loss = np.loadtxt('loss_curve_grad10.out')
+        
         grads, fnames = d.get_fwi_gradients(['seis'],return_filenames=True)
         print("fnames :", fnames)
         vp_grad = np.array(grads[0])
