@@ -8996,9 +8996,9 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         
         latent_dim = 8
         self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
-        #self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
+        self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
-        self.down1   = unetDown(1, filters[0], self.is_batchnorm)
+        self.down1   = unetDown(2, filters[0], self.is_batchnorm)
         #self.dropD1   = nn.Dropout2d(0.025)
         self.down2   = unetDown(filters[0], filters[1], self.is_batchnorm)
         #self.dropD2   = nn.Dropout2d(0.025)
@@ -9062,11 +9062,13 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         #stddata = torch.std(inputs2)
         ############################################################
         combine1 = self.combine1((inputs2[:,:,1:1801,:]))
+        combine2 = self.combine2((inputs3[:,:,1:1801,:]))
 
+        c1c2 = torch.cat((combine1,combine2),axis=1)
         #############################print("shape of inputs2 :", np.shape(inputs2))
         #############################print("shape of inputs1 :", np.shape(inputs1))
         #down1  = self.down1((inputs2[:,:,1:1200:4,:]))
-        down1  = self.down1(combine1)
+        down1  = self.down1(c1c2)
         #down1  = self.dropD1(down1)
         down2  = self.down2(down1)
         #down2  = self.dropD2(down2)
@@ -9329,8 +9331,8 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         d.QUELLTYPB = 4
         d.FREE_SURF = 1
 
-        d.GRAD_FORM = 2
-        d.SEISMO = 2
+        d.GRAD_FORM = 1
+        d.SEISMO = 1
         ####d.FC_SPIKE_1 = 5.0
         d.QUELLART = 6
         d.GRADT1 = 21
@@ -9344,7 +9346,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         #d.VSLOWERLIM = 866.0
         #d.RHOUPPERLIM = 2294.0
         #d.RHOLOWERLIM = 1929.0
-        d.DIRWAVE = 1
+        d.DIRWAVE = 0
         d.VPUPPERLIM = 4727.0
         d.VPLOWERLIM = 1500.0
         d.VSUPPERLIM = 881.0
@@ -9354,7 +9356,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         d.RHOUPPERLIM = 1010.00
         d.RHOLOWERLIM = 1010.00
         d.SWS_TAPER_GRAD_HOR = 1
-        d.NORMALIZE = 2
+        #d.NORMALIZE = 2
         #d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
