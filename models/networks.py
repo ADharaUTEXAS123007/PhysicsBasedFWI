@@ -9295,7 +9295,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
             fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
             os.system(fo)
 
-            fo = 'cp /disk/student/adhara/MARMOUSIPressure/sudir/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/sudir1/.'
+            fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
             os.system(fo)
             #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
             #os.system(fo)
@@ -9303,7 +9303,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
             fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_x.su.shot' + str(value+1)
             os.system(fo)
 
-            fo = 'mv /disk/student/adhara/MARMOUSIPressure/sudir1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/sudir1/seisT_y.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_y.su.shot' + str(value+1)
             os.system(fo)
             #fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_y.su.shot' + str(value+1)
             #os.system(fo)
