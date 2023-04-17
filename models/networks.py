@@ -9267,44 +9267,44 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         src = api.Sources(xsrc, ysrc, fsource)
         
         
-        # os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/su1')
-        # os.system('mkdir /disk/student/adhara/MARMOUSIPressure/su1')
-        # os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/sudir1')
-        # os.system('mkdir /disk/student/adhara/MARMOUSIPressure/sudir1')
-        # def copyshot(id1, value):             
-        #     fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
-        #     os.system(fo)
-
-        #     fo = 'cp /disk/student/adhara/MARMOUSIPressure/sudir/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/sudir1/.'
-        #     os.system(fo)
-        #     #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
-        #     #os.system(fo)
-        # #      #if (id1+1 != value+1):
-        #     fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_p.su.shot' + str(value+1)
-        #     os.system(fo)
-
-        #     fo = 'mv /disk/student/adhara/MARMOUSIPressure/sudir1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/sudir1/seisT_p.su.shot' + str(value+1)
-        #     os.system(fo)
-
-
         os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/su1')
         os.system('mkdir /disk/student/adhara/MARMOUSIPressure/su1')
         os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/sudir1')
         os.system('mkdir /disk/student/adhara/MARMOUSIPressure/sudir1')
         def copyshot(id1, value):             
-            fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
+            fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
             os.system(fo)
 
-            fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
+            fo = 'cp /disk/student/adhara/MARMOUSIPressure/sudir/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/sudir1/.'
             os.system(fo)
             #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
             #os.system(fo)
         #      #if (id1+1 != value+1):
-            fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_x.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_p.su.shot' + str(value+1)
             os.system(fo)
 
-            fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_y.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/MARMOUSIPressure/sudir1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/sudir1/seisT_p.su.shot' + str(value+1)
             os.system(fo)
+
+
+        # os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/su1')
+        # os.system('mkdir /disk/student/adhara/MARMOUSIPressure/su1')
+        # os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/sudir1')
+        # os.system('mkdir /disk/student/adhara/MARMOUSIPressure/sudir1')
+        # def copyshot(id1, value):             
+        #     fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
+        #     os.system(fo)
+
+        #     fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
+        #     os.system(fo)
+        #     #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
+        #     #os.system(fo)
+        # #      #if (id1+1 != value+1):
+        #     fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_x.su.shot' + str(value+1)
+        #     os.system(fo)
+
+        #     fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_y.su.shot' + str(value+1)
+        #     os.system(fo)
             #fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_y.su.shot' + str(value+1)
             #os.system(fo)
         # # #pool = ThreadPool(tshots)
@@ -9349,11 +9349,11 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         d.npower = 4.0
         d.FPML = 10.0
 
-        d.QUELLTYPB = 1
+        d.QUELLTYPB = 4
         d.FREE_SURF = 1
 
-        d.GRAD_FORM = 1
-        d.SEISMO = 1
+        d.GRAD_FORM = 2
+        d.SEISMO = 2
         ####d.FC_SPIKE_1 = 5.0
         d.QUELLART = 6
         d.GRADT1 = 21
