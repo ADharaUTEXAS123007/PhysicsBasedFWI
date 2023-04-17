@@ -510,7 +510,7 @@ class AutoElFull22Mar22Model(BaseModel):
 
 
     def optimize_parameters(self, epoch, batch, lstart, freq, initerror, currenterror):
-        num_shots = 51
+        num_shots = 90
         idx = np.random.permutation(num_shots)
         #idx = np.arange(0,num_shots)
         num_batches = 1
