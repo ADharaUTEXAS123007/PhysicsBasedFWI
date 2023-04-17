@@ -9367,7 +9367,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         #d.VSLOWERLIM = 866.0
         #d.RHOUPPERLIM = 2294.0
         #d.RHOLOWERLIM = 1929.0
-        d.DIRWAVE = 0
+        d.DIRWAVE = 1
         d.VPUPPERLIM = 4727.0
         d.VPLOWERLIM = 1500.0
         d.VSUPPERLIM = 881.0
