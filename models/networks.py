@@ -9235,13 +9235,13 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         yrec = depth_rec * (xrec / xrec)
 
         # Sources
-        dsrc = 90. # source spacing [m]
+        dsrc = 25. # source spacing [m]
         #######dsrc = 120.
         depth_src = 50.  # source depth [m]
         #######depth_src = 40.
         xsrc1 = 500.  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = 500.0+4500.0  # last source position [m]
+        xsrc2 = 500.0+1250.0  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
@@ -9338,8 +9338,8 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         print(f'NREC:\t{len(rec)}')
         d.NPROCX = 5
         d.NPROCY = 5
-        #d.N_STREAMER = 1
-        #d.REC_INCR_X = 25
+        d.N_STREAMER = len(rec)
+        d.REC_INCR_X = dsrc
 
         d.PHYSICS = 2
         d.TIME = 3.602
