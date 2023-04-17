@@ -9349,7 +9349,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         d.npower = 4.0
         d.FPML = 10.0
 
-        d.QUELLTYPB = 4
+        d.QUELLTYPB = 1
         d.FREE_SURF = 1
 
         d.GRAD_FORM = 1
