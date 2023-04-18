@@ -8998,7 +8998,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
-        self.down1   = unetDown(2, filters[0], self.is_batchnorm)
+        self.down1   = unetDown(1, filters[0], self.is_batchnorm)
         #self.dropD1   = nn.Dropout2d(0.025)
         self.down2   = unetDown(filters[0], filters[1], self.is_batchnorm)
         #self.dropD2   = nn.Dropout2d(0.025)
@@ -9062,13 +9062,13 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         #stddata = torch.std(inputs2)
         ############################################################
         combine1 = self.combine1((inputs2[:,:,1:1801,:]))
-        combine2 = self.combine2((inputs3[:,:,1:1801,:]))
+        #combine2 = self.combine2((inputs3[:,:,1:1801,:]))
 
-        c1c2 = torch.cat((combine1,combine2),axis=1)
-        #############################print("shape of inputs2 :", np.shape(inputs2))
-        #############################print("shape of inputs1 :", np.shape(inputs1))
+        #c1c2 = torch.cat((combine1,combine2),axis=1)
+        print("shape of inputs2 :", np.shape(inputs2))
+        print("shape of inputs1 :", np.shape(inputs1))
         #down1  = self.down1((inputs2[:,:,1:1200:4,:]))
-        down1  = self.down1(c1c2)
+        down1  = self.down1(combine1)
         #down1  = self.dropD1(down1)
         down2  = self.down2(down1)
         #down2  = self.dropD2(down2)
@@ -9247,7 +9247,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         
         #print("idx idx idx :", len(idx))
         print("epoch1 :", epoch1)
-        idx = idx[6]
+        idx = idx[0:6]
         #if (epoch1%3 == 0):
         #    idx = idx[0:51:3]
         #elif (epoch1%3 == 1):
