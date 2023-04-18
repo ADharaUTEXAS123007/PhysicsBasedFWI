@@ -9224,7 +9224,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         #print(model)
         
         # Receivers
-        drec = 50.   #simple_model
+        drec = 100.   #simple_model
         depth_rec = 50.  # receiver depth [m]
         ######depth_rec = 80. #simple_model
         xrec1 = 500.      # 1st receiver position [m]
@@ -9235,7 +9235,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         yrec = depth_rec * (xrec / xrec)
 
         # Sources
-        dsrc = 50. # source spacing [m]
+        dsrc = 100. # source spacing [m]
         #######dsrc = 120.
         depth_src = 50.  # source depth [m]
         #######depth_src = 40.
@@ -9247,7 +9247,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         
         #print("idx idx idx :", len(idx))
         print("epoch1 :", epoch1)
-        idx = idx[0:15]
+        idx = idx[6]
         #if (epoch1%3 == 0):
         #    idx = idx[0:51:3]
         #elif (epoch1%3 == 1):
