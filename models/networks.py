@@ -9010,7 +9010,7 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         ##self.decoder_input1 = nn.Linear(filters[1]*250*51, latent_dim) #for marmousi 151x200
         #self.decoder_input1 = nn.Linear(filters[2]*125*26, latent_dim) #for marmousi 151x200
         #self.decoder_input = nn.Linear(latent_dim, filters[2]*500*102) #for marmousi 151x200
-        self.decoder_input1 = nn.Linear(filters[3]*113*6, latent_dim) #for marmousi 101x101
+        self.decoder_input1 = nn.Linear(filters[3]*113*3, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
         self.decoder_input = nn.Linear(latent_dim, filters[3]*30*23) #for marmousi 101x101
@@ -9338,8 +9338,8 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         print(f'NREC:\t{len(rec)}')
         d.NPROCX = 5
         d.NPROCY = 5
-        d.N_STREAMER = len(rec)
-        d.REC_INCR_X = dsrc
+        #d.N_STREAMER = len(rec)
+        #d.REC_INCR_X = dsrc
 
         d.PHYSICS = 2
         d.TIME = 3.602
