@@ -9319,8 +9319,8 @@ class AutoElFullMarmousi22Mar22_Net(nn.Module):
         d.DATA_DIR = '/disk/student/adhara/MARMOUSIPressure/su1/seisT'
         d.SEIS_FILE_P = 'su1/seisT_p.su'
         d.DIR_DIR = '/disk/student/adhara/MARMOUSIPressure/sudir1/seisT'
-        d.SEIS_FILE_VY = 'su1/seisT_y.su'
-        d.SEIS_FILE_VX = 'su1/seisT_x.su'
+        #d.SEIS_FILE_VY = 'su1/seisT_y.su'
+        #d.SEIS_FILE_VX = 'su1/seisT_x.su'
 
         d.help()
         #d.NX = 300
