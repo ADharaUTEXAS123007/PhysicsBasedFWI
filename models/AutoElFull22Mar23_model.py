@@ -511,8 +511,8 @@ class AutoElFull22Mar23Model(BaseModel):
 
     def optimize_parameters(self, epoch, batch, lstart, freq, initerror, currenterror):
         num_shots = 90
-        idx = np.random.permutation(num_shots)
-        #idx = np.arange(0,num_shots)
+        #idx = np.random.permutation(num_shots)
+        idx = np.arange(0,num_shots)
         num_batches = 1
         for it in range(num_batches):
             self.forward(epoch,lstart,freq,idx,it)                   # compute fake images: G(A)
