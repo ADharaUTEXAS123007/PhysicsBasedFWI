@@ -9595,7 +9595,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         ####print("shape of down4 :", np.shape(down4))
         result = torch.flatten(down4, start_dim=1)
         
-        #####print("result shape :", np.shape(result))
+        print("result shape :", np.shape(result))
         
         p = self.decoder_input1(result)
 
