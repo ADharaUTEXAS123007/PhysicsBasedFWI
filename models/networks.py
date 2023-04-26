@@ -9606,7 +9606,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[3], 23, 30)
+        z = z.view(-1, filters[3], 21, 30)
         #zrho = zrho.view(-1, 1, 100, 300)
     
         up31    = self.up31(z)
