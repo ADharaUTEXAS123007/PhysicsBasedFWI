@@ -9637,9 +9637,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         print("shape of inputs1 :", np.shape(inputs1)) 
         print("shape of vp1 :", np.shape(vp1))
         print("shape of vp1f :", np.shape(vp1f))
-        vp1[:,:,0:24,:] = inputs1[:,0,0:24,:] 
-        vs1[:,:,0:24,:] = inputs1[:,1,0:24,:]
-        rho1[:,:,0:24,:] = inputs1[:,2,0:24,:] 
+        vp1[:,:,0:30,:] = inputs1[:,0,0:30,:] 
+        vs1[:,:,0:30,:] = inputs1[:,1,0:30,:]
+        rho1[:,:,0:30,:] = inputs1[:,2,0:30,:] 
 
         latent1 = 0
         grad = 0*vp1
@@ -9869,8 +9869,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.SEISMO = 2
         ####d.FC_SPIKE_1 = 5.0
         d.QUELLART = 3
-        d.GRADT1 = 10
-        d.GRADT2 = 16
+        d.GRADT1 = 30
+        d.GRADT2 = 40
         #d.FC_SPIKE_2 = 18.0
         #d.TIME = 6.0
         #d.NT = 2.5e-03
