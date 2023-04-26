@@ -9573,11 +9573,11 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #meandata = torch.mean(inputs2)
         #stddata = torch.std(inputs2)
         ############################################################
-        combine1 = self.combine1((inputs2[:,:,1:1801,:]))
+        combine1 = self.combine1((inputs2[:,0:90,1:1801,:]))
         #combine2 = self.combine2((inputs3[:,:,1:1801,:]))
 
         #c1c2 = torch.cat((combine1,combine2),axis=1)
-        print("shape of inputs2 :", np.shape(inputs2))
+        print("shape of inputs2 :", np.shape(inputs2[:,0:90,1:1801,:]))
         print("shape of inputs1 :", np.shape(inputs1))
         #down1  = self.down1((inputs2[:,:,1:1200:4,:]))
         down1  = self.down1(combine1)
@@ -9739,9 +9739,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         drec = 50.   #simple_model
         depth_rec = 50.  # receiver depth [m]
         ######depth_rec = 80. #simple_model
-        xrec1 = 500.      # 1st receiver position [m]
+        xrec1 = 0.0      # 1st receiver position [m]
         ######xrec1 = 100.
-        xrec2 = 500.+4450.     # last receiver position [m]
+        xrec2 = 0.0+4450.     # last receiver position [m]
         #####xrec2 = 1700.
         xrec = np.arange(xrec1, xrec2 + dx, drec)
         yrec = depth_rec * (xrec / xrec)
