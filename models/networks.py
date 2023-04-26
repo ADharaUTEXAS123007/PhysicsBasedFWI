@@ -8817,7 +8817,6 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #d.DH = 20.0
         d.ITERMAX = 1
         d.verbose = 0
-        d.TIME = 6.0
         print("shape of vp :", np.shape(vp))
         print("shape of vs :", np.shape(vs))
         print("shape of rho :", np.shape(rho))
@@ -9760,7 +9759,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         #print("idx idx idx :", len(idx))
         print("epoch1 :", epoch1)
-        #idx = idx[0:6]
+        idx = idx[0:10]
         #if (epoch1%3 == 0):
         #    idx = idx[0:51:3]
         #elif (epoch1%3 == 1):
@@ -9800,31 +9799,6 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
             os.system(fo)
 
 
-        # os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/su1')
-        # os.system('mkdir /disk/student/adhara/MARMOUSIPressure/su1')
-        # os.system('rm -rf /disk/student/adhara/MARMOUSIPressure/sudir1')
-        # os.system('mkdir /disk/student/adhara/MARMOUSIPressure/sudir1')
-        # def copyshot(id1, value):             
-        #     fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_x.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
-        #     os.system(fo)
-
-        #     fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSIPressure/su1/.'
-        #     os.system(fo)
-        #     #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
-        #     #os.system(fo)
-        # #      #if (id1+1 != value+1):
-        #     fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_x.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_x.su.shot' + str(value+1)
-        #     os.system(fo)
-
-        #     fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_y.su.shot' + str(value+1)
-        #     os.system(fo)
-            #fo = 'mv /disk/student/adhara/MARMOUSIPressure/su1/seis_y.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARMOUSIPressure/su1/seisT_y.su.shot' + str(value+1)
-            #os.system(fo)
-        # # #pool = ThreadPool(tshots)
-        #values = np.arange(0,tshots)
-        #print("values :", values)
-        # # #print("idx :", idx)
-        # # #pool.starmap(copyshot, zip(idx,values))
         #######################################################
         for i in range(0,tshots):
             print("idx :", idx[i])
