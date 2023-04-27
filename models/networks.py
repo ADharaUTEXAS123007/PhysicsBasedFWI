@@ -9760,7 +9760,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         #print("idx idx idx :", len(idx))
         print("epoch1 :", epoch1)
-        idx = idx[0:20]
+        idx = idx[0:10]
         #if (epoch1%3 == 0):
         #    idx = idx[0:51:3]
         #elif (epoch1%3 == 1):
@@ -9895,7 +9895,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_low=0.0,fc_high=18, inv_rho_iter=10000)
+        d.add_fwi_stage(fc_low=0.0,fc_high=10, inv_rho_iter=10000)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
