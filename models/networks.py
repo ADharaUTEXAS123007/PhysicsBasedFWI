@@ -8679,7 +8679,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
     
     # forward modeling to compute gradients  
     def prop(self, vp1, vs1, rho1, true, epoch1, freq, idx, it):
-        dx = 25.0
+        dx = 12.5
         vp = true[:,0,:,:].cpu().detach().numpy()
         vs = true[:,1,:,:].cpu().detach().numpy()
         rho = true[:,2,:,:].cpu().detach().numpy()
@@ -8746,13 +8746,13 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         yrec = depth_rec * (xrec / xrec)
 
         # Sources
-        dsrc = 25. # source spacing [m]
+        dsrc = 50. # source spacing [m]
         #######dsrc = 120.
         depth_src = 50.  # source depth [m]
         #######depth_src = 40.
         xsrc1 = 500.  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = 500.0+1250.0  # last source position [m]
+        xsrc2 = 500.0+4450.0  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
@@ -8857,7 +8857,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         #d.RHOUPPERLIM = 2294.0
         #d.RHOLOWERLIM = 1929.0
         d.DIRWAVE = 1
-        d.VPUPPERLIM = 2470.0
+        d.VPUPPERLIM = 4000.0
         d.VPLOWERLIM = 1495.0
         d.VSUPPERLIM = 881.0
         d.VSLOWERLIM = 881.0
@@ -8866,7 +8866,7 @@ class AutoElFullMarmousiMar22_Net(nn.Module):
         d.RHOUPPERLIM = 1010.00
         d.RHOLOWERLIM = 1010.00
         d.SWS_TAPER_GRAD_HOR = 1
-        d.NORMALIZE = 2
+        d.NORMALIZE = 0
         #d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
@@ -9844,8 +9844,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.SEISMO = 2
         ####d.FC_SPIKE_1 = 5.0
         d.QUELLART = 3
-        d.GRADT1 = 30
-        d.GRADT2 = 40
+        d.GRADT1 = 10
+        d.GRADT2 = 20
         #d.FC_SPIKE_2 = 18.0
         #d.TIME = 6.0
         #d.NT = 2.5e-03
@@ -9856,7 +9856,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.RHOUPPERLIM = 2294.0
         #d.RHOLOWERLIM = 1929.0
         d.DIRWAVE = 1
-        d.VPUPPERLIM = 2470.0
+        d.VPUPPERLIM = 4000.0
         d.VPLOWERLIM = 1495.0
         d.VSUPPERLIM = 881.0
         d.VSLOWERLIM = 881.0
