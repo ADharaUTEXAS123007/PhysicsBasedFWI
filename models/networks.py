@@ -9525,7 +9525,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.decoder_input1 = nn.Linear(filters[3]*113*6, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(latent_dim, filters[3]*30*21) #for marmousi 101x101
+        self.decoder_input = nn.Linear(latent_dim, filters[3]*80*21) #for marmousi 101x101
         #self.decoder_inputRho = nn.Linear(latent_dim, 1*300*100)
         
         
@@ -9556,7 +9556,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [4, 8, 16, 32, 64]
         latent_dim = 8
         ######$########label_dsp_dim = (170,396)
-        label_dsp_dim = (110,225)
+        label_dsp_dim = (160,480)
         #label_dsp_dim = (40,90)
         minvp = torch.min(inputs1[:,0,:,:])
         maxvp = torch.max(inputs1[:,0,:,:])
@@ -9605,7 +9605,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[3], 21, 30)
+        z = z.view(-1, filters[3], 21, 80)
         #zrho = zrho.view(-1, 1, 100, 300)
     
         up31    = self.up31(z)
@@ -9631,7 +9631,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1)
         rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
 
-        vp1    = torch.clip(vp1, min=1.495, max=2.470)
+        vp1    = torch.clip(vp1, min=1.495, max=4.000)
          
         print("shape of inputs1 :", np.shape(inputs1)) 
         print("shape of vp1 :", np.shape(vp1))
@@ -9680,7 +9680,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
     
     # forward modeling to compute gradients  
     def prop(self, vp1, vs1, rho1, true, epoch1, freq, idx, it):
-        dx = 25.0
+        dx = 12.5
         vp = true[:,0,:,:].cpu().detach().numpy()
         vs = true[:,1,:,:].cpu().detach().numpy()
         rho = true[:,2,:,:].cpu().detach().numpy()
