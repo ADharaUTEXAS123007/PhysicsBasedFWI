@@ -106,7 +106,7 @@ class NewUModel(BaseModel):
 
     def forwardT(self):
         """Run forward pass; called by both functions <optimize_parameters> and <test>."""
-        netin1 = self.real_A[:,:,1:2000:5,:]
+        netin1 = self.real_A[:,:,:]
         self.fake_BT = self.netG(netin1)  # G(A)
         self.real_BT = self.real_B
 
