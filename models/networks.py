@@ -2357,6 +2357,7 @@ class NewU_Net(nn.Module):
         
         filters = [64, 128, 256, 512, 1024]
         
+        
         self.down1   = unetDown(self.in_channels, filters[0], self.is_batchnorm)
         self.down2   = unetDown(filters[0], filters[1], self.is_batchnorm)
         self.down3   = unetDown(filters[1], filters[2], self.is_batchnorm)
@@ -2372,6 +2373,8 @@ class NewU_Net(nn.Module):
         
     def forward(self, inputs):
         label_dsp_dim = (101,101)
+
+        print("shape of inputs :", np.shape(inputs))
         down1  = self.down1(inputs)
         down2  = self.down2(down1)
         down3  = self.down3(down2)
