@@ -36,6 +36,8 @@ if __name__ == '__main__':
     dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
     dataset2 = create_dataset2(opt) #create dataset for validation
     dataset_size = len(dataset)    # get the number of images in the dataset.
+    print("shape of dataset :", np.shape(dataset2))
+    print("shape of dataset :", np.shape(dataset))
     dataset2_size = len(dataset2) #get the number of images in validation dataset
     print('The number of training images = %d' % dataset_size)
     print('The number of validation images = %d' % dataset2_size)
