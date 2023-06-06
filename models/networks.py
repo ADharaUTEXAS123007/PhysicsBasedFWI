@@ -3136,7 +3136,7 @@ class Auto88_Net(nn.Module):
         filters = [16, 32, 64, 128, 512]
         #filters = [2, 4, 8, 16, 32]
         latent_dim = 512
-        label_dsp_dim = (1098,249)
+        label_dsp_dim = (174,500)
         mintrue = torch.min(inputs1)
         maxtrue = torch.max(inputs1)
         print("shape of inputs2 :", np.shape(inputs1))
