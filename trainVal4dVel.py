@@ -78,7 +78,8 @@ if __name__ == '__main__':
              total_iters += opt.batch_size
              epoch_iter += opt.batch_size
              model.set_input(data)         # unpack data from dataset and apply preprocessing
-             model.optimize_parameters(epoch,i,lstart)   # calculate loss functions, get gradients, update network weights
+             ####model.optimize_parameters(epoch,i,lstart)   # calculate loss functions, get gradients, update network weights
+             model.optimize_parameters(epoch)
              #model.test()
              #if (i==190):
              #   visuals = model.get_current_visuals()
