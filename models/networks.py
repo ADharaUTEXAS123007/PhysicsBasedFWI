@@ -3132,15 +3132,15 @@ class Auto88_Net(nn.Module):
         self.final   =  nn.Tanh()
         #self.final  =  nn.Sigmoid()
         
-    def forward(self):
+    def forward(self,inputs1):
         filters = [16, 32, 64, 128, 512]
         #filters = [2, 4, 8, 16, 32]
         latent_dim = 512
         label_dsp_dim = (1098,249)
         mintrue = torch.min(inputs1)
         maxtrue = torch.max(inputs1)
-        print("shape of inputs2 :", np.shape(inputs2))
-        down1  = self.down1(inputs2)
+        print("shape of inputs2 :", np.shape(inputs1))
+        down1  = self.down1(inputs1)
         down2  = self.down2(down1)
         down3  = self.down3(down2)
         down4  = self.down4(down3)
