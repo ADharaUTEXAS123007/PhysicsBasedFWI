@@ -3192,38 +3192,8 @@ class Auto88_Net(nn.Module):
         #f1     = self.final(f1)
         #f1     = f1/torch.max(f1)
         print("shape of f1 :", np.shape(f1))
-        #f2     = 0.001*0.001*torch.unsqueeze(f1[:,1,:,:],1)
-        f1     = lowf + 0.001*torch.unsqueeze(f1[:,0,:,:],1)
 
-        #f1    = mintrue + f1*(maxtrue-mintrue)
-        #f1[(inputs1==1.5100)] = 1.510
-        #f1     = lowf + f1
-        #f1[(inputs1 == 1.510)] = 1.510
-        f1     = torch.clip(f1,min=mintrue,max=maxtrue)
-        
-        #f1     = torch.add(f1,1600.0)
-        #f1     = torch.add(f1,lowf)
-        #f1     = 3.0 + f1*(6.0-3.0)
-        #f1     = torch.clamp(f1, min=mintrue, max=maxtrue)
-        #print("shape of f1 :", np.shape(f1))
-        #f1[(inputs1==2000)] = 2000
-        #f1     = f1*100
-        #f1     = torch.clip(f1, min=1500, max=3550) ##clamping for marmousi
-        #with torch.no_grad():
-        #    f4 = torch.clamp(f1,15.0, 35.5)  # You must use v[:]=xxx instead of v=xxx
-        #f1[:,:,0:26,:] = 1500.0
-        #f1     = torch.clamp(f1,min=20,max=45)
-        f2 = 0*f1
-        grad = 0*f1
-        lossT = 0.0
-        #if (epoch1 > lstart):
-        #    [grad, lossT] = self.prop(inputs2, f1, lstart, epoch1, mintrue, maxtrue, inputs1)
-        #    grad = torch.unsqueeze(grad,0)
-        #    grad = torch.unsqueeze(grad,0)
-        #result = torch.flatten(f1, start_dim=1)
-        #print(" shape of grad :", np.shape(grad))
-
-        return f1, grad, latent1, lossT, f2
+        return f1
     
     # Initialization of Parameters
     def  _initialize_weights(self):
