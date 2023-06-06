@@ -98,7 +98,7 @@ class Auto88Model(BaseModel):
 
     def forward(self):
         """Run forward pass; called by both functions <optimize_parameters> and <test>."""
-        netin1 = self.real_A[:,:,1:2000:5,:]
+        netin1 = self.real_A[:,:,:]
         self.fake_B = self.netG(netin1)  # G(A)
         #print(np.shape(self.fake_B))
         #print(self.fake_B.get_device())
