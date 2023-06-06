@@ -78,6 +78,7 @@ def create_dataset(opt):
         >>> from data import create_dataset
         >>> dataset = create_dataset(opt)
     """
+
     data_loader = CustomDatasetDataLoader(opt)
     dataset = data_loader.load_data()
     return dataset
@@ -106,6 +107,7 @@ class CustomDatasetDataLoader():
         Step 1: create a dataset instance given the name [dataset_mode]
         Step 2: create a multi-threaded data loader.
         """
+        print("custom data loader")
         self.opt = opt
         dataset_class = find_dataset_using_name(opt.dataset_mode)
         self.dataset = dataset_class(opt)
