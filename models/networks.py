@@ -209,6 +209,8 @@ def define_G(input_nc, output_nc, ngf, netG, norm='batch', use_dropout=False, in
         net = AttU_Net(input_nc, output_nc, 6, ngf, norm_layer=norm_layer, use_dropout=use_dropout)  
     elif netG == 'NewU':
         net = NewU_Net(input_nc, output_nc, 6, ngf, norm_layer=norm_layer, use_dropout=use_dropout) 
+    elif netG == 'Auto88':
+        net = Auto88_Net(input_nc, output_nc, 6, ngf, norm_layer=norm_layer, use_dropout=use_dropout)
     elif netG == 'Auto':
         net = AutoMarmousi_Net(input_nc, output_nc, 6, ngf, norm_layer=norm_layer, use_dropout=use_dropout)
     elif netG == 'Unet':
@@ -3085,6 +3087,160 @@ class Auto_Net(nn.Module):
                  
         return net1out1.grad
     
+
+class Auto88_Net(nn.Module):
+    def __init__(self,outer_nc, inner_nc, input_nc=None,
+                 submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False):
+        super(Auto88_Net, self).__init__()
+        self.is_deconv     = False
+        self.in_channels   = outer_nc
+        self.is_batchnorm  = True
+        self.n_classes     = 1
+        
+        filters = [16, 32, 64, 128, 512]
+        #filters = [2, 4, 8, 16, 32]
+        
+        latent_dim = 512
+
+        self.down1   = unetDown(self.in_channels, filters[0], self.is_batchnorm)
+        self.dropD1   = nn.Dropout2d(0.1)
+        self.down2   = unetDown(filters[0], filters[1], self.is_batchnorm)
+        self.down3   = unetDown(filters[1], filters[2], self.is_batchnorm)
+        self.dropD3   = nn.Dropout2d(0.1)
+        self.down4   = unetDown(filters[2], filters[3], self.is_batchnorm)
+        # self.center  = unetConv2(filters[3], filters[4], self.is_batchnorm)
+        ##self.decoder_input1 = nn.Linear(filters[1]*250*51, latent_dim) #for marmousi 151x200
+        #self.decoder_input1 = nn.Linear(filters[2]*125*26, latent_dim) #for marmousi 151x200
+        #self.decoder_input = nn.Linear(latent_dim, filters[2]*500*102) #for marmousi 151x200
+        self.decoder_input1 = nn.Linear(filters[3]*69*16, latent_dim) #for marmousi 101x101
+        #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
+        #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
+        self.decoder_input = nn.Linear(latent_dim, filters[3]*138*32) #for marmousi 101x101
+        
+        
+        #self.up4     = autoUp(filters[4], filters[3], self.is_deconv)
+        self.up3     = autoUp(filters[3], filters[2], self.is_deconv)
+        self.dropU3  = nn.Dropout2d(0.3)
+        self.up2     = autoUp(filters[2], filters[1], self.is_deconv)
+        self.dropU2  = nn.Dropout2d(0.3)
+        self.up1     = autoUp(filters[1], filters[0], self.is_deconv)
+        self.dropU1  = nn.Dropout2d(0.3)
+        #self.upff1     = autoUp(filters[0], filters[0], self.is_deconv)
+        #self.upff2     = autoUp(filters[0], filters[0], self.is_deconv)
+        self.f1      =  nn.Conv2d(filters[0],self.n_classes, 1)
+        self.f2      =  nn.Linear(249,249)
+        self.final   =  nn.Tanh()
+        #self.final  =  nn.Sigmoid()
+        
+    def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf):
+        filters = [16, 32, 64, 128, 512]
+        #filters = [2, 4, 8, 16, 32]
+        latent_dim = 512
+        label_dsp_dim = (1098,249)
+        mintrue = torch.min(inputs1)
+        maxtrue = torch.max(inputs1)
+        print("shape of inputs2 :", np.shape(inputs2))
+        down1  = self.down1(inputs2)
+        down2  = self.down2(down1)
+        down3  = self.down3(down2)
+        down4  = self.down4(down3)
+        
+        print("shape of down4 :", np.shape(down4))
+        
+        #print("shape of down2 :", np.shape(down2))
+        result = torch.flatten(down4, start_dim=1)
+        
+        #print("result shape :", np.shape(result))
+        
+        p = self.decoder_input1(result)
+        #down3  = self.down3(down2)
+        #down4  = self.down4(down3)s
+        #center = self.center(down4)
+        #up4    = self.up4(center)
+        #up3    = self.up3(up4)
+        #up2    = self.up2(up3)
+        #print("shape of down 4:", np.shape(down2))
+        #print("shape of result:", np.shape(result))
+        latent1 = p
+        #if (epoch1 <= lstart):
+        #    latent1 = p
+        #else:
+        #    latent1 = latentI
+        #    p = latent1
+        #    latent1 = p
+            
+
+        #p = torch.randn([1,1,1,8])
+        #z = 0.5*torch.ones([1,1,1,64])
+        z = self.decoder_input(p)
+        #z = z.view(-1, filters[3], 250, 51) #for marmousi model
+        z = z.view(-1, filters[3], 138, 32)
+    
+        up1    = self.up3(z)
+        up1    = self.dropU3(up1)
+        #print(" shape of up1 :", np.shape(up1))
+        up1    = self.up2(up1)
+        up1    = self.dropU2(up1)
+        up1    = self.up1(up1)
+        up1    = self.dropU1(up1)
+        print("shape of up1 :", np.shape(up1))
+        up1    = up1[:,:,1:1+label_dsp_dim[0],1:1+label_dsp_dim[1]].contiguous()
+        f1     = self.f1(up1)
+        #f1     = self.f2(f1)
+        #f1     = self.final(f1)
+        #f1     = self.final1(f1)
+        #f1     = self.final(f1)
+        #f1     = f1/torch.max(f1)
+        print("shape of f1 :", np.shape(f1))
+        #f2     = 0.001*0.001*torch.unsqueeze(f1[:,1,:,:],1)
+        f1     = lowf + 0.001*torch.unsqueeze(f1[:,0,:,:],1)
+
+        #f1    = mintrue + f1*(maxtrue-mintrue)
+        #f1[(inputs1==1.5100)] = 1.510
+        #f1     = lowf + f1
+        #f1[(inputs1 == 1.510)] = 1.510
+        f1     = torch.clip(f1,min=mintrue,max=maxtrue)
+        
+        #f1     = torch.add(f1,1600.0)
+        #f1     = torch.add(f1,lowf)
+        #f1     = 3.0 + f1*(6.0-3.0)
+        #f1     = torch.clamp(f1, min=mintrue, max=maxtrue)
+        #print("shape of f1 :", np.shape(f1))
+        #f1[(inputs1==2000)] = 2000
+        #f1     = f1*100
+        #f1     = torch.clip(f1, min=1500, max=3550) ##clamping for marmousi
+        #with torch.no_grad():
+        #    f4 = torch.clamp(f1,15.0, 35.5)  # You must use v[:]=xxx instead of v=xxx
+        #f1[:,:,0:26,:] = 1500.0
+        #f1     = torch.clamp(f1,min=20,max=45)
+        f2 = 0*f1
+        grad = 0*f1
+        lossT = 0.0
+        #if (epoch1 > lstart):
+        #    [grad, lossT] = self.prop(inputs2, f1, lstart, epoch1, mintrue, maxtrue, inputs1)
+        #    grad = torch.unsqueeze(grad,0)
+        #    grad = torch.unsqueeze(grad,0)
+        #result = torch.flatten(f1, start_dim=1)
+        #print(" shape of grad :", np.shape(grad))
+
+        return f1, grad, latent1, lossT, f2
+    
+    # Initialization of Parameters
+    def  _initialize_weights(self):
+          for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, sqrt(2. / n))
+                if m.bias is not None:
+                    m.bias.data.zero_()
+            elif isinstance(m, nn.BatchNorm2d):
+                m.weight.data.fill_(1)
+                m.bias.data.zero_()
+            elif isinstance(m,nn.ConvTranspose2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, sqrt(2. / n))
+                if m.bias is not None:
+                    m.bias.data.zero_()
 
 class AutoMarmousi_Net(nn.Module):
     def __init__(self,outer_nc, inner_nc, input_nc=None,
