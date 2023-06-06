@@ -123,6 +123,16 @@ class Auto88Model(BaseModel):
         # combine loss and calculate gradients
         self.loss_G = self.loss_M_MSE
         self.loss_G.backward()
+        #if (epoch1 % 1 == 0): 
+            
+        filen = './VPMODEL/Fake2JanAD.npy' #switch on for physics based fwi       
+        np.save(filen, self.fake_B.cpu().detach().numpy())  #switch on physics based fwi
+            
+            #filen = './marmousi22/Real20Dec2AD' + str(batch)+'ep'+str(epoch1)+'.npy' #switch on for physics based fwi       
+            #np.save(filen, self.real_B.cpu().det2ach().numpy())  #switch on physics based fwi
+            
+        filen = './VPMODEL/Real2JanAD.npy' #switch on for physics based fwi       
+        np.save(filen, self.fake_BT.cpu().detach().numpy())  #switch on physics based fwi
 
     def backward_G1(self,epoch1):
         """Calculate GAN and L1 loss for the generator"""
