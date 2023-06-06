@@ -259,7 +259,7 @@ class Auto88Model(BaseModel):
         self.forward()                   # compute fake images: G(A)
         # update G
         self.optimizer_G.zero_grad()        # set G's gradients to zero
-        self.backward_G(epoch)                   # calculate graidents for G
+        self.backward_G()                   # calculate graidents for G
         self.optimizer_G.step()             # udpate G's weights
 
     def compute_loss_only(self):
