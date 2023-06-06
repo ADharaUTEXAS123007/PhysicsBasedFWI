@@ -72,11 +72,15 @@ class UnalignedVel2Dataset(BaseDataset):
         #A_img = np.expand_dims(A_img,0)
         B_img = np.expand_dims(B_img,0)
         A = torch.from_numpy(A_img)
+
+        print("shape of A :", np.shape(A))
         #A = torch.abs(A)
         A = A.float()
         B = torch.from_numpy(B_img)
         #B = torch.abs(B)
         B = B.float()
+
+        print("shape of B :", np.shape(B))
         
         # mu = torch.randn(1,256)
         # logvar = torch.randn(1,256)
