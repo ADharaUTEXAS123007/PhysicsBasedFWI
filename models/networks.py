@@ -3132,7 +3132,7 @@ class Auto88_Net(nn.Module):
         self.final   =  nn.Tanh()
         #self.final  =  nn.Sigmoid()
         
-    def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf):
+    def forward(self):
         filters = [16, 32, 64, 128, 512]
         #filters = [2, 4, 8, 16, 32]
         latent_dim = 512
