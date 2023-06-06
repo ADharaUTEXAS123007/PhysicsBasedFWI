@@ -112,7 +112,7 @@ if __name__ == '__main__':
 
              iter_data_time = time.time()
              Modelloss = Modelloss + model.loss_M_MSE.item()
-             Dataloss = Dataloss + model.loss_D_MSE.item()
+             #Dataloss = Dataloss + model.loss_D_MSE.item()
              #if (epoch > lstart):
              #   Model1loss = Model1loss + model.loss_M1_MSE.item()     
              #else:
@@ -137,10 +137,10 @@ if __name__ == '__main__':
         
          if epoch % opt.display_freq == 0:    #plot losses
             losses1['Modelloss'] = Modelloss/(i+1)
-            losses1['Dataloss'] = Dataloss/(i+1)
+            #losses1['Dataloss'] = Dataloss/(i+1)
             losses1['Validationloss'] = Validationloss/(k+1)
             #losses1['Model1loss'] = Model1loss/(i+1)
-            losses1['KL divergence'] = KLloss/(i+1)
+            #losses1['KL divergence'] = KLloss/(i+1)
             #print(losses1)
             #losses2 = model.get_current_losses()
             #print(losses2)
