@@ -9654,7 +9654,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.decoder_input1 = nn.Linear(filters[3]*113*6, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(latent_dim, filters[3]*80*25) #for marmousi 101x101
+        self.decoder_input = nn.Linear(latent_dim, filters[3]*150*22) #for marmousi 101x101
         #self.decoder_inputRho = nn.Linear(latent_dim, 1*300*100)
         
         
@@ -9685,7 +9685,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [4, 8, 16, 32, 64]
         latent_dim = 8
         ######$########label_dsp_dim = (170,396)
-        label_dsp_dim = (160,480)
+        label_dsp_dim = (160,2240)
         #label_dsp_dim = (40,90)
         minvp = torch.min(inputs1[:,0,:,:])
         maxvp = torch.max(inputs1[:,0,:,:])
@@ -9734,7 +9734,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[3], 25, 80)
+        z = z.view(-1, filters[3], 22, 150)
         #zrho = zrho.view(-1, 1, 100, 300)
     
         up31    = self.up31(z)
