@@ -9883,9 +9883,10 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######depth_src = 40.
         xsrc1 = 25.  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = 25.0+4450.0  # last source position [m]
+        xsrc2 = 25.0+27500.0  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
+        
         
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
