@@ -9858,7 +9858,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
         d = api.Denise(denise_root,verbose=1)
-        d.save_folder = '/disk/student/adhara/MARINEPressure/'
+        d.save_folder = '/disk/student/adhara/marine2/'
         d.set_paths()
         
         #model = api.Model(vp, vs, rho, dx)
@@ -9881,15 +9881,15 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######dsrc = 120.
         depth_src = 50.  # source depth [m]
         #######depth_src = 40.
-        xsrc1 = 500.  # 1st source position [m]
+        xsrc1 = 25.  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = 500.0+4450.0  # last source position [m]
+        xsrc2 = 25.0+4450.0  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
         #print("idx idx idx :", len(idx))
         print("epoch1 :", epoch1)
-        idx = idx[0:10]
+        idx = idx[0:48]
         #if (epoch1%3 == 0):
         #    idx = idx[0:51:3]
         #elif (epoch1%3 == 1):
@@ -9909,23 +9909,23 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         src = api.Sources(xsrc, ysrc, fsource)
         
         
-        os.system('rm -rf /disk/student/adhara/MARINEPressure/su1')
-        os.system('mkdir /disk/student/adhara/MARINEPressure/su1')
-        os.system('rm -rf /disk/student/adhara/MARINEPressure/sudir1')
-        os.system('mkdir /disk/student/adhara/MARINEPressure/sudir1')
+        os.system('rm -rf /disk/student/adhara/marine2/su1')
+        os.system('mkdir /disk/student/adhara/marine2/su1')
+        os.system('rm -rf /disk/student/adhara/marine2/sudir1')
+        os.system('mkdir /disk/student/adhara/marine2/sudir1')
         def copyshot(id1, value):             
-            fo = 'cp /disk/student/adhara/MARINEPressure/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARINEPressure/su1/.'
+            fo = 'cp /disk/student/adhara/marine2/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/marine2/su1/.'
             os.system(fo)
 
-            fo = 'cp /disk/student/adhara/MARINEPressure/sudir/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARINEPressure/sudir1/.'
+            fo = 'cp /disk/student/adhara/marine2/sudir/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/marine2/sudir1/.'
             os.system(fo)
             #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
             #os.system(fo)
         #      #if (id1+1 != value+1):
-            fo = 'mv /disk/student/adhara/MARINEPressure/su1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARINEPressure/su1/seisT_p.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/marine2/su1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/marine2/su1/seisT_p.su.shot' + str(value+1)
             os.system(fo)
 
-            fo = 'mv /disk/student/adhara/MARINEPressure/sudir1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/MARINEPressure/sudir1/seisT_p.su.shot' + str(value+1)
+            fo = 'mv /disk/student/adhara/marine2/sudir1/seis_p.su.shot'+str(id1+1)+' ' + '/disk/student/adhara/marine2/sudir1/seisT_p.su.shot' + str(value+1)
             os.system(fo)
 
 
@@ -9933,9 +9933,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         for i in range(0,tshots):
             print("idx :", idx[i])
             copyshot(idx[i],i)
-        d.DATA_DIR = '/disk/student/adhara/MARINEPressure/su1/seisT'
+        d.DATA_DIR = '/disk/student/adhara/marine2/su1/seisT'
         d.SEIS_FILE_P = 'su1/seisT_p.su'
-        d.DIR_DIR = '/disk/student/adhara/MARINEPressure/sudir1/seisT'
+        d.DIR_DIR = '/disk/student/adhara/marine2/sudir1/seisT'
         #d.SEIS_FILE_VY = 'su1/seisT_y.su'
         #d.SEIS_FILE_VX = 'su1/seisT_x.su'
 
@@ -9953,8 +9953,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
 
         print(f'NSRC:\t{len(src)}')
         print(f'NREC:\t{len(rec)}')
-        d.NPROCX = 5
-        d.NPROCY = 5
+        d.NPROCX = 2
+        d.NPROCY = 2
         d.N_STREAMER = len(rec)
         d.REC_INCR_X = dsrc
 
@@ -10024,7 +10024,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_low=0.0,fc_high=8.0, inv_rho_iter=10000)
+        d.add_fwi_stage(fc_low=0.0,fc_high=8.0, inv_rho_iter=10000, run_command='mpirun -np 48')
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
@@ -10032,7 +10032,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         os.system('rm -rf loss_curve_grad10.out')
     
         print(f'Target data: {d.DATA_DIR}')
-        d.grad(model_init, src, rec)
+        d.grad(model_init, src, rec, )
         
         loss = np.loadtxt('loss_curve_grad10.out')
         
