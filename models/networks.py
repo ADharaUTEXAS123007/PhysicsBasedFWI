@@ -9887,7 +9887,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
-        #print("idx idx idx :", len(idx))
+        print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
         idx = idx[0:48]
         #if (epoch1%3 == 0):
