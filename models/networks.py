@@ -9659,7 +9659,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         
         #self.up4     = autoUp(filters[4], filters[3], self.is_deconv)
-        self.up31     = autoUp5(filters[3], filters[2], self.is_deconv)
+        self.up31     = autoUp5(1, filters[2], self.is_deconv)
 
         self.up21     = autoUp5(filters[2], filters[1], self.is_deconv)
 
@@ -9702,42 +9702,42 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #meandata = torch.mean(inputs2)
         #stddata = torch.std(inputs2)
         ############################################################
-        combine1 = self.combine1((inputs2[:,0:90,1:1801,:]))
-        #combine2 = self.combine2((inputs3[:,:,1:1801,:]))
+        # combine1 = self.combine1((inputs2[:,0:90,1:1801,:]))
+        # #combine2 = self.combine2((inputs3[:,:,1:1801,:]))
 
-        #c1c2 = torch.cat((combine1,combine2),axis=1)
-        print("shape of inputs2 :", np.shape(inputs2[:,0:90,1:1801,:]))
-        print("shape of inputs1 :", np.shape(inputs1))
-        #down1  = self.down1((inputs2[:,:,1:1200:4,:]))
-        down1  = self.down1(combine1)
-        #down1  = self.dropD1(down1)
-        down2  = self.down2(down1)
-        #down2  = self.dropD2(down2)
-        down3  = self.down3(down2)
-        #down3  = self.dropD3(down3)
-        down4  = self.down4(down3)
-        #down4  = self.dropD4(down4)
+        # #c1c2 = torch.cat((combine1,combine2),axis=1)
+        # print("shape of inputs2 :", np.shape(inputs2[:,0:90,1:1801,:]))
+        # print("shape of inputs1 :", np.shape(inputs1))
+        # #down1  = self.down1((inputs2[:,:,1:1200:4,:]))
+        # down1  = self.down1(combine1)
+        # #down1  = self.dropD1(down1)
+        # down2  = self.down2(down1)
+        # #down2  = self.dropD2(down2)
+        # down3  = self.down3(down2)
+        # #down3  = self.dropD3(down3)
+        # down4  = self.down4(down3)
+        # #down4  = self.dropD4(down4)
         
-        print("shape of down4 :", np.shape(down4))
+        # print("shape of down4 :", np.shape(down4))
         
-        ####print("shape of down4 :", np.shape(down4))
-        result = torch.flatten(down4, start_dim=1)
+        # ####print("shape of down4 :", np.shape(down4))
+        # result = torch.flatten(down4, start_dim=1)
         
-        print("result shape :", np.shape(result))
+        # print("result shape :", np.shape(result))
         
-        p = self.decoder_input1(result)
+        # p = self.decoder_input1(result)
 
-        latent1 = p
+        # latent1 = p
         
-        z = self.decoder_input(p)
-        ####zrho = self.decoder_inputRho(p)
-        #####z = inputs2
-        #z = z.view(-1, filters[3], 250, 51) #for marmousi model
-        #print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[3], 22, 300)
-        #zrho = zrho.view(-1, 1, 100, 300)
+        # z = self.decoder_input(p)
+        # ####zrho = self.decoder_inputRho(p)
+        # #####z = inputs2
+        # #z = z.view(-1, filters[3], 250, 51) #for marmousi model
+        # #print("shape of z :", np.shape(z))
+        # z = z.view(-1, filters[3], 22, 300)
+        # #zrho = zrho.view(-1, 1, 100, 300)
     
-        up31    = self.up31(z)
+        up31    = self.up31(inputs1)
         
         #up3    = self.dropU3(up3)
         #print(" shape of up1 :", np.shape(up1))
@@ -9992,8 +9992,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.VSLOWERLIM = 881.0
         #d.RHOUPPERLIM = 2589.0
         #d.RHOLOWERLIM = 1009.0
-        d.RHOUPPERLIM = 1010.00
-        d.RHOLOWERLIM = 1010.00
+        d.RHOUPPERLIM = 1030.00
+        d.RHOLOWERLIM = 1030.00
         d.SWS_TAPER_GRAD_HOR = 1
         #d.NORMALIZE = 2
         #d.EXP_TAPER_GRAD_HOR = 1.0
