@@ -9898,7 +9898,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #    idx = idx[2:51:3]
 
         xsrc = xsrcoriginal[idx]
-        ysrc = depth_src * xsrc / xsrc
+        ysrc = 50.0*np.ones_like(xsrc)
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
 
