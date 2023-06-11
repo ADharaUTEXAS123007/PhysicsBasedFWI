@@ -9628,7 +9628,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [16, 32, 64, 128, 512]
         #######filters = [2, 4, 8, 16, 32] #this works best result so far for marmousi model
         #filters = [1, 1, 2, 4, 16]
-        filters = [8, 16, 32, 64, 128] 
+        filters = [1, 2, 4, 8, 16] 
         #filters = [4,8,16,32,64]
         #filters = [4, 8, 16, 32, 64]
         #filters = [16, 32, 64, 128, 256]
@@ -9679,7 +9679,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [2, 4, 8, 16, 32]
         #filters = [32, 64, 128, 256, 512]
         #filters = [4,8,16,32,64]
-        filters = [8, 16, 32, 64, 128]  ###this works very well
+        filters = [1, 2, 4, 8, 16]  ###this works very well
         #filters = [1, 1, 2, 4, 16]
         #filters = [16, 32, 64, 128, 256]
         #filters = [4, 8, 16, 32, 64]
@@ -10025,7 +10025,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_low=0.0,fc_high=8.0, inv_rho_iter=10000)
+        d.add_fwi_stage(fc_low=0.0,fc_high=25.0, inv_rho_iter=10000)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
