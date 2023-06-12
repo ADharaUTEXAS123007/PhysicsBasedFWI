@@ -10026,7 +10026,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_low=5.0,fc_high=8.0, inv_rho_iter=10000)
+        d.add_fwi_stage(fc_low=5.0,fc_high=10.0, inv_rho_iter=10000)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
