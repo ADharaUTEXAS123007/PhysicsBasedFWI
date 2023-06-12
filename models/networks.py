@@ -9659,7 +9659,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         
         #self.up4     = autoUp(filters[4], filters[3], self.is_deconv)
-        self.up31     = autoUp5(1, filters[2], self.is_deconv)
+        self.up31     = autoUp5(filters[3], filters[2], self.is_deconv)
 
         self.up21     = autoUp5(filters[2], filters[1], self.is_deconv)
 
