@@ -47,11 +47,13 @@ if __name__ == '__main__':
     losses1 = OrderedDict()
     lstart = 0
     Lhist = np.ones(5)
-    freqL = [20]
+    freqL = [10,12,16,18,20,24,25,28]
     mop = 0
     InitErr = 0
     CurrentErr = 0
+    epp = 0
     for epoch in range(opt.epoch_count, opt.n_epochs + opt.n_epochs_decay + 1):    # outer loop for different epochs; we save the model by <epoch_count>, <epoch_count>+<save_latest_freq>
+         epp = epp + 1
          epoch_start_time = time.time()  # timer for entire epoch
          iter_data_time = time.time()    # timer for data loading per iteration
          epoch_iter = 0                  # the number of training iterations in current epoch, reset to 0 every epoch
@@ -92,36 +94,7 @@ if __name__ == '__main__':
                  
              print("currenterror :", CurrentErr)
              print("initerror :", InitErr)
-             #model.test()
-             #if (i==190):
-             #   visuals = model.get_current_visuals()
-             #   print(visuals['real_B'])
-             #print("model losses out of loop")
-             #print(model.loss_M_MSE.item())
-            #  if total_iters % opt.print_freq == 0:    # print training losses and save logging information to the disk
-            #     losses = model.get_current_losses()
-            #     t_comp = (time.time() - iter_start_time) / opt.batch_size
-            #     visualizer.print_current_losses(epoch, epoch_iter, losses, t_comp, t_data)
-            #     print("---epoch----")
-            #     print(epoch)
-            #     print("--losses---")
-            #     print(losses)
-            #     if opt.display_id > 0:
-            #         visualizer.plot_current_losses(epoch, float(epoch_iter) / dataset_size, losses)
 
-             #if total_iters % opt.save_latest_freq == 0:   # cache our latest model every <save_latest_freq> iterations
-             #    print('saving the latest model (epoch %d, total_iters %d)' % (epoch, total_iters))
-             #    save_suffix = 'iter_%d' % total_iters if opt.save_by_iter else 'latest'
-             #    model.save_networks(save_suffix)
-
-             
-             #if (i==259):
-             #    print(data['A'])
-             #    print(data['C'])
-             #    model.print_values()
-                 #print(model.fake_B)
-                 #np.save('./datasets/testO/A.npy',data['A'].numpy())
-                 #np.save('./datasets/testO/B.npy',data['B'].numpy())
 
              iter_data_time = time.time()
              Modelloss = Modelloss + model.loss_M_MSE.item()
@@ -141,9 +114,8 @@ if __name__ == '__main__':
                  Lhist[3] = Lhist[4]
                  Lhist[4] = model.loss_D_MSE
                  
-             if (epoch > 5):
-                 if (np.abs((Lhist[4]-Lhist[1])/Lhist[1]) <= .0000000005):
-                     mop = mop + 1
+             if (epp%10 == 0):
+                 mop = mop + 1
                  
              #if (epoch > lstart):
              #   Model1loss = Model1loss + model.loss_M1_MSE.item()     

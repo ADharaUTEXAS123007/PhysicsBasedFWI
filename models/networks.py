@@ -9766,9 +9766,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         print("shape of inputs1 :", np.shape(inputs1)) 
         print("shape of vp1 :", np.shape(vp1))
         print("shape of vp1f :", np.shape(vp1f))
-        vp1[:,:,0:30,:] = inputs1[:,0,0:30,:] 
-        vs1[:,:,0:30,:] = inputs1[:,1,0:30,:]
-        rho1[:,:,0:30,:] = inputs1[:,2,0:30,:] 
+        #vp1[:,:,0:30,:] = inputs1[:,0,0:30,:] 
+        #vs1[:,:,0:30,:] = inputs1[:,1,0:30,:]
+        #rho1[:,:,0:30,:] = inputs1[:,2,0:30,:] 
 
         latent1 = 0
         grad = 0*vp1
@@ -10026,7 +10026,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #for i, freq in enumerate([20]
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
-        d.add_fwi_stage(fc_low=5.0,fc_high=10.0, inv_rho_iter=10000)
+        d.add_fwi_stage(fc_low=5.0,fc_high=freq, inv_rho_iter=10000)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
