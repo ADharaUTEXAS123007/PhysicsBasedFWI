@@ -9855,7 +9855,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
-        idx = idx[0:15]
+        idx = idx[0:12]
         #if (epoch1%3 == 0):
         #    idx = idx[0:51:3]
         #elif (epoch1%3 == 1):
