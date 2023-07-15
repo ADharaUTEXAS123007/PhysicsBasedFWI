@@ -3086,7 +3086,6 @@ class Auto_Net(nn.Module):
         #net1out1.grad = net1out1.grad*1000
                  
         return net1out1.grad
-    
 
 class Auto88_Net(nn.Module):
     def __init__(self,outer_nc, inner_nc, input_nc=None,
@@ -6459,41 +6458,6 @@ class AutoElMarmousi22_Net(nn.Module):
         vs1[:,:,0:15,:] = inputs1[:,1,0:15,:]
         rho1[:,:,0:15,:] = inputs1[:,2,0:15,:]
         
-        #vp1     = inputs1[:,0,:,:]
-        #rho1     = inputs1[:,2,:,:]
-        
-        
-        #vp1    = torch.unsqueeze(vp1,1)
-        #vs1    = torch.unsqueeze(vs1,1)
-        #rho1   = torch.unsqueeze(rho1,1)
-        #f11    = torch.cat((vp1,vs1),dim=1)
-        #f11     = vp1
-        #f1     = self.final(f1)
-        #f1     = self.final1(f1)
-        #f1     = self.final(f1)
-        #f1     = f1/torch.max(f1)
-        #print("mintrue :", mintrue)
-        #print("maxtrue :", maxtrue)
-        
-        #f1    = mintrue + f1*(maxtrue-mintrue)
-        #f1[(inputs1==1500)] = 1500
-        #f1     = lowf + f1
-        #f1[(inputs1 == 1.510)] = 1.510
-        #f1     = torch.clamp(f1,min=mintrue,max=maxtrue)
-        #f1[(inputs1 == 1.510)] = 1.510
-        
-        #f1     = torch.add(f1,1600.0)
-        #f1     = torch.add(f1,lowf)
-        #f1     = 3.0 + f1*(6.0-3.0)
-        #f1     = torch.clamp(f1, min=mintrue, max=maxtrue)
-        #print("shape of f1 :", np.shape(f1))
-        #f1[(inputs1==2000)] = 2000
-        #f1     = f1*100
-        #f1     = torch.clip(f1, min=1500, max=3550) ##clamping for marmousi
-        #with torch.no_grad():
-        #    f4 = torch.clamp(f1,15.0, 35.5)  # You must use v[:]=xxx instead of v=xxx
-        #f1[:,:,0:26,:] = 1500.0
-        #f1     = torch.clamp(f1,min=20,max=45)
         latent1 = 0
         grad = 0*vp1
         lossT = 0.0
@@ -9685,7 +9649,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [4, 8, 16, 32, 64]
         latent_dim = 8
         ######$########label_dsp_dim = (170,396)
-        label_dsp_dim = (160,2240)
+        label_dsp_dim = (800,1460)
         #label_dsp_dim = (40,90)
         minvp = torch.min(inputs1[:,0,:,:])
         maxvp = torch.max(inputs1[:,0,:,:])
