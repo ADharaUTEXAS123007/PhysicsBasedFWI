@@ -9643,7 +9643,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [2, 4, 8, 16, 32]
         #filters = [32, 64, 128, 256, 512]
         #filters = [4,8,16,32,64]
-        filters = [2, 2, 4, 8, 16]  ###this works very well
+        filters = [2, 2, 2, 2, 2]  ###this works very well
         #filters = [1, 1, 2, 4, 16]
         #filters = [16, 32, 64, 128, 256]
         #filters = [4, 8, 16, 32, 64]
@@ -9702,11 +9702,11 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #zrho = zrho.view(-1, 1, 100, 300)
         print("shape of inputs2 :", np.shape(inputs2))
     
-        up31    = self.up31(z)
+        #up31    = self.up31(z)
         
         #up3    = self.dropU3(up3)
         #print(" shape of up1 :", np.shape(up1))
-        up21    = self.up21(up31)
+        up21    = self.up21(z)
 
         #up2    = self.dropU2(up2)
         up11    = self.up11(up21)
