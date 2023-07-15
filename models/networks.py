@@ -9961,7 +9961,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.RHOLOWERLIM = 1009.0
         d.RHOUPPERLIM = 1030.00
         d.RHOLOWERLIM = 1030.00
-       #d.SWS_TAPER_GRAD_HOR = 1
+        d.SWS_TAPER_GRAD_HOR = 0
         #d.NORMALIZE = 2
         #d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
