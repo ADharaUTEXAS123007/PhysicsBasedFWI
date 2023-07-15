@@ -9592,7 +9592,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [16, 32, 64, 128, 512]
         #######filters = [2, 4, 8, 16, 32] #this works best result so far for marmousi model
         #filters = [1, 1, 2, 4, 16]
-        filters = [2, 2, 2, 2, 2] 
+        filters = [1, 1, 1, 1, 1] 
         #filters = [4,8,16,32,64]
         #filters = [4, 8, 16, 32, 64]
         #filters = [16, 32, 64, 128, 256]
@@ -9643,7 +9643,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [2, 4, 8, 16, 32]
         #filters = [32, 64, 128, 256, 512]
         #filters = [4,8,16,32,64]
-        filters = [2, 2, 2, 2, 2]  ###this works very well
+        filters = [1, 1, 1, 1, 1]  ###this works very well
         #filters = [1, 1, 2, 4, 16]
         #filters = [16, 32, 64, 128, 256]
         #filters = [4, 8, 16, 32, 64]
@@ -9846,16 +9846,16 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######dsrc = 120.
         depth_src = 50.  # source depth [m]
         #######depth_src = 40.
-        xsrc1 = 25.  # 1st source position [m]
+        xsrc1 = 50.  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = 25.0+27500.0  # last source position [m]
+        xsrc2 = 50.0+37300.0  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
         
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
-        idx = idx[0:48]
+        idx = idx[0:15]
         #if (epoch1%3 == 0):
         #    idx = idx[0:51:3]
         #elif (epoch1%3 == 1):
@@ -9864,7 +9864,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #    idx = idx[2:51:3]
 
         xsrc = xsrcoriginal[idx]
-        ysrc = 50.0*np.ones_like(xsrc)
+        ysrc = depth_src*xsrc/xsrc 
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
 
@@ -9925,22 +9925,24 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.REC_INCR_X = dsrc
 
         d.PHYSICS = 2
-        d.TIME = 3.602
+        d.TIME = 5.002
         d.DT = 0.002
         d.FW = 10
         d.DAMPING = 1500.0
         d.npower = 4.0
         d.FPML = 10.0
+        d.QUELLART = 3
 
         d.QUELLTYPB = 4
         d.FREE_SURF = 1
 
         d.GRAD_FORM = 2
         d.SEISMO = 2
-        ####d.FC_SPIKE_1 = 5.0
-        d.QUELLART = 3
-        d.GRADT1 = 10
-        d.GRADT2 = 20
+        d.DIRWAVE = 1
+        d.GRADT1 = 55
+        d.GRADT2 = 60
+        d.SWS_TAPER_FILE = 1
+        d.TFILE = '/disk/student/adhara/Spring2022/DENISE-Black-Edition/taper'
         #d.FC_SPIKE_2 = 18.0
         #d.TIME = 6.0
         #d.NT = 2.5e-03
@@ -9950,8 +9952,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.VSLOWERLIM = 866.0
         #d.RHOUPPERLIM = 2294.0
         #d.RHOLOWERLIM = 1929.0
-        d.DIRWAVE = 1
-        d.VPUPPERLIM = 4000.0
+        #d.DIRWAVE = 1
+        d.VPUPPERLIM = 3000.0
         d.VPLOWERLIM = 1495.0
         d.VSUPPERLIM = 881.0
         d.VSLOWERLIM = 881.0
@@ -9959,7 +9961,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.RHOLOWERLIM = 1009.0
         d.RHOUPPERLIM = 1030.00
         d.RHOLOWERLIM = 1030.00
-        d.SWS_TAPER_GRAD_HOR = 1
+       #d.SWS_TAPER_GRAD_HOR = 1
         #d.NORMALIZE = 2
         #d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
@@ -9991,7 +9993,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
         print("freq freq freq :", freq)
-        d.add_fwi_stage(fc_low=5.0,fc_high=freq, inv_rho_iter=10000)
+        d.add_fwi_stage(fc_low=5.0, fc_high=freq, inv_rho_iter=10000, spatfilter=4, wd_damp=2)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
