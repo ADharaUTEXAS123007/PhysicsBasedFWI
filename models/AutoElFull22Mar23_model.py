@@ -521,21 +521,8 @@ class AutoElFull22Mar23Model(BaseModel):
             ########self.optimizer_G1.zero_grad()
             #########self.optimizer_G2.zero_grad()
             self.backward_G11(epoch,batch,lstart,initerror,currenterror,idx)   
-                         # calculate graidents for G
-            # obj = self.loss_D_MSE
-            # obj = obj
-            # obj = np.array(obj)
-            # obj = obj.astype(float)
-            # obj = torch.from_numpy(obj)
-            # obj = obj.float()
-            # lamclosure = lambda : self.closure(epoch, lstart, batch, freq)
-            ###self.optimizer_G.step(lambda : self.closure(epoch, lstart, batch, freq))             # udpate G's weights
-            ###########self.optimizer_G1.step()
-            ###########self.optimizer_G2.step()
             self.optimizer_G.step()
-        ####options = {'closure': lamclosure}
-        ####obj, grad, lr, _, _, _, _, _ = self.optimizer_G.step(options)
-
+            
     def compute_loss_only(self):
         #lossL1 = self.criterionL1(self.fake_BT,self.real_BT)
         #self.loss_V_L1 = lossL1
