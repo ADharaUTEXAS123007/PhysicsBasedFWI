@@ -9884,7 +9884,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
             os.system(fo)
 
             fo = 'cp /disk/student/adhara/marine2/sutdir%s/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/marine2/sudir1/.'
-            os.system(fo %(str(mop)))
+            os.system(fo %(str(mop+1)))
             #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
             #os.system(fo)
         #      #if (id1+1 != value+1):
