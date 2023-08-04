@@ -9726,7 +9726,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1)
         rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
 
-        vp1    = torch.clip(vp1, min=1.495, max=4.000)
+        vp1    = torch.clip(vp1, min=1496.0, max=3200)
          
         print("shape of inputs1 :", np.shape(inputs1)) 
         print("shape of vp1 :", np.shape(vp1))
@@ -9964,7 +9964,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.RHOLOWERLIM = 1929.0
         #d.DIRWAVE = 1
         d.VPUPPERLIM = 3200.0
-        d.VPLOWERLIM = 1495.0
+        d.VPLOWERLIM = 1496.0
         d.VSUPPERLIM = 881.0
         d.VSLOWERLIM = 881.0
         #d.RHOUPPERLIM = 2589.0
