@@ -9586,6 +9586,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.in_channels   = outer_nc
         self.is_batchnorm  = True
         self.n_classes     = 1
+   
         
         #filters = [16, 32, 64, 128, 256]
         #filters = [32, 64, 128, 256, 512]
@@ -9879,7 +9880,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         os.system('mkdir /disk/student/adhara/marine2/su1')
         os.system('rm -rf /disk/student/adhara/marine2/sudir1')
         os.system('mkdir /disk/student/adhara/marine2/sudir1')
-        def copyshot(id1, value):             
+        def copyshot(id1, value, mop):   
+            print("value :", value)
+            print("mop :", mop)          
             fo = 'cp /disk/student/adhara/marine2/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/marine2/su1/.'
             os.system(fo)
 
@@ -9898,7 +9901,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######################################################
         for i in range(0,tshots):
             print("idx :", idx[i])
-            copyshot(idx[i],i)
+            copyshot(idx[i],i,mop)
         d.DATA_DIR = '/disk/student/adhara/marine2/su1/seisT'
         d.SEIS_FILE_P = 'su1/seisT_p.su'
         d.DIR_DIR = '/disk/student/adhara/marine2/sudir1/seisT'
@@ -9923,6 +9926,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.NPROCY = 2
         d.N_STREAMER = len(rec)
         d.REC_INCR_X = dsrc
+        d.FD_ORDER = 8
 
         d.PHYSICS = 2
         d.TIME = 5.002
@@ -9931,15 +9935,16 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.DAMPING = 2500.0
         d.k_max_PML = 3.0
         d.npower = 4.0
-        d.FPML = 30.0
+        d.FPML = 30
         d.QUELLART = 3
 
         d.QUELLTYPB = 4
         d.BOUNDARY = 1
         d.FREE_SURF = 1
         
-        d.FC_SPIKE_1 = 5
+        d.FC_SPIKE_1 = -5
         d.FC_SPIKE_2 = 50
+        d.ORDER_SPIKE = 6
 
         d.GRAD_FORM = 2
         d.SEISMO = 2
@@ -9958,7 +9963,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.RHOUPPERLIM = 2294.0
         #d.RHOLOWERLIM = 1929.0
         #d.DIRWAVE = 1
-        d.VPUPPERLIM = 3000.0
+        d.VPUPPERLIM = 3200.0
         d.VPLOWERLIM = 1495.0
         d.VSUPPERLIM = 881.0
         d.VSLOWERLIM = 881.0
