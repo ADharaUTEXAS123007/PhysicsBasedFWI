@@ -509,13 +509,14 @@ class AutoElFull22Mar23Model(BaseModel):
         return loss1
 
 
-    def optimize_parameters(self, epoch, batch, lstart, freq, initerror, currenterror):
-        num_shots = 747
+
+    def optimize_parameters(self, epoch, batch, lstart, freq, initerror, currenterror, mop):
+        num_shots = 1493
         idx = np.random.permutation(num_shots)
         #idx = np.arange(0,num_shots)
         num_batches = 1
         for it in range(num_batches):
-            self.forward(epoch,lstart,freq,idx,it)                   # compute fake images: G(A)
+            self.forward(epoch,lstart,freq,idx,it, mop)                   # compute fake images: G(A)
             # update G
             self.optimizer_G.zero_grad()        # set G's gradients to zero
             ########self.optimizer_G1.zero_grad()

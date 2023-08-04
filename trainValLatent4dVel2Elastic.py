@@ -47,7 +47,7 @@ if __name__ == '__main__':
     losses1 = OrderedDict()
     lstart = 0
     Lhist = np.ones(5)
-    freqL = [8,12,15,18,21,24,27,30,35]
+    freqL = [8,12,18,25,30,35,40]
     mop = 0
     InitErr = 0
     CurrentErr = 0
@@ -87,7 +87,7 @@ if __name__ == '__main__':
              total_iters += opt.batch_size
              epoch_iter += opt.batch_size
              model.set_input(data)         # unpack data from dataset and apply preprocessing
-             model.optimize_parameters(epoch,i,lstart,freqL[mop],InitErr,CurrentErr)   # calculate loss functions, get gradients, update network weights
+             model.optimize_parameters(epoch,i,lstart,freqL[mop],InitErr,CurrentErr,mop)   # calculate loss functions, get gradients, update network weights
              CurrentErr = model.loss_D_MSE
              if (epoch == 1):
                  InitErr = model.loss_D_MSE

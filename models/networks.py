@@ -9638,7 +9638,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #self.final1     =   nn.Tanh()
 
         
-    def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf, inputs3, freq, idx, it):
+    def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf, inputs3, freq, idx, it, mop):
         #filters = [16, 32, 64, 128, 256]
         #filters = [2, 4, 8, 16, 32]
         #filters = [32, 64, 128, 256, 512]
@@ -9744,7 +9744,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #vs1 = vp1*0
         #rho1 = vp1*0
         if (epoch1 > lstart):
-            [vp_grad, vs_grad, rho_grad, lossT] = self.prop(vp1, vs1, rho1, inputs1, epoch1, freq, idx, it)
+            [vp_grad, vs_grad, rho_grad, lossT] = self.prop(vp1, vs1, rho1, inputs1, epoch1, freq, idx, it, mop)
         #if (epoch1 > lstart):
         #    [grad, lossT] = self.prop(inputs2, f1, lstart, epoch1, mintrue, maxtrue, inputs1)
         #    grad = grad.to(inputs2.get_device())
@@ -9773,7 +9773,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
                     m.bias.data.zero_()
     
     # forward modeling to compute gradients  
-    def prop(self, vp1, vs1, rho1, true, epoch1, freq, idx, it):
+    def prop(self, vp1, vs1, rho1, true, epoch1, freq, idx, it, mop):
         dx = 12.5
         vp = true[:,0,:,:].cpu().detach().numpy()
         vs = true[:,1,:,:].cpu().detach().numpy()
@@ -9783,9 +9783,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs = np.squeeze(vs)
         rho = np.squeeze(rho)
         
-        vp = np.flipud(vp)*1000.0
-        vs = np.flipud(vs)*1000.0
-        rho = np.flipud(rho)*1000.0
+        vp = np.flipud(vp)*1.0
+        vs = np.flipud(vs)*1.0
+        rho = np.flipud(rho)*1.0
         
         vp0 = vp[-1,-1]*np.ones(np.shape(vp))
         vs0 = vs[-1,-1]*np.ones(np.shape(vs))
@@ -9809,9 +9809,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vsst = np.flipud(vsst)
         rhost = np.flipud(rhost)
         
-        vpst = vpst*1000.0
-        vsst = vsst*1000.0
-        rhost = rhost*1000.0
+        vpst = vpst*1.0
+        vsst = vsst*1.0
+        rhost = rhost*1.0
         #vpst = 1500+(4509-1500)*vpst
         #vsst = 0 + 2603*vsst
         #rhost = 1009 + (2589-1009)*rhost
@@ -9821,7 +9821,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #model = api.Model(vp, vs, rho, dx)
         
         
-        denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/DENISE-Black-Edition/'
+        denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/master/'
         d = api.Denise(denise_root,verbose=1)
         d.save_folder = '/disk/student/adhara/marine2/'
         d.set_paths()
@@ -9842,7 +9842,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         yrec[0] = 50.0
 
         # Sources
-        dsrc = 50. # source spacing [m]
+        dsrc = 25. # source spacing [m]
         #######dsrc = 120.
         depth_src = 50.  # source depth [m]
         #######depth_src = 40.
@@ -9855,7 +9855,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
-        idx = idx[0:12]
+        idx = idx[0:48]
         #if (epoch1%3 == 0):
         #    idx = idx[0:51:3]
         #elif (epoch1%3 == 1):
@@ -9883,8 +9883,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
             fo = 'cp /disk/student/adhara/marine2/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/marine2/su1/.'
             os.system(fo)
 
-            fo = 'cp /disk/student/adhara/marine2/sudir/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/marine2/sudir1/.'
-            os.system(fo)
+            fo = 'cp /disk/student/adhara/marine2/sutdir%s/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/marine2/sudir1/.'
+            os.system(fo %(str(mop)))
             #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
             #os.system(fo)
         #      #if (id1+1 != value+1):
@@ -9928,13 +9928,18 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.TIME = 5.002
         d.DT = 0.002
         d.FW = 10
-        d.DAMPING = 1500.0
+        d.DAMPING = 2500.0
+        d.k_max_PML = 3.0
         d.npower = 4.0
-        d.FPML = 10.0
+        d.FPML = 30.0
         d.QUELLART = 3
 
         d.QUELLTYPB = 4
+        d.BOUNDARY = 1
         d.FREE_SURF = 1
+        
+        d.FC_SPIKE_1 = 5
+        d.FC_SPIKE_2 = 50
 
         d.GRAD_FORM = 2
         d.SEISMO = 2
@@ -9961,7 +9966,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.RHOLOWERLIM = 1009.0
         d.RHOUPPERLIM = 1030.00
         d.RHOLOWERLIM = 1030.00
-        d.SWS_TAPER_GRAD_HOR = 0
+        d.SWS_TAPER_GRAD_HOR = 1
+        d.DIRWAVE = 1
         #d.NORMALIZE = 2
         #d.EXP_TAPER_GRAD_HOR = 1.0
         #d.forward(model, src, rec)
@@ -9993,7 +9999,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
         print("freq freq freq :", freq)
-        d.add_fwi_stage(fc_low=5.0, fc_high=freq, inv_rho_iter=10000, spatfilter=4, wd_damp=2)
+        d.add_fwi_stage(fc_low=5.0, fc_high=freq, inv_rho_iter=10000, spatfilter=0, wd_damp=2)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
