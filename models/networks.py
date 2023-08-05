@@ -9604,7 +9604,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
-        self.down1   = unetDown(841, filters[0], self.is_batchnorm)
+        self.down1   = unetDown(221, filters[0], self.is_batchnorm)
         #self.dropD1   = nn.Dropout2d(0.025)
         self.down2   = unetDown(filters[0], filters[1], self.is_batchnorm)
         #self.dropD2   = nn.Dropout2d(0.025)
@@ -9619,7 +9619,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.decoder_input1 = nn.Linear(filters[3]*157*6, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(latent_dim, filters[3]*250*50) #for marmousi 101x101
+        self.decoder_input = nn.Linear(latent_dim, filters[3]*125*50) #for marmousi 101x101
         #self.decoder_inputRho = nn.Linear(latent_dim, 1*300*100)
         
         
@@ -9650,7 +9650,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [4, 8, 16, 32, 64]
         latent_dim = 8
         ######$########label_dsp_dim = (170,396)
-        label_dsp_dim = (320,1750)
+        label_dsp_dim = (320,450)
         #label_dsp_dim = (40,90)
         minvp = torch.min(inputs1[:,0,:,:])
         maxvp = torch.max(inputs1[:,0,:,:])
@@ -9700,7 +9700,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[3], 50, 250)
+        z = z.view(-1, filters[3], 50, 125)
         #zrho = zrho.view(-1, 1, 100, 300)
         #print("shape of inputs2 :", np.shape(inputs2))
     
@@ -9924,7 +9924,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
 
         print(f'NSRC:\t{len(src)}')
         print(f'NREC:\t{len(rec)}')
-        d.NPROCX = 2
+        d.NPROCX = 3
         d.NPROCY = 2
         d.N_STREAMER = len(rec)
         d.REC_INCR_X = dsrc
