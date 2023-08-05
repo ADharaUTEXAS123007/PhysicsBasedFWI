@@ -9674,6 +9674,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         ##print("shape of inputs2 :", np.shape(inputs2[:,0:90,1:1801,:]))
         ##print("shape of inputs1 :", np.shape(inputs1))
         #down1  = self.down1((inputs2[:,:,1:1200:4,:]))
+        print("shape of inputs2 :", np.shape(inputs2))
         down1  = self.down1(inputs2)
         #down1  = self.dropD1(down1)
         down2  = self.down2(down1)

@@ -317,50 +317,8 @@ class AutoElFull22Mar23Model(BaseModel):
         print("loss M MSE :", self.loss_M_MSE)
         print("loss D MSE :", self.loss_D_MSE)
         
-        
-        
-        #print("shape of grad :", np.shape(self.grad))
-        #k
-        #kld_loss = torch.mean(-0.5 * torch.sum(1 + self.log_var - self.mu ** 2 - self.log_var.exp(), dim = 1), dim = 0)
-        #self.loss_K_MSE = kld_loss/diff_size[0]
-        #self.loss_M_MSE = 0.0
-        #self.loss_K_MSE = 0.0
-        #print("loss_M_MSE : ",self.loss_M_MSE)
-        
-        #print("loss_K_MSE : ",self.loss_K_MSE)
-        #print("mu :", self.mu)
-        #print("shape of mu :", self.mu.size())
-        #print("var :", self.log_var)
-        #print("shape of var :", self.log_var.size())
-        #print("loss MSE example :", self.loss_M_MSE)
-        #print("diff size :", diff_size)
-        #print("device of fake B:",str(self.fake_B.get_device()))
-        
-        ######filen = './marmousi/ZZ3M' + str(batch)+'ep'+str(epoch1)+'.npy'
-        #######np.save(filen, self.z.cpu().detach().numpy()) 
-        
-        ####filen = './marmousi/ZZConstant' + str(batch)+'ep'+str(epoch1)+'.npy'
-        ######np.save(filen, self.z.cpu().detach().numpy())
-        
-        ########filen = './marmousi/MT3M' + str(batch)+'ep'+str(epoch1)+'.npy'
-        ##########np.save(filen, self.fake_B.cpu().detach().numpy()) 
-        
-        ####filen = './marmousi/FinalInvConstant' + str(batch)+'ep'+str(epoch1)+'.npy'
-        ######np.save(filen, self.fake_B.cpu().detach().numpy()) 
-        
-        # if (epoch1 > lstart):
-        #      filen = './deepwave/fake29Sep' + \
-        #          str(batch)+'ep'+str(epoch1)+'.npy'
-        #      np.save(filen, self.fake_B.cpu().detach().numpy())
-        #      filen = './deepwave/realA29Sep' + \
-        #          str(batch)+'ep'+str(epoch1)+'.npy'
-        #      np.save(filen, self.real_A.cpu().detach().numpy())
-        #      filen = './deepwave/realB29Sep' + \s
-        #          str(batch)+'ep'+str(epoch1)+'.npy'
-        #      np.save(filen, self.real_B.cpu().detach().numpy())
-        #     filen = './deepwave/fakeData11Sep' + \
-        #            str(batch)+'ep'+str(epoch1)+'.npy'
-        #     np.save(filen, self.fake_BD.cpu().detach().numpy())
+
+    
 
         lambda1 = 1
         lambda2 = 0
@@ -433,26 +391,6 @@ class AutoElFull22Mar23Model(BaseModel):
             self.vp_grad = torch.unsqueeze(self.vp_grad,0)
             self.vp_grad = self.vp_grad.cuda(self.fake_Vp.get_device())
             self.fake_Vp.backward(self.vp_grad)
-            #self.fake_Vs.retain_grad()
-            #self.fake_Vp.retain_grad()
-            #self.fake_Rho.retain_grad()
-            
-            #self.vs_grad = torch.unsqueeze(self.vs_grad,0)
-            #self.vs_grad = self.vs_grad.cuda(self.fake_Vs.get_device())
-            #self.fake_Vs.backward(self.vs_grad,retain_graph=True)
-            #self.fake_Vs.retain_grad()
-            #self.fake_Vp.retain_grad()
-            #self.fake_Rho.retain_grad()
-            #print("currenterror :", currenterror)
-            #print("initerror :", initerror)
-            #if (currenterror < 0.4*initerror):
-                #print("backpropagating density gradient")
-            ###if (currenterror < 0.1*initerror):
-            # self.rho_grad = torch.unsqueeze(self.rho_grad,0)
-            # self.rho_grad = self.rho_grad.cuda(self.fake_Rho.get_device())
-            # self.fake_Rho.backward(self.rho_grad)
-                
-            #self.fake_Rho.retain_grad()
 
         #print("shape of fake_B :", np.shape(self.fake_B))
         #print("shape of grad :", np.shape(self.grad))   
