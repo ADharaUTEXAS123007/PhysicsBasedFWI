@@ -9857,7 +9857,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
-        idx = idx[0:40]
+        idx = idx[0:48]
         #if (epoch1%3 == 0):
         #    idx = idx[0:51:3]
         #elif (epoch1%3 == 1):
@@ -9924,7 +9924,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
 
         print(f'NSRC:\t{len(src)}')
         print(f'NREC:\t{len(rec)}')
-        d.NPROCX = 5
+        d.NPROCX = 2
         d.NPROCY = 2
         d.N_STREAMER = len(rec)
         d.REC_INCR_X = dsrc
@@ -10014,7 +10014,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         os.system('rm -rf loss_curve_grad10.out')
     
         print(f'Target data: {d.DATA_DIR}')
-        d.grad(model_init, src, rec, run_command='mpirun -np 40' )
+        d.grad(model_init, src, rec, run_command='mpirun -np 48' )
         
         loss = np.loadtxt('loss_curve_grad10.out')
         
