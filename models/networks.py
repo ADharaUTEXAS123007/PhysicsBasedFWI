@@ -9604,7 +9604,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
-        self.down1   = unetDown(2, filters[0], self.is_batchnorm)
+        self.down1   = unetDown(841, filters[0], self.is_batchnorm)
         #self.dropD1   = nn.Dropout2d(0.025)
         self.down2   = unetDown(filters[0], filters[1], self.is_batchnorm)
         #self.dropD2   = nn.Dropout2d(0.025)
@@ -9650,7 +9650,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [4, 8, 16, 32, 64]
         latent_dim = 8
         ######$########label_dsp_dim = (170,396)
-        label_dsp_dim = (320,2990)
+        label_dsp_dim = (320,1750)
         #label_dsp_dim = (40,90)
         minvp = torch.min(inputs1[:,0,:,:])
         maxvp = torch.max(inputs1[:,0,:,:])
@@ -9850,7 +9850,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######depth_src = 40.
         xsrc1 = 50.  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = 50.0+37300.0  # last source position [m]
+        xsrc2 = 50.0+21000.0  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
