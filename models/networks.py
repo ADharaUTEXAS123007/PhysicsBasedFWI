@@ -9886,8 +9886,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
             fo = 'cp /disk/student/adhara/marine2/su/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/marine2/su1/.'
             os.system(fo)
 
-            fo = 'cp /disk/student/adhara/marine2/sutdir%s/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/marine2/sudir1/.'
-            os.system(fo %(str(mop+1)))
+            fo = 'cp /disk/student/adhara/marine2/sutdir1/seis_p.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/marine2/sudir1/.'
+            #os.system(fo %(str(mop+1)))
+            os.system(fo)
             #fo = 'cp /disk/student/adhara/MARMOUSIPressure/su/seis_y.su.shot'+str(id1+1)+ ' ' + '/disk/student/adhara/MARMOUSPressure/su1/.'
             #os.system(fo)
         #      #if (id1+1 != value+1):
@@ -9974,7 +9975,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.SWS_TAPER_GRAD_HOR = 1
         d.DIRWAVE = 1
         #d.NORMALIZE = 2
-        #d.EXP_TAPER_GRAD_HOR = 1.0
+        d.EXP_TAPER_GRAD_HOR = 2.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
         filen = './marmousiEl4Jan/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
