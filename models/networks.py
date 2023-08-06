@@ -2504,7 +2504,7 @@ class unetConv5(nn.Module):
         super(unetConv5, self).__init__()
         # Kernel size: 3*3, Stride: 1, Padding: 1
         if is_batchnorm:
-            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 1, 1, 1),
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 5, 1, 2),
                                        nn.BatchNorm2d(out_size),
                                        nn.LeakyReLU(0.1))
             #self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
@@ -9593,11 +9593,11 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [16, 32, 64, 128, 512]
         #######filters = [2, 4, 8, 16, 32] #this works best result so far for marmousi model
         #filters = [1, 1, 2, 4, 16]
-        #filters = [2, 2, 2, 2, 2] 
+        filters = [2, 4, 8, 16, 32] 
         #filters = [4,8,16,32,64]
         #filters = [4, 8, 16, 32, 64]
         #filters = [16, 32, 64, 128, 256]
-        filters = [2, 1, 1, 1, 1]
+        #filters = [2, 1, 1, 1, 1]
         #filters = [32, 64, 128, 256, 512]
         
         latent_dim = 8
@@ -9641,14 +9641,14 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
     def forward(self, inputs1, inputs2, lstart, epoch1, latentI, lowf, inputs3, freq, idx, it, mop):
         #filters = [16, 32, 64, 128, 256]
-        filters = [2, 1, 1, 1, 1]
+        #filters = [2, 1, 1, 1, 1]
         #filters = [32, 64, 128, 256, 512]
         #filters = [4,8,16,32,64]
-        #filters = [2, 2, 1, 1, 1]  ###this works very well
+        filters = [2, 4, 8, 16, 32]  ###this works very well
         #filters = [1, 1, 2, 4, 16]
         #filters = [16, 32, 64, 128, 256]
         #filters = [4, 8, 16, 32, 64]
-        latent_dim = 8
+        #latent_dim = 8
         ######$########label_dsp_dim = (170,396)
         label_dsp_dim = (320,450)
         #label_dsp_dim = (40,90)
