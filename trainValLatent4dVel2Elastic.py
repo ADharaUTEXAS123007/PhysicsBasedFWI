@@ -48,7 +48,7 @@ if __name__ == '__main__':
     lstart = 0
     Lhist = np.ones(5)
     freqL = [8,12,18,25,30,35,40]
-    mop = 2
+    mop = 3
     InitErr = 0
     CurrentErr = 0
     epp = 0
@@ -114,7 +114,7 @@ if __name__ == '__main__':
                  Lhist[3] = Lhist[4]
                  Lhist[4] = model.loss_D_MSE
                  
-             if (epp%25 == 0):
+             if (epp%250 == 0):
                  mop = mop + 1
                  
              #if (epoch > lstart):
