@@ -9723,7 +9723,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
 
         vp1f     = self.vp(f11)
 
-        vp1    = vp1f
+        vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1)
         rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
 

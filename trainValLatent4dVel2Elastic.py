@@ -45,7 +45,7 @@ if __name__ == '__main__':
     visualizer = Visualizer(opt)   # create a visualizer that display/save images and plots
     total_iters = 0                # the total number of training iterations
     losses1 = OrderedDict()
-    lstart = 500000
+    lstart = 0
     Lhist = np.ones(5)
     freqL = [8,12,18,25,30,35,40]
     mop = 0
@@ -114,7 +114,7 @@ if __name__ == '__main__':
                  Lhist[3] = Lhist[4]
                  Lhist[4] = model.loss_D_MSE
                  
-             if (epp%500 == 0):
+             if (epp%25 == 0):
                  mop = mop + 1
                  
              #if (epoch > lstart):
