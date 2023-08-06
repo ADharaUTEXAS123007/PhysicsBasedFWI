@@ -9935,18 +9935,18 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.PHYSICS = 2
         d.TIME = 5.002
         d.DT = 0.002
-        d.FW = 20
+        d.FW = 10
         d.DAMPING = 2500.0
         d.k_max_PML = 3.0
         d.npower = 4.0
-        d.FPML = 20
+        d.FPML = 30
         d.QUELLART = 3
 
         d.QUELLTYPB = 4
-        d.BOUNDARY = 0
+        d.BOUNDARY = 1
         d.FREE_SURF = 1
         
-        d.FC_SPIKE_1 = -5
+        d.FC_SPIKE_1 = 5
         d.FC_SPIKE_2 = 50
         d.ORDER_SPIKE = 6
 
