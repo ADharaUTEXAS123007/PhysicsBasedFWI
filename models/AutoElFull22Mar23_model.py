@@ -329,12 +329,12 @@ class AutoElFull22Mar23Model(BaseModel):
         #self.fake_B.retain_grad()
 
         
-        self.loss_G = lambda1 * self.loss_L_MSE 
+        self.loss_G = lambda1 * self.loss_VPLOW
         ####self.loss_G = lambda2 * self.loss_M1_MSE
         
-        #if (epoch1 < lstart):
+        if (epoch1 < lstart):
             #print("1st epoch1 :", epoch1)
-        #    self.loss_G.backward()
+            self.loss_G.backward()
         ##self.loss_G.backward()
         
         #maxb = torch.max(torch.abs(self.fake_B.grad))

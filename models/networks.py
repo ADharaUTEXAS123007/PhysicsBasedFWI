@@ -9723,12 +9723,12 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
 
         vp1f     = self.vp(f11)
 
-        vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
+        vp1    = vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1)
         rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
 
-        vp1    = torch.clip(vp1, min=1496.0, max=3200)
-        vp1[(torch.unsqueeze(inputs1[:,0,:,:],1)==1496.0)] = 1496.0
+        #vp1    = torch.clip(vp1, min=1496.0, max=3200)
+        #vp1[(torch.unsqueeze(inputs1[:,0,:,:],1)==1496.0)] = 1496.0
         
          
         print("shape of inputs1 :", np.shape(inputs1)) 
