@@ -309,7 +309,7 @@ class AutoElFull22Mar23Model(BaseModel):
         self.loss_VS = self.criterionMSE(self.real_Vs, self.fake_Vs)
         self.loss_RHO = self.criterionMSE(self.real_Rho, self.fake_Rho)
         
-        self.loss_L_MSE = self.criterionMSE(self.low_Vp, self.fake_Vp) + self.criterionMSE(self.low_Vs, self.fake_Vs) + self.criterionMSE(self.low_Rho, self.fake_Rho)
+        self.loss_L_MSE = self.criterionMSE(self.low_Vp, self.fake_Vp) 
         
         self.loss_VPLOW = self.criterionMSE(self.real_Vp, self.low_Vp)
         self.loss_VSLOW = self.criterionMSE(self.low_Vs, self.fake_Vs)
@@ -329,7 +329,7 @@ class AutoElFull22Mar23Model(BaseModel):
         #self.fake_B.retain_grad()
 
         
-        self.loss_G = lambda1 * self.loss_VPLOW
+        self.loss_G = lambda1 * self.loss_L_MSE
         ####self.loss_G = lambda2 * self.loss_M1_MSE
         
         if (epoch1 < lstart):
