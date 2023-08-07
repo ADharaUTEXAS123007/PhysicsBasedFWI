@@ -9859,9 +9859,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         idx = np.random.permutation(len(xsrcoriginal))
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
-        idx = idx[0:1]
-
-        xsrc = xsrcoriginal[idx[0:30]]
+    
+        xsrc = xsrcoriginal[idx[0:28]]
         ysrc = depth_src*xsrc/xsrc 
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
