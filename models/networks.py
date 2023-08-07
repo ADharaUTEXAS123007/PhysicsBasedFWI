@@ -9850,24 +9850,18 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######dsrc = 120.
         depth_src = 50.  # source depth [m]
         #######depth_src = 40.
-        xsrc1 = 50.  # 1st source position [m]
+        xsrc1 = int(12.5*20)  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = 50.0+440*12.5  # last source position [m]
+        xsrc2 = int((450-20)*12.5)  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
-        
+        idx = np.random.permutation(len(xsrcoriginal))
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
         idx = idx[0:1]
-        #if (epoch1%3 == 0):
-        #    idx = idx[0:51:3]
-        #elif (epoch1%3 == 1):
-        #    idx = idx[1:51:3]
-        #else :
-        #    idx = idx[2:51:3]
 
-        xsrc = xsrcoriginal[idx]
+        xsrc = xsrcoriginal[idx[0:30]]
         ysrc = depth_src*xsrc/xsrc 
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
@@ -9943,7 +9937,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.QUELLART = 3
 
         d.QUELLTYPB = 4
-        d.BOUNDARY = 1
+        d.BOUNDARY = 0
         d.FREE_SURF = 1
         
         d.FC_SPIKE_1 = -5
@@ -10008,7 +10002,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
         print("freq freq freq :", freq)
-        d.add_fwi_stage(fc_low=-5, fc_high=freq, inv_rho_iter=10000, spatfilter=0, wd_damp=2, offsetc=2250, offset_mute=1)
+        d.add_fwi_stage(fc_low=5, fc_high=freq, inv_rho_iter=10000, spatfilter=0, wd_damp=2, offsetc=2250, offset_mute=1)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
@@ -10016,7 +10010,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         os.system('rm -rf loss_curve_grad10.out')
     
         print(f'Target data: {d.DATA_DIR}')
-        d.grad(model_init, src, rec, run_command='mpirun -np 48' )
+        d.grad(model_init, src, rec, run_command='mpirun -np 42' )
         
         loss = np.loadtxt('loss_curve_grad10.out')
         
