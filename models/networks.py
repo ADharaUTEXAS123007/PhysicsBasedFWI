@@ -9593,7 +9593,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [16, 32, 64, 128, 512]
         #######filters = [2, 4, 8, 16, 32] #this works best result so far for marmousi model
         #filters = [1, 1, 2, 4, 16]
-        filters = [2, 4, 8, 16, 32] 
+        filters = [2, 4, 4, 4, 4] 
         #filters = [4,8,16,32,64]
         #filters = [4, 8, 16, 32, 64]
         #filters = [16, 32, 64, 128, 256]
@@ -9950,7 +9950,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.DIRWAVE = 1
         d.GRADT1 = 55
         d.GRADT2 = 60
-        d.SWS_TAPER_FILE = 0
+        d.SWS_TAPER_FILE = 1
         d.TFILE = '/disk/student/adhara/Spring2022/DENISE-Black-Edition/taper'
         #d.FC_SPIKE_2 = 18.0
         #d.TIME = 6.0
