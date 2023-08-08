@@ -9856,9 +9856,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
-        #idx = np.random.permutation(len(xsrcoriginal))
+        idx = np.random.permutation(len(xsrcoriginal))
         
-        idx = np.arange(len(xsrcoriginal))
+        #idx = np.arange(len(xsrcoriginal))
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
     
@@ -10003,7 +10003,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
         print("freq freq freq :", freq)
-        d.add_fwi_stage(fc_low=5, fc_high=freq, inv_rho_iter=10000, spatfilter=0, wd_damp=2, offsetc=2250, offset_mute=1)
+        d.add_fwi_stage(fc_low=5, fc_high=freq, inv_rho_iter=10000, spatfilter=0, wd_damp=2)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
