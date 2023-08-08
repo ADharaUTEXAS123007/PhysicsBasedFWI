@@ -9727,8 +9727,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1)
         rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
 
-        vp1    = torch.clip(vp1, min=1.4960, max=3.200)
-        vp1[:,0,0:55,:] = 1.4960
+        vp1    = torch.clip(vp1, min=149.60, max=320.0)
+        vp1[:,0,0:55,:] = 149.60
         
          
         print("shape of inputs1 :", np.shape(inputs1)) 
@@ -9795,9 +9795,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs0 = vs[-1,-1]*np.ones(np.shape(vs))
         rho0 = rho[-1,-1]*np.ones(np.shape(rho))
         
-        vp = vp*1000.0
-        vs = vs*1000.0
-        rho = rho*1000.0
+        vp = vp*10.0
+        vs = vs*10.0
+        rho = rho*10.0
 
         #model = api.Model(vp, vs, rho, dx)
         
@@ -9813,9 +9813,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vsst = np.flipud(vsst)
         rhost = np.flipud(rhost)
         
-        vpst = vpst*1000.0
-        vsst = vsst*1000.0
-        rhost = rhost*1000.0
+        vpst = vpst*10.0
+        vsst = vsst*10.0
+        rhost = rhost*10.0
         #vpst = 1500+(4509-1500)*vpst
         #vsst = 0 + 2603*vsst
         #rhost = 1009 + (2589-1009)*rhost
