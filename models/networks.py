@@ -9856,7 +9856,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
-        idx = np.arange(len(xsrcoriginal))
+        idx = np.floor(np.arange(len(xsrcoriginal)))
         
         it1 = it%27
         idx1 = np.linspace(it1,len(xsrcoriginal),35)
