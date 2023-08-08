@@ -114,7 +114,7 @@ if __name__ == '__main__':
                  Lhist[3] = Lhist[4]
                  Lhist[4] = model.loss_D_MSE
                  
-             if (epp%50 == 0):
+             if (epp%27 == 0):
                  mop = mop + 1
                  
              #if (epoch > lstart):

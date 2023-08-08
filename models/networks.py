@@ -9858,7 +9858,22 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         idx = np.floor(np.arange(len(xsrcoriginal)))
         
-        if(epoch1>54):
+        
+        if (epoch1 > 243 and epoch1<=270):
+            it1 = (epoch1-1)%243
+        if (epoch1 > 216 and epoch1<=243):
+            it1 = (epoch1-1)%216
+        if (epoch1 > 189 and epoch1 <= 216):
+            it1 = (epoch1-1)%189
+        if (epoch1 > 162 and epoch1<=189):
+            it1 = (epoch1-1)%162
+        if (epoch1 > 135 and epoch1<=162):
+            it1 = (epoch1-1)%135
+        if(epoch1>108 and epoch1<=135):
+            it1 = (epoch1-1)%108
+        if(epoch1>81 and epoch1<=108):
+            it1 = (epoch1-1)%81
+        if(epoch1>54 and epoch1<=81):
             it1 = (epoch1-1)%54
         if(epoch1>27 and epoch1<=54):
             it1 = (epoch1-1)%27
