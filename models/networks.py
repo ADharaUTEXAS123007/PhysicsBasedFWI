@@ -9650,7 +9650,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [4, 8, 16, 32, 64]
         #latent_dim = 8
         ######$########label_dsp_dim = (170,396)
-        label_dsp_dim = (320,450)
+        label_dsp_dim = (320,1932)
         #label_dsp_dim = (40,90)
         minvp = torch.min(inputs1[:,0,:,:])
         maxvp = torch.max(inputs1[:,0,:,:])
@@ -9727,8 +9727,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1)
         rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
 
-        vp1    = torch.clip(vp1, min=1496.0, max=3200)
-        vp1[:,0,0:55,:] = 1496.0
+        vp1    = torch.clip(vp1, min=1.4960, max=3.200)
+        vp1[:,0,0:55,:] = 1.4960
         
          
         print("shape of inputs1 :", np.shape(inputs1)) 
@@ -9795,9 +9795,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs0 = vs[-1,-1]*np.ones(np.shape(vs))
         rho0 = rho[-1,-1]*np.ones(np.shape(rho))
         
-        vp = vp
-        vs = vs
-        rho = rho
+        vp = vp*1000.0
+        vs = vs*1000.0
+        rho = rho*1000.0
 
         #model = api.Model(vp, vs, rho, dx)
         
@@ -9813,9 +9813,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vsst = np.flipud(vsst)
         rhost = np.flipud(rhost)
         
-        vpst = vpst*1.0
-        vsst = vsst*1.0
-        rhost = rhost*1.0
+        vpst = vpst*1000.0
+        vsst = vsst*1000.0
+        rhost = rhost*1000.0
         #vpst = 1500+(4509-1500)*vpst
         #vsst = 0 + 2603*vsst
         #rhost = 1009 + (2589-1009)*rhost
@@ -9852,7 +9852,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######depth_src = 40.
         xsrc1 = int(12.5*20)  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = int((450-200)*12.5)  # last source position [m]
+        xsrc2 = int((1932-20)*12.5)  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
@@ -9862,7 +9862,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
     
-        xsrc = xsrcoriginal[idx[0:14]]
+        xsrc = xsrcoriginal[idx[0:40]]
         ysrc = depth_src*xsrc/xsrc 
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
@@ -9928,7 +9928,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.FD_ORDER = 8
 
         d.PHYSICS = 2
-        d.TIME = 5.002
+        d.TIME = 4.002
         d.DT = 0.002
         d.FW = 10
         d.DAMPING = 2500.0
@@ -10011,7 +10011,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         os.system('rm -rf loss_curve_grad10.out')
     
         print(f'Target data: {d.DATA_DIR}')
-        d.grad(model_init, src, rec, run_command='mpirun -np 42' )
+        d.grad(model_init, src, rec, run_command='mpirun -np 40' )
         
         loss = np.loadtxt('loss_curve_grad10.out')
         
