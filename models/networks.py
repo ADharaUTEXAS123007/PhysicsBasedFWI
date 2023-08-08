@@ -9858,7 +9858,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         idx = np.arange(len(xsrcoriginal))
         
-        it1 = it/27
+        it1 = it%27
         idx1 = np.linspace(it1,len(xsrcoriginal),35)
         
         #idx = np.arange(len(xsrcoriginal))
