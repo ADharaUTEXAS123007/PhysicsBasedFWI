@@ -9859,9 +9859,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         idx = np.floor(np.arange(len(xsrcoriginal)))
         
         if(it>27):
-            it1 = it%27
+            it1 = (epoch1-1)%27
         else:
-            it1 = it
+            it1 = epoch1-1
         idx1 = np.floor(np.linspace(it1,len(xsrcoriginal)-1,35))
         idx = idx1.astype(int)
         
