@@ -9604,7 +9604,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
-        self.down1   = unetDown(947, filters[0], self.is_batchnorm)
+        self.down1   = unetDown(20, filters[0], self.is_batchnorm)
         #self.dropD1   = nn.Dropout2d(0.025)
         self.down2   = unetDown(filters[0], filters[1], self.is_batchnorm)
         #self.dropD2   = nn.Dropout2d(0.025)
@@ -9675,7 +9675,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         ##print("shape of inputs1 :", np.shape(inputs1))
         #down1  = self.down1((inputs2[:,:,1:1200:4,:]))
         print("shape of inputs2 :", np.shape(inputs2))
-        down1  = self.down1(inputs2)
+        down1  = self.down1(inputs2[:,1:21,:,:])
         #down1  = self.dropD1(down1)
         down2  = self.down2(down1)
         #down2  = self.dropD2(down2)
