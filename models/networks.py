@@ -9860,6 +9860,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         it1 = it%27
         idx1 = np.floor(np.linspace(it1,len(xsrcoriginal),35))
+        idx1 = idx1.astype(int)
         
         #idx = np.arange(len(xsrcoriginal))
         print("idx idx idx :", idx1)
