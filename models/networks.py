@@ -9859,9 +9859,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         idx = np.floor(np.arange(len(xsrcoriginal)))
         
         if(epoch1>54):
-            epoch1 = (epoch1-1)%54
+            it1 = (epoch1-1)%54
         if(epoch1>27 and epoch1<=54):
-            epoch1 = (epoch1-1)%27
+            it1 = (epoch1-1)%27
         else:
             it1 = epoch1-1
         idx1 = np.floor(np.linspace(it1,len(xsrcoriginal)-1,35))
