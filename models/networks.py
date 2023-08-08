@@ -9862,10 +9862,10 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         idx1 = np.linspace(it1,len(xsrcoriginal),35)
         
         #idx = np.arange(len(xsrcoriginal))
-        print("idx idx idx :", idx)
+        print("idx idx idx :", idx1)
         print("epoch1 :", epoch1)
     
-        xsrc = xsrcoriginal[idx1]
+        xsrc = xsrcoriginal[int(idx1)]
         ysrc = depth_src*xsrc/xsrc 
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
