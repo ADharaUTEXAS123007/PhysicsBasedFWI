@@ -9856,13 +9856,16 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
-        idx = np.random.permutation(len(xsrcoriginal))
+        idx = np.arange(len(xsrcoriginal))
+        
+        it1 = it/27
+        idx1 = np.linspace(it1,len(xsrcoriginal),35)
         
         #idx = np.arange(len(xsrcoriginal))
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
     
-        xsrc = xsrcoriginal[idx[0:35]]
+        xsrc = xsrcoriginal[idx1]
         ysrc = depth_src*xsrc/xsrc 
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
