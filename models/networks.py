@@ -9957,7 +9957,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.DIRWAVE = 1
         d.GRADT1 = 55
         d.GRADT2 = 60
-        d.SWS_TAPER_FILE = 1
+        d.SWS_TAPER_FILE = 0
         d.TFILE = '/disk/student/adhara/Spring2022/DENISE-Black-Edition/taper'
         #d.FC_SPIKE_2 = 18.0
         #d.TIME = 6.0
