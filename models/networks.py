@@ -9858,8 +9858,10 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         idx = np.floor(np.arange(len(xsrcoriginal)))
         
-        if(it>27):
-            it1 = (epoch1-1)%27
+        if(epoch1>54):
+            epoch1 = (epoch1-1)%54
+        if(epoch1>27 and epoch1<=54):
+            epoch1 = (epoch1-1)%27
         else:
             it1 = epoch1-1
         idx1 = np.floor(np.linspace(it1,len(xsrcoriginal)-1,35))
@@ -10010,7 +10012,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
         print("freq freq freq :", freq)
-        d.add_fwi_stage(fc_low=5, fc_high=freq, inv_rho_iter=10000, spatfilter=0, wd_damp=2, lnorm=1)
+        d.add_fwi_stage(fc_low=5, fc_high=freq, inv_rho_iter=10000, spatfilter=0, wd_damp=2)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
