@@ -9619,7 +9619,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.decoder_input1 = nn.Linear(filters[3]*126*6, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(latent_dim, filters[3]*240*50) #for marmousi 101x101
+        self.decoder_input = nn.Linear(latent_dim, filters[3]*250*50) #for marmousi 101x101
         #self.decoder_inputRho = nn.Linear(latent_dim, 1*300*100)
         
         
