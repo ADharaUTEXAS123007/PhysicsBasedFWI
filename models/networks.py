@@ -9644,7 +9644,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [2, 1, 1, 1, 1]
         #filters = [32, 64, 128, 256, 512]
         #filters = [4,8,16,32,64]
-        filters = [2, 4, 8, 16, 32]  ###this works very well
+        filters = [2, 4, 4, 4, 4]  ###this works very well
         #filters = [1, 1, 2, 4, 16]
         #filters = [16, 32, 64, 128, 256]
         #filters = [4, 8, 16, 32, 64]
