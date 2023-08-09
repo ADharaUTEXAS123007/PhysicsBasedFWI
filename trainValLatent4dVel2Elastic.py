@@ -48,7 +48,7 @@ if __name__ == '__main__':
     lstart = 0
     Lhist = np.ones(5)
     freqL = [8,10,15,20,25,30,35,40]
-    mop = 7
+    mop = 1
     InitErr = 0
     CurrentErr = 0
     epp = 0
