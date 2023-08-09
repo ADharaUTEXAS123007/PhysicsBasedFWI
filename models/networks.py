@@ -9828,6 +9828,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         denise_root = '/disk/student/adhara/WORK/DeniseFWI/virginFWI/master/'
         d = api.Denise(denise_root,verbose=1)
         d.save_folder = '/disk/student/adhara/marine2/'
+        os.system('rm -rf /disk/student/adhara/marine2/source')
+        os.system('rm -rf /disk/student/adhara/marine2/receiver')
         d.set_paths()
         
         #model = api.Model(vp, vs, rho, dx)
