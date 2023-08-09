@@ -9593,7 +9593,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [16, 32, 64, 128, 512]
         #######filters = [2, 4, 8, 16, 32] #this works best result so far for marmousi model
         #filters = [1, 1, 2, 4, 16]
-        filters = [2, 4, 4, 4, 4] 
+        filters = [2, 4, 8, 16, 32] 
         #filters = [4,8,16,32,64]
         #filters = [4, 8, 16, 32, 64]
         #filters = [16, 32, 64, 128, 256]
