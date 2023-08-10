@@ -9690,11 +9690,12 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         z = z.view(-1, filters[3], 50,250)
         #zrho = zrho.view(-1, 1, 100, 300)
         #print("shape of inputs2 :", np.shape(inputs2))
+        
     
         up31    = self.up31(z)
         
         #up3    = self.dropU3(up3)
-        #print(" shape of up1 :", np.shape(up1))
+        print(" shape of up31 :", np.shape(up31))
         up21    = self.up21(up31)
 
         #up2    = self.dropU2(up2)
