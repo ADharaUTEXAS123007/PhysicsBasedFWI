@@ -9717,6 +9717,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vp1    = torch.clip(vp1, min=149.60, max=320.0)
         vp1[:,0,0:55,:] = 149.60
         
+        grad = vp1 *0
         #vs1 = vp1*0
         #rho1 = vp1*0
         if (epoch1 > lstart):
