@@ -2626,7 +2626,7 @@ class autoUp5(nn.Module):
             self.up = nn.UpsamplingBilinear2d(scale_factor=2)
 
     def forward(self, inputs2):
-        outputs2 = self.up(inputs2)
+        #outputs2 = self.up(inputs2)
         outputs3 = self.conv(outputs2)
         #offset1 = (outputs2.size()[2]-inputs1.size()[2])
         #offset2 = (outputs2.size()[3]-inputs1.size()[3])
@@ -9675,32 +9675,32 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         ##print("shape of inputs1 :", np.shape(inputs1))
         #down1  = self.down1((inputs2[:,:,1:1200:4,:]))
         print("shape of inputs2 :", np.shape(inputs2))
-        down1  = self.down1(inputs2[:,1:21,:,:])
+        #down1  = self.down1(inputs2[:,1:21,:,:])
         #down1  = self.dropD1(down1)
-        down2  = self.down2(down1)
+        #down2  = self.down2(down1)
         #down2  = self.dropD2(down2)
-        down3  = self.down3(down2)
+        #down3  = self.down3(down2)
         #down3  = self.dropD3(down3)
-        down4  = self.down4(down3)
+        #down4  = self.down4(down3)
         #down4  = self.dropD4(down4)
         
-        print("shape of down4 :", np.shape(down4))
+        #print("shape of down4 :", np.shape(down4))
         
         ####print("shape of down4 :", np.shape(down4))
-        result = torch.flatten(down4, start_dim=1)
+        #result = torch.flatten(down4, start_dim=1)
         
-        print("result shape :", np.shape(result))
+        #print("result shape :", np.shape(result))
         
-        p = self.decoder_input1(result)
+        #p = self.decoder_input1(result)
 
-        latent1 = p
+        #latent1 = p
         
-        z = self.decoder_input(p)
+        #z = self.decoder_input(p)
         ####zrho = self.decoder_inputRho(p)
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[1], 50*4,250*4)
+        #z = z.view(-1, filters[1], 50*4,250*4)
         #zrho = zrho.view(-1, 1, 100, 300)
         #print("shape of inputs2 :", np.shape(inputs2))
     
@@ -9711,7 +9711,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         ####up21    = self.up21(up31)
 
         #up2    = self.dropU2(up2)
-        up11    = self.up11(z)
+        up11    = self.up11(inputs2)
         
         
         #up1    = self.dropU1(up1)
@@ -10029,7 +10029,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
         print("freq freq freq :", freq)
-        d.add_fwi_stage(fc_low=5, fc_high=freq, inv_rho_iter=10000, spatfilter=0, wd_damp=2)
+        d.add_fwi_stage(fc_low=5, fc_high=freq, inv_rho_iter=10000, spatfilter=4, wd_damp=2, wd_damp1=2)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
