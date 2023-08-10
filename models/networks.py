@@ -9628,7 +9628,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
 
         self.up21     = autoUp5(filters[2], filters[1], self.is_deconv)
 
-        self.up11     = autoUp5(filters[1], filters[0]/2, self.is_deconv)
+        self.up11     = autoUp5(filters[1], int(filters[0]/2), self.is_deconv)
 
         self.f11      =  nn.Conv2d(filters[0],int(filters[0]/2), 1)
         
