@@ -2504,9 +2504,9 @@ class unetConv5(nn.Module):
         super(unetConv5, self).__init__()
         # Kernel size: 3*3, Stride: 1, Padding: 1
         if is_batchnorm:
-            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 1, 1, 1))
-#                                       nn.BatchNorm2d(out_size),
-#                                       nn.LeakyReLU(0.1))
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 1, 1, 1)
+                                       nn.BatchNorm2d(out_size),
+                                       nn.LeakyReLU(0.1))
             #self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
             #                           nn.BatchNorm2d(out_size),
             #                           nn.LeakyReLU(0.1))
@@ -2626,8 +2626,8 @@ class autoUp5(nn.Module):
             self.up = nn.UpsamplingBilinear2d(scale_factor=2)
 
     def forward(self, inputs2):
-        #outputs2 = self.up(inputs2)
-        outputs3 = self.conv(inputs2)
+        outputs2 = self.up(inputs2)
+        outputs3 = self.conv(outputs2)
         #offset1 = (outputs2.size()[2]-inputs1.size()[2])
         #offset2 = (outputs2.size()[3]-inputs1.size()[3])
         #padding=[offset2//2,(offset2+1)//2,offset1//2,(offset1+1)//2]
@@ -9604,7 +9604,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
-        self.down1   = unetDown(20, filters[0], self.is_batchnorm)
+        self.down1   = unetDown(947, filters[0], self.is_batchnorm)
         #self.dropD1   = nn.Dropout2d(0.025)
         self.down2   = unetDown(filters[0], filters[1], self.is_batchnorm)
         #self.dropD2   = nn.Dropout2d(0.025)
