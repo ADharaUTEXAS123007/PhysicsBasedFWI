@@ -2627,7 +2627,7 @@ class autoUp5(nn.Module):
 
     def forward(self, inputs2):
         #outputs2 = self.up(inputs2)
-        outputs3 = self.conv(outputs2)
+        outputs3 = self.conv(inputs2)
         #offset1 = (outputs2.size()[2]-inputs1.size()[2])
         #offset2 = (outputs2.size()[3]-inputs1.size()[3])
         #padding=[offset2//2,(offset2+1)//2,offset1//2,(offset1+1)//2]
