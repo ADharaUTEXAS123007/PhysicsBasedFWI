@@ -9662,7 +9662,43 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         maxrho = torch.max(inputs1[:,2,:,:])
         
         print("shape of inputs2 :", np.shape(inputs2))
-        up11    = self.up11(inputs2)
+        down1  = self.down1(inputs2)
+        #down1  = self.dropD1(down1)
+        down2  = self.down2(down1)
+        #down2  = self.dropD2(down2)
+        down3  = self.down3(down2)
+        #down3  = self.dropD3(down3)
+        down4  = self.down4(down3)
+        #down4  = self.dropD4(down4)
+        
+        print("shape of down4 :", np.shape(down4))
+        
+        ####print("shape of down4 :", np.shape(down4))
+        result = torch.flatten(down4, start_dim=1)
+        
+        print("result shape :", np.shape(result))
+        
+        p = self.decoder_input1(result)
+
+        latent1 = p
+        
+        z = self.decoder_input(p)
+        ####zrho = self.decoder_inputRho(p)
+        #####z = inputs2
+        #z = z.view(-1, filters[3], 250, 51) #for marmousi model
+        #print("shape of z :", np.shape(z))
+        z = z.view(-1, filters[3], 50,250)
+        #zrho = zrho.view(-1, 1, 100, 300)
+        #print("shape of inputs2 :", np.shape(inputs2))
+    
+        up31    = self.up31(z)
+        
+        #up3    = self.dropU3(up3)
+        #print(" shape of up1 :", np.shape(up1))
+        up21    = self.up21(up31)
+
+        #up2    = self.dropU2(up2)
+        up11    = self.up11(up21)
         
         
         #up1    = self.dropU1(up1)
@@ -9670,31 +9706,16 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #print("shape of up12 :", np.shape(up12))
         up11    = up11[:,:,10:10+label_dsp_dim[0],10:10+label_dsp_dim[1]].contiguous()
         
-        #f11     = self.f11(up11)
+        f11     = self.f11(up11)
 
-        vp1f     = self.vp(up11)
+        vp1f     = self.vp(f11)
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1)
         rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
 
-        #vp1    = torch.clip(vp1, min=1496.0, max=3200)
-        #vp1[:,0,0:55,:] = 1496.0
-        
-         
-        print("shape of inputs1 :", np.shape(inputs1)) 
-        print("shape of vp1 :", np.shape(vp1))
-        print("shape of vp1f :", np.shape(vp1f))
-        #vp1[:,:,0:30,:] = inputs1[:,0,0:30,:] 
-        #vs1[:,:,0:30,:] = inputs1[:,1,0:30,:]
-        #rho1[:,:,0:30,:] = inputs1[:,2,0:30,:] 
-
-        latent1 = 0
-        grad = 0*vp1
-        lossT = 0.0
-        vp_grad = vp1*0
-        vs_grad = vp1*0
-        rho_grad = vp1*0
+        vp1    = torch.clip(vp1, min=149.60, max=320.0)
+        vp1[:,0,0:55,:] = 149.60
         
         #vs1 = vp1*0
         #rho1 = vp1*0
@@ -9980,7 +10001,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #d.add_fwi_stage(fc_low=0.0, fc_high=int(epoch1/10)+1.0)
         #d.add_fwi_stage(fc_low=0.0, fc_high=30.0)
         print("freq freq freq :", freq)
-        d.add_fwi_stage(fc_low=5, fc_high=freq, inv_rho_iter=10000, spatfilter=4, wd_damp=1, wd_damp1=1)
+        d.add_fwi_stage(fc_low=5, fc_high=freq, inv_rho_iter=10000, spatfilter=4, wd_damp=1, wd_damp1=2)
 
         print(f'Stage {0}:\n\t{d.fwi_stages[0]}\n')
             
@@ -10022,7 +10043,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vp_grad = torch.from_numpy(vp_grad.copy())
         vp_grad = vp_grad.float()
         #r1 = 1.0
-        vp_grad = 1.0*vp_grad
+        vp_grad = 1.0*vp_grad*r1
         #if (freq==1):
         #vp_grad = vp_grad
         
