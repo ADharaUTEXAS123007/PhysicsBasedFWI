@@ -9593,7 +9593,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [16, 32, 64, 128, 512]
         #######filters = [2, 4, 8, 16, 32] #this works best result so far for marmousi model
         #filters = [1, 1, 2, 4, 16]
-        filters = [1, 2, 2, 2, 2] 
+        filters = [2, 2, 2, 2, 2] 
         #filters = [4,8,16,32,64]
         #filters = [4, 8, 16, 32, 64]
         #filters = [16, 32, 64, 128, 256]
@@ -9721,7 +9721,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         
         #f11     = self.f11(up11)
 
-        #vp1f     = self.vp(f11)
+        vp1f     = self.vp(up11)
 
         vp1    = torch.unsqueeze(lowf[:,0,:,:],1) + vp1f
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1)
