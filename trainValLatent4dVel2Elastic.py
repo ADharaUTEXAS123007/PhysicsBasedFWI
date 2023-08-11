@@ -115,7 +115,7 @@ if __name__ == '__main__':
                  Lhist[4] = model.loss_D_MSE
                  
              if (epp%54 == 0):
-                 mop = mop + 2
+                 mop = mop + 1
                  
              #if (epoch > lstart):
              #   Model1loss = Model1loss + model.loss_M1_MSE.item()     

@@ -2504,7 +2504,7 @@ class unetConv5(nn.Module):
         super(unetConv5, self).__init__()
         # Kernel size: 3*3, Stride: 1, Padding: 1
         if is_batchnorm:
-            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 1, 1, 1),
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, 5, 1, 2),
                                        nn.BatchNorm2d(out_size),
                                        nn.LeakyReLU(0.1))
             #self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
@@ -9593,7 +9593,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [16, 32, 64, 128, 512]
         #######filters = [2, 4, 8, 16, 32] #this works best result so far for marmousi model
         #filters = [1, 1, 2, 4, 16]
-        filters = [2, 2, 2, 2, 2] 
+        filters = [2, 4, 8, 16, 32] 
         #filters = [4,8,16,32,64]
         #filters = [4, 8, 16, 32, 64]
         #filters = [16, 32, 64, 128, 256]
@@ -9644,7 +9644,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [2, 1, 1, 1, 1]
         #filters = [32, 64, 128, 256, 512]
         #filters = [4,8,16,32,64]
-        filters = [2, 2, 2, 2, 2]  ###this works very well
+        filters = [2, 4, 8, 16, 32]  ###this works very well
         #filters = [1, 1, 2, 4, 16]
         #filters = [16, 32, 64, 128, 256]
         #filters = [4, 8, 16, 32, 64]
@@ -9715,8 +9715,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs1    = torch.unsqueeze(lowf[:,1,:,:],1)
         rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
 
-        vp1    = torch.clip(vp1, min=149.60, max=320.0)
-        vp1[:,0,0:55,:] = 149.60
+        vp1    = torch.clip(vp1, min=1.4960, max=3.200)
+        vp1[:,0,0:55,:] = 1.4960
         
         grad = vp1 *0
         vp_grad = vp1*0
@@ -9774,9 +9774,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs0 = vs[-1,-1]*np.ones(np.shape(vs))
         rho0 = rho[-1,-1]*np.ones(np.shape(rho))
         
-        vp = vp*10.0
-        vs = vs*10.0
-        rho = rho*10.0
+        vp = vp*1000.0
+        vs = vs*1000.0
+        rho = rho*1000.0
 
         #model = api.Model(vp, vs, rho, dx)
         
@@ -9792,9 +9792,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vsst = np.flipud(vsst)
         rhost = np.flipud(rhost)
         
-        vpst = vpst*10.0
-        vsst = vsst*10.0
-        rhost = rhost*10.0
+        vpst = vpst*1000.0
+        vsst = vsst*1000.0
+        rhost = rhost*1000.0
         #vpst = 1500+(4509-1500)*vpst
         #vsst = 0 + 2603*vsst
         #rhost = 1009 + (2589-1009)*rhost
@@ -9837,37 +9837,37 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
-        idx = np.floor(np.arange(len(xsrcoriginal)))
+        idx = (np.random.permutation(len(xsrcoriginal)))
         
         
-        if (epoch1 > 243 and epoch1<=270):
-            it1 = (epoch1-1)%243
-        if (epoch1 > 216 and epoch1<=243):
-            it1 = (epoch1-1)%216
-        if (epoch1 > 189 and epoch1 <= 216):
-            it1 = (epoch1-1)%189
-        if (epoch1 > 162 and epoch1<=189):
-            it1 = (epoch1-1)%162
-        if (epoch1 > 135 and epoch1<=162):
-            it1 = (epoch1-1)%135
-        if(epoch1>108 and epoch1<=135):
-            it1 = (epoch1-1)%108
-        if(epoch1>81 and epoch1<=108):
-            it1 = (epoch1-1)%81
-        if(epoch1>54 and epoch1<=81):
-            it1 = (epoch1-1)%54
-        if(epoch1>27 and epoch1<=54):
-            it1 = (epoch1-1)%27
-        else:
-            it1 = epoch1-1
-        idx1 = np.floor(np.linspace(it1,len(xsrcoriginal)-1,35))
-        idx = idx1.astype(int)
+        # if (epoch1 > 243 and epoch1<=270):
+        #     it1 = (epoch1-1)%243
+        # if (epoch1 > 216 and epoch1<=243):
+        #     it1 = (epoch1-1)%216
+        # if (epoch1 > 189 and epoch1 <= 216):
+        #     it1 = (epoch1-1)%189
+        # if (epoch1 > 162 and epoch1<=189):
+        #     it1 = (epoch1-1)%162
+        # if (epoch1 > 135 and epoch1<=162):
+        #     it1 = (epoch1-1)%135
+        # if(epoch1>108 and epoch1<=135):
+        #     it1 = (epoch1-1)%108
+        # if(epoch1>81 and epoch1<=108):
+        #     it1 = (epoch1-1)%81
+        # if(epoch1>54 and epoch1<=81):
+        #     it1 = (epoch1-1)%54
+        # if(epoch1>27 and epoch1<=54):
+        #     it1 = (epoch1-1)%27
+        # else:
+        #     it1 = epoch1-1
+        # idx1 = np.floor(np.linspace(it1,len(xsrcoriginal)-1,35))
+        # idx = idx1.astype(int)
         
         #idx = np.arange(len(xsrcoriginal))
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
     
-        xsrc = xsrcoriginal[idx]
+        xsrc = xsrcoriginal[idx[0:]]
         ysrc = depth_src*xsrc/xsrc 
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
