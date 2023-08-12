@@ -9818,7 +9818,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         drec = 50.   #simple_model
         depth_rec = 50.  # receiver depth [m]
         ######depth_rec = 80. #simple_model
-        xrec1 = 0.0      # 1st receiver position [m]
+        xrec1 = -4450.0      # 1st receiver position [m]
         ######xrec1 = 100.
         xrec2 = 0.0+4450.     # last receiver position [m]
         #####xrec2 = 1700.
