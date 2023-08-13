@@ -9867,7 +9867,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
     
-        xsrc = xsrcoriginal[idx[0:30]]
+        xsrc = xsrcoriginal[idx[0:24]]
         ysrc = depth_src*xsrc/xsrc 
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
@@ -10016,7 +10016,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         os.system('rm -rf loss_curve_grad10.out')
     
         print(f'Target data: {d.DATA_DIR}')
-        d.grad(model_init, src, rec, run_command='mpirun -np 36' )
+        d.grad(model_init, src, rec, run_command='mpirun -np 48' )
         
         loss = np.loadtxt('loss_curve_grad10.out')
         
