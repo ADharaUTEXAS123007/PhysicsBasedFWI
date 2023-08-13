@@ -9600,7 +9600,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [2, 1, 1, 1, 1]
         #filters = [32, 64, 128, 256, 512]
         
-        latent_dim = 128
+        latent_dim = 8
         self.combine1 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         self.combine2 = nn.Conv2d(self.in_channels, 1, 3, 1, 1)
         
