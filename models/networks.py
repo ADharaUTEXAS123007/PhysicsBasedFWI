@@ -10016,7 +10016,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         os.system('rm -rf loss_curve_grad10.out')
     
         print(f'Target data: {d.DATA_DIR}')
-        d.grad(model_init, src, rec, run_command='mpirun -np 42' )
+        d.grad(model_init, src, rec, run_command='mpirun -np 48' )
         
         loss = np.loadtxt('loss_curve_grad10.out')
         
