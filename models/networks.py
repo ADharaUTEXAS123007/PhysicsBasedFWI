@@ -9824,7 +9824,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #####xrec2 = 1700.
         xrec = np.arange(xrec1, xrec2 + dx, drec)
         yrec = depth_rec * (xrec / xrec)
-        yrec[0] = 50.0
+        yrec = np.nan_to_num(yrec,nan=50.0)
 
         # Sources
         dsrc = 25. # source spacing [m]
