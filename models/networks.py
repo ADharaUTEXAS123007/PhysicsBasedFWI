@@ -9926,7 +9926,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
 
         print(f'NSRC:\t{len(src)}')
         print(f'NREC:\t{len(rec)}')
-        d.NPROCX = 3
+        d.NPROCX = 4
         d.NPROCY = 2
         d.N_STREAMER = len(rec)
         d.REC_INCR_X = dsrc
