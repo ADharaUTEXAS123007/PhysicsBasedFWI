@@ -9831,9 +9831,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######dsrc = 120.
         depth_src = 50.  # source depth [m]
         #######depth_src = 40.
-        xsrc1 = int(12.5*20)  # 1st source position [m]
+        xsrc1 = int(12.5*90)  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = int((1932-20)*12.5)  # last source position [m]
+        xsrc2 = int((1932-90)*12.5)  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
@@ -9950,9 +9950,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.FC_SPIKE_2 = 50
         d.ORDER_SPIKE = 6
 
-        d.GRAD_FORM = 2
+        d.GRAD_FORM = 
         d.SEISMO = 2
-        d.DIRWAVE = 1
         d.GRADT1 = 45
         d.GRADT2 = 50
         d.SWS_TAPER_FILE = 0
