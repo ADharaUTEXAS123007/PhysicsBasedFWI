@@ -9616,7 +9616,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         ##self.decoder_input1 = nn.Linear(filters[1]*250*51, latent_dim) #for marmousi 151x200
         #self.decoder_input1 = nn.Linear(filters[2]*125*26, latent_dim) #for marmousi 151x200
         #self.decoder_input = nn.Linear(latent_dim, filters[2]*500*102) #for marmousi 151x200
-        self.decoder_input1 = nn.Linear(filters[3]*126*6, latent_dim) #for marmousi 101x101
+        self.decoder_input1 = nn.Linear(filters[3]*126*12, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
         self.decoder_input = nn.Linear(latent_dim, filters[3]*250*50) #for marmousi 101x101
@@ -9818,7 +9818,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         drec = 50.   #simple_model
         depth_rec = 50.  # receiver depth [m]
         ######depth_rec = 80. #simple_model
-        xrec1 = 0.0      # 1st receiver position [m]
+        xrec1 = -4450.0     # 1st receiver position [m]
         ######xrec1 = 100.
         xrec2 = 0.0+4450.     # last receiver position [m]
         #####xrec2 = 1700.
@@ -9976,7 +9976,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.RHOUPPERLIM = 1030.00
         d.RHOLOWERLIM = 1030.00
         d.SWS_TAPER_GRAD_HOR = 1
-        d.DIRWAVE = 1
+        d.DIRWAVE = 0
         #d.NORMALIZE = 2
         d.EXP_TAPER_GRAD_HOR = 2.0
         #d.forward(model, src, rec)
