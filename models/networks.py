@@ -9837,7 +9837,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
-        idx = (np.random.permutation(len(xsrcoriginal)))
+        idx = (np.arange(len(xsrcoriginal)))
         
         
         # if (epoch1 > 243 and epoch1<=270):
@@ -9867,7 +9867,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
     
-        xsrc = xsrcoriginal[idx[0:24]]
+        xsrc = xsrcoriginal[idx[16:16+24]]
         ysrc = depth_src*xsrc/xsrc 
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
