@@ -9831,9 +9831,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######dsrc = 120.
         depth_src = 50.  # source depth [m]
         #######depth_src = 40.
-        xsrc1 = int(12.5*90)  # 1st source position [m]
+        xsrc1 = int(12.5*20)  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = int((1932-90)*12.5)  # last source position [m]
+        xsrc2 = int((1932-20)*12.5)  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
@@ -9975,7 +9975,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.RHOUPPERLIM = 1030.00
         d.RHOLOWERLIM = 1030.00
         d.SWS_TAPER_GRAD_HOR = 1
-        d.DIRWAVE = 0
+        d.DIRWAVE = 1
         #d.NORMALIZE = 2
         d.EXP_TAPER_GRAD_HOR = 2.0
         #d.forward(model, src, rec)
