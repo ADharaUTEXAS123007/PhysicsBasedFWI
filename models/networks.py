@@ -9950,7 +9950,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.FC_SPIKE_2 = 50
         d.ORDER_SPIKE = 6
 
-        d.GRAD_FORM = 
+        d.GRAD_FORM = 2
         d.SEISMO = 2
         d.GRADT1 = 45
         d.GRADT2 = 50
