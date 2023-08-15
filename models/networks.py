@@ -9667,7 +9667,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         inputs3 = torch.swapaxes(inputs3,1,2)
         inputs3 = torch.unsqueeze(inputs3,0)
         print("shape of inputs22 :", np.shape(inputs3))
-        down1  = self.down1(inputs2)
+        down1  = self.down1(inputs3)
         #down1  = self.dropD1(down1)
         down2  = self.down2(down1)
         #down2  = self.dropD2(down2)
