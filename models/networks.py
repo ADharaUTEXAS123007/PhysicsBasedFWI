@@ -10047,6 +10047,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #vp_grad[0:24,:] = 0.0
         #vs_grad[0:24,:] = 0.0
         #rho_grad[0:24,:] = 0.0
+        vp_grad[0:55,:] = 0.0
         
         print("shape of vp_grad1 :", np.shape(vp_grad))
         print("shape of vs_grad1 :", np.shape(vs_grad))
