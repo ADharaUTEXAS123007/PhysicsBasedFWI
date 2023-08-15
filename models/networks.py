@@ -9593,7 +9593,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [16, 32, 64, 128, 512]
         #######filters = [2, 4, 8, 16, 32] #this works best result so far for marmousi model
         #filters = [1, 1, 2, 4, 16]
-        filters = [2, 4, 8, 16, 32] 
+        filters = [2, 2, 2, 2, 2] 
         #filters = [4,8,16,32,64]
         #filters = [4, 8, 16, 32, 64]
         #filters = [16, 32, 64, 128, 256]
@@ -9619,9 +9619,10 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.decoder_input1 = nn.Linear(filters[3]*126*6, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(latent_dim, filters[3]*250*50) #for marmousi 101x101
+        self.decoder_input = nn.Linear(latent_dim, filters[3]*125*25) #for marmousi 101x101
         #self.decoder_inputRho = nn.Linear(latent_dim, 1*300*100)
         
+        self.up41    = autoUp5(filters[2],filters[2], self.is_deconv)
         
         #self.up4     = autoUp(filters[4], filters[3], self.is_deconv)
         self.up31     = autoUp5(filters[3], filters[2], self.is_deconv)
@@ -9644,7 +9645,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #filters = [2, 1, 1, 1, 1]
         #filters = [32, 64, 128, 256, 512]
         #filters = [4,8,16,32,64]
-        filters = [2, 4, 8, 16, 32]  ###this works very well
+        filters = [2, 2, 2, 2, 2]  ###this works very well
         #filters = [1, 1, 2, 4, 16]
         #filters = [16, 32, 64, 128, 256]
         #filters = [4, 8, 16, 32, 64]
@@ -9687,12 +9688,13 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[3], 50,250)
+        z = z.view(-1, filters[3], 25,125)
         #zrho = zrho.view(-1, 1, 100, 300)
         #print("shape of inputs2 :", np.shape(inputs2))
         
+        up41   = self.up41(z)
     
-        up31    = self.up31(z)
+        up31    = self.up31(up41)
         
         #up3    = self.dropU3(up3)
         print(" shape of up31 :", np.shape(up31))
