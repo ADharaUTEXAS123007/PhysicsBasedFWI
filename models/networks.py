@@ -9718,7 +9718,8 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         rho1   = torch.unsqueeze(lowf[:,2,:,:],1)
 
         vp1    = torch.clip(vp1, min=149.60, max=320.0)
-        vp1[torch.unsqueeze(lowf[:,0,:,:],1)==149.6] = 149.60
+        vp1[:,0,0:80,:] = 149.6
+        #vp1[torch.unsqueeze(lowf[:,0,:,:],1)==149.6] = 149.60
         
         grad = vp1 *0
         vp_grad = vp1*0
