@@ -9977,7 +9977,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         d.SWS_TAPER_GRAD_HOR = 1
         d.DIRWAVE = 1
         #d.NORMALIZE = 2
-        d.EXP_TAPER_GRAD_HOR = 4.0
+        d.EXP_TAPER_GRAD_HOR = 2.0
         #d.forward(model, src, rec)
         #os.system('mpirun -np 4 hello')
         filen = './marmousiEl4Jan/vpmod' + str(epoch1) + '.npy' #switch on for physics based fwi         
