@@ -2504,7 +2504,7 @@ class unetConv5(nn.Module):
         super(unetConv5, self).__init__()
         # Kernel size: 3*3, Stride: 1, Padding: 1
         if is_batchnorm:
-            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, (19,3), (1,1), (9,2)),
+            self.conv1 = nn.Sequential(nn.Conv2d(in_size, out_size, (1,1), (1,1), (1,1)),
                                        nn.BatchNorm2d(out_size),
                                        nn.LeakyReLU(0.1))
             #self.conv2 = nn.Sequential(nn.Conv2d(out_size, out_size, 3, 1, 1),
@@ -9619,17 +9619,17 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         self.decoder_input1 = nn.Linear(filters[3]*126*6, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
-        self.decoder_input = nn.Linear(latent_dim, filters[3]*125*25) #for marmousi 101x101
+        self.decoder_input = nn.Linear(latent_dim, filters[3]*2030*400) #for marmousi 101x101
         #self.decoder_inputRho = nn.Linear(latent_dim, 1*300*100)
         
-        self.up41    = autoUp5(filters[2],filters[2], self.is_deconv)
+        #self.up41    = autoUp5(filters[2],filters[2], self.is_deconv)
         
         #self.up4     = autoUp(filters[4], filters[3], self.is_deconv)
-        self.up31     = autoUp5(filters[3], filters[2], self.is_deconv)
+        #self.up31     = autoUp5(filters[3], filters[2], self.is_deconv)
 
-        self.up21     = autoUp5(filters[2], filters[1], self.is_deconv)
+        #self.up21     = autoUp5(filters[2], filters[1], self.is_deconv)
 
-        self.up11     = autoUp5(filters[1], int(filters[0]), self.is_deconv)
+        self.up11     = autoUp5(filters[3], int(filters[0]), self.is_deconv)
 
         self.f11      =  nn.Conv2d(filters[0],int(filters[0]/2), 1)
         
@@ -9688,22 +9688,22 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #####z = inputs2
         #z = z.view(-1, filters[3], 250, 51) #for marmousi model
         #print("shape of z :", np.shape(z))
-        z = z.view(-1, filters[3], 25,125)
+        z = z.view(-1, filters[3], 400,2030)
         #zrho = zrho.view(-1, 1, 100, 300)
         #print("shape of inputs2 :", np.shape(inputs2))
         
-        up41   = self.up41(z)
+        ###up41   = self.up41(z)
     
-        up31    = self.up31(up41)
+        ###up31    = self.up31(up41)
         
         #up3    = self.dropU3(up3)
-        print(" shape of up31 :", np.shape(up31))
-        up21    = self.up21(up31)
+        ####print(" shape of up31 :", np.shape(up31))
+        ####up21    = self.up21(up31)
 
         #up2    = self.dropU2(up2)
-        up11    = self.up11(up21)
+        ########up11    = self.up11(up21)
         
-        
+        up11   = z
         #up1    = self.dropU1(up1)
         print("shape of up11 :", np.shape(up11))
         #print("shape of up12 :", np.shape(up12))
