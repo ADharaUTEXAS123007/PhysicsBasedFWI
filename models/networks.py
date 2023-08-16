@@ -9874,7 +9874,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         print("idx idx idx :", idx)
         print("epoch1 :", epoch1)
     
-        xsrc = xsrcoriginal[idx[0:16]]
+        xsrc = xsrcoriginal[idx[0:32]]
         ysrc = depth_src*xsrc/xsrc 
         tshots = len(xsrc)
         # print("xsrc :",xsrc)
@@ -10042,7 +10042,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs_grad = np.flipud(vs_grad)
         rho_grad = np.flipud(rho_grad)
         
-        vp_grad = scipy.ndimage.gaussian_filter(vp_grad, [5, 10])
+        vp_grad = scipy.ndimage.gaussian_filter(vp_grad, [3, 5])
         
         #vp_grad[0:24,:] = 0.0
         #vs_grad[0:24,:] = 0.0
