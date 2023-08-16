@@ -9616,7 +9616,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         ##self.decoder_input1 = nn.Linear(filters[1]*250*51, latent_dim) #for marmousi 151x200
         #self.decoder_input1 = nn.Linear(filters[2]*125*26, latent_dim) #for marmousi 151x200
         #self.decoder_input = nn.Linear(latent_dim, filters[2]*500*102) #for marmousi 151x200
-        self.decoder_input1 = nn.Linear(filters[3]*126*55, latent_dim) #for marmousi 101x101
+        self.decoder_input1 = nn.Linear(filters[3]*126*60, latent_dim) #for marmousi 101x101
         #self.decoder_input = nn.Linear(latent_dim, filters[3]*100*26) #for marmousi 101x101
         #self.decoder_input1 = nn.Linear(filters[1]*100*18, latent_dim) #for marmousi 101x101
         self.decoder_input = nn.Linear(latent_dim, filters[3]*2030*400) #for marmousi 101x101
@@ -9825,7 +9825,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         drec = 50.   #simple_model
         depth_rec = 50.  # receiver depth [m]
         ######depth_rec = 80. #simple_model
-        xrec1 = -4450.    # 1st receiver position [m]
+        xrec1 = 0.    # 1st receiver position [m]
         ######xrec1 = 100.
         xrec2 = 0.0+4450.     # last receiver position [m]
         #####xrec2 = 1700.
@@ -9838,9 +9838,9 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         #######dsrc = 120.
         depth_src = 50.  # source depth [m]
         #######depth_src = 40.
-        xsrc1 = int(12.5*100)  # 1st source position [m]
+        xsrc1 = int(12.5*20)  # 1st source position [m]
         ######xsrc1 = 100.
-        xsrc2 = int((1932-100)*12.5)  # last source position [m]
+        xsrc2 = int((1932-20)*12.5)  # last source position [m]
         #######xsrc2 = 1700.
         xsrcoriginal = np.arange(xsrc1, xsrc2 + dx, dsrc)
         
