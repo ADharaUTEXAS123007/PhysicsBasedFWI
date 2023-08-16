@@ -10042,12 +10042,12 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         vs_grad = np.flipud(vs_grad)
         rho_grad = np.flipud(rho_grad)
         
-        vp_grad = scipy.ndimage.gaussian_filter(vp_grad, [50, 100])
+        vp_grad = scipy.ndimage.gaussian_filter(vp_grad, [5, 10])
         
         #vp_grad[0:24,:] = 0.0
         #vs_grad[0:24,:] = 0.0
         #rho_grad[0:24,:] = 0.0
-        vp_grad[0:55,:] = 0.0
+        vp_grad[0:80,:] = 0.0
         
         print("shape of vp_grad1 :", np.shape(vp_grad))
         print("shape of vs_grad1 :", np.shape(vs_grad))
