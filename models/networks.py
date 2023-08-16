@@ -9663,7 +9663,7 @@ class AutoElFullMarmousi23Mar22_Net(nn.Module):
         maxrho = torch.max(inputs1[:,2,:,:])
         
         print("shape of inputs2 :", np.shape(inputs2))
-        inputs3 = inputs2[:,:,:,90]
+        inputs3 = inputs2[:,:,:,0]
         inputs3 = torch.swapaxes(inputs3,1,2)
         inputs3 = torch.unsqueeze(inputs3,0)
         print("shape of inputs22 :", np.shape(inputs3))
