@@ -72,8 +72,8 @@ class UnalignedVelABCD2Dataset(BaseDataset):
         B_path = self.B_paths[index]
         C_path = self.C_paths[index]
         D_path = self.D_paths[index]
-        E_path = self.E_paths[index]
-        F_path = self.F_paths[index]
+        #E_path = self.E_paths[index]
+        #F_path = self.F_paths[index]
         
         A_img = np.load(A_path)
         B_img = np.load(B_path)
