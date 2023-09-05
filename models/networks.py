@@ -5580,7 +5580,9 @@ class AutoMarmousi22_Net(nn.Module):
         print("mintrue :", mintrue)
         print("maxtrue :", maxtrue)
         
-        f1    = mintrue + f1*(maxtrue-mintrue)
+        #f1    = mintrue + f1*(maxtrue-mintrue)
+        
+        f1    = 1800 + f1*(4900-1800)
         f1[(inputs1==1500)] = 1500
         #f1     = lowf + f1
         #f1[(inputs1 == 1.510)] = 1.510
