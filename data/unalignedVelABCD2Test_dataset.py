@@ -72,15 +72,15 @@ class UnalignedVelABCD2TestDataset(BaseDataset):
         B_path = self.B_paths[index]
         C_path = self.C_paths[index]
         D_path = self.D_paths[index]
-        E_path = self.E_paths[index]
-        F_path = self.F_paths[index]
+       #E_path = self.E_paths[index]
+       # F_path = self.F_paths[index]
         
         A_img = np.load(A_path)
         B_img = np.load(B_path)
         C_img = np.load(C_path)
         D_img = np.load(D_path)
-        E_img = np.load(E_path)
-        F_img = np.load(F_path)
+       # E_img = np.load(E_path)
+        #F_img = np.load(F_path)
         #B_img = (B_img - 2000)/(4500 - 2000)
         #B_img = (B_img - 1600)/(2300 - 1600)
         #C_img = (C_img - 1600)/(2300 - 1600)
@@ -114,11 +114,11 @@ class UnalignedVelABCD2TestDataset(BaseDataset):
         D = torch.from_numpy(D_img)
         D = D.float()
 
-        E = torch.from_numpy(E_img)
-        E = E.float()
+        #E = torch.from_numpy(E_img)
+        #E = E.float()
 
-        F = torch.from_numpy(F_img)
-        F = F.float()
+        #F = torch.from_numpy(F_img)
+        #F = F.float()
 
         #print("shape of D:", np.shape(D))
         
@@ -149,7 +149,7 @@ class UnalignedVelABCD2TestDataset(BaseDataset):
         #print(A.size())
         #print(B.size())
 
-        return {'A':A, 'B': B, 'C':C, 'D':D, 'E':E, 'F':F, 'A_paths': A_path, 'B_paths': B_path}
+        return {'A':A, 'B': B, 'C':C, 'D':D, 'A_paths': A_path, 'B_paths': B_path}
 
     def __len__(self):
         """Return the total number of images in the dataset.
